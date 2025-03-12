@@ -10,7 +10,7 @@ _Nicolas, Antonin, Eva et Leïla _
 ])
 
 /*
-Description : 
+Description :
 
 See the Milestone description for more details.
 
@@ -27,3 +27,37 @@ At least three scenarios that describe various representative tasks for the diff
 A list of pertinent usability criteria or principles that will be important to help evaluate the usability of your future system.
 You will need these items for the paper prototyping lab exercise.
 */
+
+
+= Vocabulary
+
+Since our project involves desining keyboard, we must precise some vocabulary related to the subject.
+
+== Key
+
+A key is the physical button that is pressed in order to produce some behaviour on the device.
+
+It is made up of a *switch*, and a *keycap*
+
+
+== Keycap
+
+== Layout
+
+== HID/USB
+
+== Switch
+
+#image("../images/illustration_switch.jpg")
+
+
+
+= Our users
+
+Our goal is to design a keyboard prototyping software for custom keyboard enthousiasts.
+
+Designing a custom keyboard involves mainly 2 different phases:
+- designing the physical keyboard, namely the size of keys
+
+
+= The problem with keyboards
