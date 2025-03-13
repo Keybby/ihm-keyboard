@@ -19,7 +19,7 @@ Quelques exemples de claviers optimisés :
 
 #figure(grid(columns: 2, row-gutter: 2mm, column-gutter: 1mm,
 
-  image("../images/clavier1.jpg"), image("../images/clavier2.png")),
+  image("images/clavier1.jpg"), image("images/clavier2.png")),
 
   caption: "Deux exemples de claviers ergonomiques"
 

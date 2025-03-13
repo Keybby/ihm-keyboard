@@ -49,7 +49,7 @@ Keys are placed on a *PCB*
 
 The switch is the physical button under the key, translating the movement into an electric signal.
 
-#image("../images/illustration_switch.jpg", width: 200pt)
+#image("images/illustration_switch.jpg", width: 200pt)
 
 === Keycap
 
@@ -59,7 +59,7 @@ Keycaps are plastic pieces touched by the fingers.
 
 A Printed Circuit Board (PCB) is the electronic material where all keys are placed.
 
-#image("../images/illustration_pcb.png", width: 200pt)
+#image("images/illustration_pcb.png", width: 200pt)
 
 == HID/USB
 
@@ -131,7 +131,7 @@ In particular, the way the software represents keys and character has to be some
 
 = Usability criteria
 
-TODO
+TODO :
 - easy to do incremental changes
 - easy to go back
 - fast to setup common keys (letters, numbers)
@@ -142,7 +142,7 @@ TODO
 
 As building custom keyboard is pretty niche and requires some technical knowledge, we will have to set the scene by giving missions and goals to test users.
 
-TODO:
+TODO :
 - users in different filieres (SE, IGR, other)
 - list of tasks
 - how do we evluate the "Tips" of the software ? The user does not know he needs these features on his keyboard, but they may be really useful
