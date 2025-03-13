@@ -1,13 +1,28 @@
-#align(center, [
-#set text(size: 30pt)
-Projet configuration de claviers
+#set page(columns: 2)
+#place(
+  top + center,
+  scope:"parent",
+  float:true,
+    text(30pt)[Projet configuration de claviers],
+)
+#place(
+  top + center,
+  scope:"parent",
+  float:true,
+    text(25pt)[Requirements Gathering],
+)
+#place(
+  top + center,
+  scope:"parent",
+  float:true,
+    text(20pt)[_Nicolas, Antonin, Eva et Leïla _],
+)
 
-#set text(size: 25pt)
-Requirements Gathering
 
-#set text(size: 20pt)
-_Nicolas, Antonin, Eva et Leïla _
-])
+#set par(
+    first-line-indent: 1em,
+    justify:true
+)
 
 #set heading(numbering: "1.")
 
@@ -30,9 +45,7 @@ A list of pertinent usability criteria or principles that will be important to h
 You will need these items for the paper prototyping lab exercise.
 */
 
-
 = Vocabulary
-
 Since our project involves desining keyboard, we must precise some vocabulary related to the subject.
 
 You can go directly to @goal and go back later.
@@ -49,7 +62,7 @@ Keys are placed on a *PCB*
 
 The switch is the physical button under the key, translating the movement into an electric signal.
 
-#image("images/illustration_switch.jpg", width: 200pt)
+#figure(image("images/illustration_switch.jpg", width: 80%),)
 
 === Keycap
 
@@ -59,7 +72,7 @@ Keycaps are plastic pieces touched by the fingers.
 
 A Printed Circuit Board (PCB) is the electronic material where all keys are placed.
 
-#image("images/illustration_pcb.png", width: 200pt)
+#figure(image("images/illustration_pcb.png", width: 80%),)
 
 == HID/USB
 
@@ -131,18 +144,40 @@ In particular, the way the software represents keys and character has to be some
 
 = Usability criteria
 
-TODO :
-- easy to do incremental changes
-- easy to go back
-- fast to setup common keys (letters, numbers)
-- templates for common layouts and geometries (time gain)
-- tips for unknown features
+== Handling incrmental changes
+
+The use of the program should be the most intuitive when doing simple changes : adding or removing a single key should be seamless independently to when it was originally placed or when it was modified last.
+
+== Handling backstepping 
+
+The user should be able to undo a certain amount of actions to reduce the impact of the mistakes made by the user. Thus, a go back and a go forward button should be implemented, with possible CTRL+Z key binds.
+
+== Easing the setup for the most common keys
+
+Registering the most common keys (ie, letters, numbers and symbols directly available on keyboards) should be as seamless as possible, ex, double click into a key recording. For more complicated cases (untypable keys, characters not present on the user's keyboard, special keys...) there should be an interface to let the user search for certain keywords (like CTRL for the control key) to setup.
+
+== Giving templates for common layouts and geometries
+
+To make the job of non-power users easier, especially on non-fully custom jobs, a set of predefined layouts shoud be provided to the user to obtain a working base (AZERTY, QWERTY, 75%, 60%...) to modify freely. This serves both as a basis for an end-goal as well as a possible way for the users to better understand certain aspects of the tool.
+
+== Tipping the user about the program's features
+
+There should be a tips feature available that regularily give the user small bite-sized information pieces about some not-so-clear features of the tool. Even if it doesn't replace it, this might be more useful than a full tutorial for less patient users to give them more tools to learn how to use the tool incrementally. 
 
 = Evaluation
 
 As building custom keyboard is pretty niche and requires some technical knowledge, we will have to set the scene by giving missions and goals to test users.
 
-TODO :
-- users in different filieres (SE, IGR, other)
-- list of tasks
-- how do we evluate the "Tips" of the software ? The user does not know he needs these features on his keyboard, but they may be really useful
+== Connection to a varied group of students
+
+Our group has connections with a widely varied amount of students from all the studying paths at Télécom. All of these varied students with highly varied sets of expertise will be prime candidates for testing. Outside of students, we might also connect with non-engineers through our parents, family and friends to widen our testing field.
+
+== Listing the available tasks
+
+During out testing phase, we will provide the testers with a itemized list of bite-sized tasks (placing a key, setting up the keybind, replacing the key, going back, going forward...) to evaluate the user's interaction over the smallest of parts of the interaction process.
+
+=== Evaluating tips
+
+During this process, random tips will be given to the user through the program's normal function. We also might want to directly and indirectly evaluate how the users interact with the tips depending on which tip is displayed and at what time. We might also query the user about if he saw the tips and how they influenced their interaction with the program
+
+// how do we evluate the "Tips" of the software ? The user does not know he needs these features on his keyboard, but they may be really useful
