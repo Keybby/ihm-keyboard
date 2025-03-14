@@ -153,6 +153,30 @@ As a consequence, the software  has an educational role: the way the user unders
 In particular, the way the software represents keys and character has to be somewhat coherent with the way it works in reality.
 
 
+= Persona
+
+As said before, our software is designed for different types of users, that we can roughly divide in two types : makers and hobbyists. The needs are different between all the users so the next section will allow us to explain more precisely the specificities and scenarios for each type.
+
+== Maker
+
+The makers know the basics of keyboard protocols and have more professional needs. There are high chances that they have already used similar softwares so they also have a good idea about how this type of software works. As the makers are our principal users, this explains why there will not be a full tutorial for our software. However, we need to implement helping features. Indeed, like we mentioned in part 2, no software combines designing the physical aspect and designing the layout. With our software, the makers will expect to have a smooth way to go from one part to the other. The connection between these two parts will be new to these users, so we decided to add a tips feature to help bit by bit.
+
+== General Hobbyist
+
+These users may custom their keyboards for the first time. As they are new to this task, we propose templates for layout. With these and the tips feature, the hobbyists can understand better the general process of designing a keyboard. A documentation will also be available to help these users  get used to the software by describing the possible actions they can do and the specificities of possible actions (for instance : how to add a specific layout for when a modifier is pressed).
+
+== Gamer Hobbyist
+
+Gamers continually use their keyboard and, compared to the previous hobbyists, have a general idea of what type of keyboard they would like to work with. Comfort, speed and easy key combinations are often the properties gamers look for. They will want to try different layouts to evaluate for themselves how much the layouts are usable and efficient for video games. This is why we will implement an emulator of the layouts created by the users, to allow them to realize the disposition they created and make changes according to the results.
+
+== Hobbyist with disability (extension)
+
+Some disabilities can limit hand movement and dexterity. Therefore, these could be users of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to these users who might not know much about keyboard layouts and customization, the most important part would be to make our website controller compatible and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if there is time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations would also be an extension if the time allows it. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, left-handed adapted keyboard, etc).
+
+
+
+= Survey and requirement gathering
+
 
 
 = Usability criteria and scenarios
@@ -161,7 +185,7 @@ In particular, the way the software represents keys and character has to be some
 
 The use of the program should be the most intuitive when doing simple changes: adding or removing a single key should be seamless independently of when it was originally placed or when it was modified last.
 
-== Handling backstepping 
+== Handling backstepping
 
 The user should be able to undo a certain amount of actions to reduce the impact of the mistakes made by the user. Thus, a go back and a go forward button should be implemented, with possible CTRL+Z key binds.
 
@@ -195,7 +219,7 @@ During this process, random tips will be given to the user through the program's
 
 == Reddit: a connection to people from all around the world
 
-We posted this message: 
+We posted this message:
 
 "Hi! We are a group of engineering students in a human-machine interaction course. We chose to prototype a tool to create ergonomic keyboards.
 
@@ -213,28 +237,3 @@ We are excited to read your answers, thank you for the time you give us !" on th
  which are focused on keyboard personnalisation and creation. We hope to get answers from people that would be interested in using this type of software to give us insights on what they would want in such a tool and what would be more practical for them.
 
 // how do we evaluate the "Tips" of the software? The user does not know he needs these features on his keyboard, but they may be really useful.
-
-
-= Persona
-
-As said before, our software is designed for different types of users, that we can roughly divide in two types : makers and hobbyists. The needs are different between all the users so the next section will allow us to explain more precisely the specificities and scenarios for each type.
-
-== Maker
-
-The makers know the basics of keyboard protocols and have more professional needs. There are high chances that they have already used similar softwares so they also have a good idea about how this type of software works. As the makers are our principal users, this explains why there will not be a full tutorial for our software. However, we need to implement helping features. Indeed, like we mentioned in part 2, no software combines designing the physical aspect and designing the layout. With our software, the makers will expect to have a smooth way to go from one part to the other. The connection between these two parts will be new to these users, so we decided to add a tips feature to help bit by bit.
-
-== General Hobbyist
-
-These users may custom their keyboards for the first time. As they are new to this task, we propose templates for layout. With these and the tips feature, the hobbyists can understand better the general process of designing a keyboard. A documentation will also be available to help these users  get used to the software by describing the possible actions they can do and the specificities of possible actions (for instance : how to add a specific layout for when a modifier is pressed).
-
-== Gamer Hobbyist
-
-Gamers continually use their keyboard and, compared to the previous hobbyists, have a general idea of what type of keyboard they would like to work with. Comfort, speed and easy key combinations are often the properties gamers look for. They will want to try different layouts to evaluate for themselves how much the layouts are usable and efficient for video games. This is why we will implement an emulator of the layouts created by the users, to allow them to realize the disposition they created and make changes according to the results.
-
-== Hobbyist with disability (extension)
-
-Some disabilities can limit hand movement and dexterity. Therefore, these could be users of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to these users who might not know much about keyboard layouts and customization, the most important part would be to make our website controller compatible and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if there is time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations would also be an extension if the time allows it. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, left-handed adapted keyboard, etc).
-
-
-
-// preview pdf http://137.194.154.62:5500/rapports/partie_1_requirement_gathering.pdf.preview
