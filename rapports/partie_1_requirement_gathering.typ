@@ -55,6 +55,11 @@ You will need these items for the paper prototyping lab exercise.
 
 */
 
+= Intro
+
+While keyboard customization is not something averyone wishes for, a large Community is interested by it and it can have numerous applications and fields where it is useful.
+Keyboard customization can go from very simple (chosing the layout) to intermediate (changing the behaviour of some keys) to very advanced. For instance, @LayoutDeductionFromInteraction made a software that created a layout optimized on user input and interactions with the computer.
+
 = Vocabulary
 
 Since our project involves designing a keyboard, we must specify some vocabulary related to the subject.
@@ -173,13 +178,44 @@ Gamers continually use their keyboard and, compared to the previous hobbyists, h
 
 Some disabilities can limit hand movement and dexterity. Therefore, these could be users of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to these users who might not know much about keyboard layouts and customization, the most important part would be to make our website controller compatible and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if there is time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations would also be an extension if the time allows it. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, left-handed adapted keyboard, etc).
 
+One paper @SpecialNeeds worked on adaptative keyboards for people with cerebral palsy to show that adapted keyboards can facillite the interactions of people atteingned with the degenerative disorder and computers of phones..
 
 
 = Survey and requirement gathering
 
+To collect initial requirements, we decided to poll makers on a reddit community.
+
+Indeed, people in Télécom may have some interesting ideas, but they have not been confronted with the challenges of creating their own keyboard.
+
+Telecom students will be usefull for evaluating our prototype, see @eval.
+
+
+
+== Reddit: a connection to people from all around the world
+
+We posted this message:
+
+```
+"Hi! We are a group of engineering students in a human-machine interaction course. We chose to prototype a tool to create ergonomic keyboards.
+
+In particular, the tool we want to build has 2 modes: one to sketch the geometry of the keyboard and one to create the layout.
+
+The first part of the project is to identify the needs of the users. We would love to have the following information:
+
+- What tools you are currently using to prototype/create layouts, and their limitations.
+
+- What tool would you like in an ideal world?
+
+- What is the feature we should spend the most time on (e.g., predefined geometries and layouts, statistics about keys per language, custom dimensions for keys ...)?
+
+We are excited to read your answers, thank you for the time you give us !" on the subreddits r/olkb and r/MechanicalKeyboards
+ which are focused on keyboard personnalisation and creation. We hope to get answers from people that would be interested in using this type of software to give us insights on what they would want in such a tool and what would be more practical for them.
+```
 
 
 = Usability criteria and scenarios
+
+The following criteria are a mix of our initial ideas, and the feedback we gathered.
 
 == Handling incremental changes
 
@@ -201,11 +237,11 @@ To make the job of non-power users easier, especially on non-fully custom jobs, 
 
 There should be a tips feature available that regularly gives the user small, bite-sized information pieces about some not-so-clear features of the tool. Even if it doesn't replace it, this might be more useful than a full tutorial for less patient users to give them more tools to learn how to use the tool incrementally.
 
-= Evaluation
+
+
+= Evaluation <eval>
 
 As building custom keyboards is pretty niche and requires some technical knowledge, we will have to set the scene by giving missions and goals to test users.
-
-== Connection to a varied group of students
 
 Our group has connections with a widely varied amount of students from all the studying paths at Télécom. All of these varied students with highly varied sets of expertise will be prime candidates for testing. Outside of students, we might also connect with non-engineers through our parents, family and friends to widen our testing field.
 
@@ -213,27 +249,14 @@ Our group has connections with a widely varied amount of students from all the s
 
 During our testing phase, we will provide the testers with an itemized list of bite-sized tasks (placing a key, setting up the keybind, replacing the key, going back, going forward...) to evaluate the user's interaction over the smallest of parts of the interaction process.
 
+We will detail the evaulation method in a following milestone.
+
 === Evaluating tips
 
 During this process, random tips will be given to the user through the program's normal function. We also might want to directly and indirectly evaluate how the users interact with the tips depending on which tip is displayed and at what time. We might also query the user about if he saw the tips and how they influenced their interaction with the program.
 
-== Reddit: a connection to people from all around the world
-
-We posted this message:
-
-"Hi! We are a group of engineering students in a human-machine interaction course. We chose to prototype a tool to create ergonomic keyboards.
-
-In particular, the tool we want to build has 2 modes: one to sketch the geometry of the keyboard and one to create the layout.
-
-The first part of the project is to identify the needs of the users. We would love to have the following information:
-
-- What tools you are currently using to prototype/create layouts, and their limitations.
-
-- What tool would you like in an ideal world?
-
-- What is the feature we should spend the most time on (e.g., predefined geometries and layouts, statistics about keys per language, custom dimensions for keys ...)?
-
-We are excited to read your answers, thank you for the time you give us !" on the subreddits r/olkb and r/MechanicalKeyboards
- which are focused on keyboard personnalisation and creation. We hope to get answers from people that would be interested in using this type of software to give us insights on what they would want in such a tool and what would be more practical for them.
 
 // how do we evaluate the "Tips" of the software? The user does not know he needs these features on his keyboard, but they may be really useful.
+
+
+#bibliography("bibli.bib")
