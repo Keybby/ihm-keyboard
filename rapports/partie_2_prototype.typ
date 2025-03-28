@@ -30,10 +30,13 @@ For this reason, we chose to include the "geometric" features and the "layout" f
 
 == App logic
 
-The state of our app mainly consists in:
-- the entire state of the keyboard, most of which is visible to the user at any time
-- the tool currently selected (highlighted in the interface).
-- the layer currently selected
+The whole app revolves around the main view which is always visible. Other aspects are dynamically added on the side menu or as contextual menus.
+
+The main view in comprised of several parts:
+- The entire state of the keyboard, most of which is visible to the user at any time
+- The tool bar at the top, with the tool currently selected highlighted in the interface.
+- A layer system, organizing the keys placed by the user. More on that below.
+- A side menu giving the user access to several parameters depending on their current tool and selection.
 
 The tool enabled by default is the selection tool. When the user clicks on a key, it will open all it's metadata in the right panel.
 
@@ -41,16 +44,18 @@ They are a few pop-up menus for specific features, like setting the keycode for 
 
 == Geometry features
 
-The user starts with the "create new key" tool. Each time he clicks on the canvas, a new key is created.
+The user starts creating with the "create new key" tool. Each time he clicks on the canvas, a new key is created.
 The user can change the dimensions of the newly created keys, and every subsequent key will be created with these dimensions.
 
-There is also a "geometry" tool. It can translate, rotate and scale the keys.
+There is also a "geometry" tool which allows the user to translate, rotate and scale the keys.
 
-The user also can change the geometry of the keys by right-clicking on them. In the right-click menu, there is also an option to duplicate the key down or right, a given number of times.
+The user can also change the geometry of the keys by right-clicking on them. In the right-click menu, there is also an option to duplicate the key down or right, a given number of times.
+
+Some of these tools may also be substituted by key combos for expert users.
 
 == Layer logic
 
-In the bottom left region of the screen, a menu indicates which layer is selected. It is very important because the characters and behaviours of each key will depend on he active layer (for example, the base layer for the letters and the second layer for the symbols).
+The layer menu at the bottom left of the screen indicates which layer is selected. It is very important because the characters and behaviours of each key will depend on he active layer (for example, the base layer for the letters and the second layer for the symbols).
 
 Each layer is activated by a combination of keys. The user can selected them from the interface.
 The special keys that activate a layer have a special color.
@@ -66,13 +71,12 @@ The 2 properties are always visible on the interface. The user can change them i
 
 One of the most time-consuming task is setting the letters on the keyboard. To make it easier, the user can double-click on any key, and it will write on the interface the message \<press a key to set>. Then, any key the user presses will be registered in the app.
 
-
 == Templates
 
 The user can also start from an already existing keyboard (a geometry + a layout).
 
-Then, he can modify everything and save it as a new keyboard.
+Then, the user can modify everything and save it as a new keyboard.
 
 = Preview
 
-When the user is happy with his keyboard, he can generate a visualization. It consists in a svg image for each layer that the user can either use pre-made for the simplest shapes or possibly import.
+When the user is happy with his keyboard, he can generate a visualization. It consists in a svg image for each layer. The exported file will most likely be JSON that the user can then import back onto the tool later.
