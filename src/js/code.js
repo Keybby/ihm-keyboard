@@ -25,3 +25,4 @@ class App {
     this.keyboard = new Keyboard();
   }
 }
+window.App = App;
