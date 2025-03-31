@@ -1,0 +1,64 @@
+body{
+    overflow:hidden;
+}
+
+#top {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(42, 42, 42);
+  text-align: center;
+  position: sticky;
+  display: flex;
+  grid-area: head;
+}
+
+#top button {
+  flex: 1;
+}
+
+#main {
+  position: absolute;
+  background-color: gray;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#side {
+  display: flex;
+  background-color: rgb(84, 31, 31);
+  grid-area: side;
+  position:sticky;
+}
+
+#side button {
+  flex: 1;
+}
+
+#layers {
+  grid-area: layer;
+  background-color: rgb(194, 0, 0);
+  position:sticky;
+  height: 100%;
+  width: 100%;
+  display:flex;
+}
+
+#layers button {
+    flex:1;
+}
+
+#ui {
+    position:absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "head head head head side"
+    ". . . . side"
+    ". . . . side"
+    "layer foot foot foot side";
+  z-index: 1;
+  height:100%;
+  width:100%
+}
