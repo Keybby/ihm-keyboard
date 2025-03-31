@@ -1,5 +1,6 @@
-body{
-    overflow:hidden;
+body {
+  overscroll-behavior-x: none;
+  overflow: hidden;
 }
 
 #top {
@@ -28,7 +29,7 @@ body{
   display: flex;
   background-color: rgb(84, 31, 31);
   grid-area: side;
-  position:sticky;
+  position: sticky;
 }
 
 #side button {
@@ -38,18 +39,19 @@ body{
 #layers {
   grid-area: layer;
   background-color: rgb(194, 0, 0);
-  position:sticky;
+  position: sticky;
   height: 100%;
   width: 100%;
-  display:flex;
+  display: flex;
 }
 
 #layers button {
-    flex:1;
+  flex: 1;
 }
 
 #ui {
-    position:absolute;
+  pointer-events: none;
+  position: absolute;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
@@ -59,6 +61,6 @@ body{
     ". . . . side"
     "layer foot foot foot side";
   z-index: 1;
-  height:100%;
-  width:100%
+  height: 100%;
+  width: 100%;
 }
