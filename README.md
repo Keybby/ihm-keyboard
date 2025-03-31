@@ -10,3 +10,6 @@ Use this command:
 cd rapports
 typst watch partie_0_intro.typ --root ..
 ```
+
+## TEST SSH
+ALLEZ ON ESPERE CA MARCHE
