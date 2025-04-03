@@ -1,7 +1,7 @@
 body {
   overscroll-behavior-x: none;
   overflow: hidden;
-  background-color:darkslategrey
+  background-color: rgb(36, 43, 43);
 }
 
 #top {
@@ -31,6 +31,10 @@ body {
   background-color: rgb(84, 31, 31);
   grid-area: side;
   position: sticky;
+  overflow: auto;
+  resize: horizontal;
+  min-width:120px;
+  max-width: 100cqi;
 }
 
 #side button {
@@ -54,18 +58,30 @@ body {
   pointer-events: none;
   position: absolute;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 6px 200px;
   grid-template-rows: auto;
   grid-template-areas:
-    "head head head head side"
-    ". . . . side"
-    ". . . . side"
-    "layer foot foot foot side";
+    "head head head head resize side"
+    ". . . . resize side"
+    ". . . . resize side"
+    "layer . . . resize side"
+    "layer foot foot foot resize side";
   z-index: 1;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 #ui image {
   cursor: move;
+}
+
+#ui *{
+  pointer-events: auto;
+}
+
+#resize {
+  grid-area:resize;
+  cursor: ew-resize;
+  background-color:rgb(86, 86, 86)
 }
