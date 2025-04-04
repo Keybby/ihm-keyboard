@@ -10,3 +10,17 @@ Use this command:
 cd rapports
 typst watch partie_0_intro.typ --root ..
 ```
+
+## Tâches qui restent à faire
+
+Reste à faire : 
+- les menus
+- click sur uen key = geometri et layout qui change
+- add layer et notamment
+- barre d'outils (déplacer, rotation, ...)
+- import/export
+- export svg (peut être même que importe export mais d'après des commentaires ce serait utile de le faire en json pour que ce soit importable sur des logiciels permettant d'imprimer les différent layout en 3D etc)
+- vérifier qu'on arrive à récupérer la position sur le canvas
+- vérifier qu'on peut créer une touche
+- double click sur une touche pour changer le layout
+- pop-up pour les touches spéciales, a définir peut être dans une classe, assez flou encore
