@@ -23,3 +23,7 @@
 #top button:hover{
   background-color: var(--bg-color);
 }
+
+.selected{
+  background-color: var(--ui-highlight) !important;
+}
