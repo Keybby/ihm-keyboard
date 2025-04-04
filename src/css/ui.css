@@ -2,6 +2,7 @@
   --bg-color : rgb(36, 43, 43);
   --svg-color : rgb(174, 174, 174);
   --ui-color : rgb(30, 30, 30);
+  --ui-color-op : rgba(30, 30, 30, 0.511);
   --ui-highlight : rgb(86, 86, 86);
   --ui-highlight-subtle : rgb(57, 57, 57);
   --ui-text-color : white;
@@ -12,19 +13,12 @@ body {
   overscroll-behavior-x: none;
   overflow: hidden;
   background-color: var(--bg-color);
+  margin:0;
 }
 
 #top {
   width: 100%;
-  background-color: var(--bg-color);
-  text-align: center;
-  position: sticky;
-  display: flex;
   grid-area: head;
-}
-
-#top button {
-  flex: 1;
 }
 
 #main {
@@ -36,8 +30,6 @@ body {
 }
 
 #side {
-  display: flex;
-  background-color: var(--ui-color);
   grid-area: side;
   position: sticky;
   overflow: auto;
@@ -45,13 +37,10 @@ body {
   max-width: 100cqi;
 }
 
-#side button {
-  flex: 1;
-}
 
 #layers {
   grid-area: layer;
-  background-color: var(--ui-color);
+  background-color: var(--ui-color-op);
   position: sticky;
   height: 100%;
   width: 100%;
@@ -61,10 +50,10 @@ body {
   pointer-events: none;
   position: absolute;
   display: grid;
-  grid-template-columns: 300px 1fr 1fr 1fr 3px 200px;
+  grid-template-columns: 300px 1fr 1fr 1fr 6px 200px;
   grid-template-rows: 40px 2fr 2fr 1.5fr 1fr;
   grid-template-areas:
-    "head head head head resize side"
+    "head head head head head head"
     ". . . . resize side"
     ". . . . resize side"
     "layer . . . resize side"
@@ -92,7 +81,7 @@ body {
   cursor: ew-resize;
   width: 100%;
   overflow: visible;
-  background-color:var(--ui-highlight);
+  background-color:--var(--bg-color);
 }
 
 .resizeV {
@@ -100,7 +89,7 @@ body {
   cursor: ns-resize;
   width: 100%;
   overflow: visible;
-  background-color:var(--ui-highlight);
+  background-color:--var(--bg-color);
 }
 
 .collapsable {
@@ -121,4 +110,10 @@ body {
   z-index: 0;
   grid-template-columns: 6px 1000px 6px;
   grid-template-rows:6px 700px 6px;
+}
+
+#headded{
+  background-color: var(--ui-highlight-subtle);
+  width:100%;
+  grid-area:headded;
 }

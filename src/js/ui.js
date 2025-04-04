@@ -69,11 +69,11 @@ function resizeHorizontal(event) {
     view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
     svg.setAttribute(
       "viewBox",
-      `${box[0]} ${box[1]-1/scale*offset} ${box[2]} ${newHeight}`
+      `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`
     );
     y -= offset * scale;
     view.style.transformOrigin = `${x}px ${y}px`;
-  } else if (dragging == "svgleft"){
+  } else if (dragging == "svgleft") {
     let bound = svg.getBoundingClientRect();
     let size = bound.x + bound.width - event.clientX;
     let offset = bound.x - event.clientX;
@@ -81,12 +81,11 @@ function resizeHorizontal(event) {
     view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
     svg.setAttribute(
       "viewBox",
-      `${box[0]-1/scale*offset} ${box[1]} ${newWidth} ${box[3]}`  
+      `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`
     );
     x -= offset * scale;
     view.style.transformOrigin = `${x}px ${y}px`;
-  }
-   else if (dragging == "side") {
+  } else if (dragging == "side") {
     let page = document.getElementById("ui");
 
     let rightColWidth = page.clientWidth - event.clientX;

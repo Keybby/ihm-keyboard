@@ -1,4 +1,14 @@
 #side{
     display:grid;
-    
+    background-color: var(--bg-color);
+    grid-template-areas:
+    "grid"
+    "layout"   
+}
+
+#side div{
+    padding:0.5em;
+    margin-bottom: 0.3em;
+    background-color: var(--ui-highlight-subtle);
+    color:var(--ui-text-color)
 }
