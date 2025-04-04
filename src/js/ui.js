@@ -9,8 +9,9 @@ const layers = document.getElementById("layers");
 //Fixes the height of the svg once loaded
 
 let scale = 0.7;
-let x = (window.innerWidth * 75) / 100;
+let x = (window.innerWidth * 80) / 100;
 let y = (window.innerHeight * 60) / 100;
+view.style.transformOrigin = `${x}px ${y}px`;
 
 body.addEventListener("mousewheel", function (event) {
   //Handles the placement of the svg on the screen
@@ -36,39 +37,65 @@ body.addEventListener("mousewheel", function (event) {
   view.style.transformOrigin = `${x}px ${y}px`;
 });
 
-let dragging = false;
+let dragging = "";
 
 function clearResize() {
   dragging = "";
 }
 
 function setResize(str) {
-  dragging = str;
+  dragging = dragging.length == 0 ? str : dragging;
 }
 
 function resizeHorizontal(event) {
-  console.log(dragging)
+  let scale = parseFloat(view.style.transform.substring(6));
+  let box = svg.getAttribute("viewBox").split(" ");
   if (event.clientX <= 0 || dragging == "") return;
-  //console.log(event);
-  if (dragging=="svgbottom"){
-    let newHeight = y + event.clientY - view.clientHeight/2;
+  if (dragging == "svgbottom") {
+    let y = svg.getBoundingClientRect().y;
+    let newHeight = (event.clientY - y) / scale;
     view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
-  }
-  if(dragging="svgtop"){
-    let newHeight = y + event.clientY + view.clientHeight/2;
+    svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
+  } else if (dragging == "svgright") {
+    let x = svg.getBoundingClientRect().x;
+    let newWidth = (event.clientX - x) / scale;
+    view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
+    svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
+  } else if (dragging == "svgtop") {
+    let bound = svg.getBoundingClientRect();
+    let size = bound.y + bound.height - event.clientY;
+    let offset = bound.y - event.clientY;
+    let newHeight = size / scale;
     view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+    svg.setAttribute(
+      "viewBox",
+      `${box[0]} ${box[1]-1/scale*offset} ${box[2]} ${newHeight}`
+    );
+    y -= offset * scale;
+    view.style.transformOrigin = `${x}px ${y}px`;
+  } else if (dragging == "svgleft"){
+    let bound = svg.getBoundingClientRect();
+    let size = bound.x + bound.width - event.clientX;
+    let offset = bound.x - event.clientX;
+    let newWidth = size / scale;
+    view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
+    svg.setAttribute(
+      "viewBox",
+      `${box[0]-1/scale*offset} ${box[1]} ${newWidth} ${box[3]}`  
+    );
+    x -= offset * scale;
+    view.style.transformOrigin = `${x}px ${y}px`;
   }
-
-  if (dragging == "side") {
+   else if (dragging == "side") {
     let page = document.getElementById("ui");
 
     let rightColWidth = page.clientWidth - event.clientX;
 
-    let newColDefn = `200px 1fr 1fr 1fr 3px ${rightColWidth}px`;
+    let newColDefn = `300px 1fr 1fr 1fr 3px ${rightColWidth}px`;
 
     page.style.gridTemplateColumns = newColDefn;
-    event.preventDefault();
   }
+  event.preventDefault();
 }
 
 // Drag tool

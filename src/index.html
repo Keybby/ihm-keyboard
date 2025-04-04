@@ -39,13 +39,14 @@
   >
     <div
       id="svgdiv"
-      style="transform: scale(0.7, 0.7); transform-origin: 75% 60%"
+      style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
     >
       <svg
         id="main"
         xmlns="http://www.w3.org/2000/svg"
         onload="makeDraggable(evt)"
         @click="app.handleClick($event)"
+        viewBox="0 0 1000 700"
       >
         <template x-for="k_id in app.keyboard.getKeys()" :key="k_id.value">
           <g x-data="{ geometry: app.keyboard.getGeometry(k_id) }">
@@ -127,5 +128,4 @@
   </body>
 
   <script src="js/ui.js"></script>
-  <script src="js/grid.js"></script>
 </html>
