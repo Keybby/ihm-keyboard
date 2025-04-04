@@ -4,107 +4,111 @@ const body = document.getElementsByTagName("body")[0];
 const svg = document.getElementsByTagName("svg")[0];
 const layers = document.getElementById("layers");
 
-// svg.style.width = svg.clientWidth;
-// svg.style.height = svg.clientHeight;
-//Fixes the height of the svg once loaded
+class Ui {
+  constructor() {
+    this.scale = 0.7;
+    this.x = (window.innerWidth * 80) / 100;
+    this.y = (window.innerHeight * 60) / 100;
+    this.dragging = "";
+    view.style.transformOrigin = `${this.x}px ${this.y}px`;
 
-let scale = 0.7;
-let x = (window.innerWidth * 80) / 100;
-let y = (window.innerHeight * 60) / 100;
-view.style.transformOrigin = `${x}px ${y}px`;
+    layers.addEventListener("mousewheel", (evt) => {
+      evt.stopPropagation();
+    });
+    body.addEventListener("mousewheel", this.placeSvg);
+  }
 
-body.addEventListener("mousewheel", function (event) {
-  //Handles the placement of the svg on the screen
-  var deltaY = event.deltaY;
-  var deltaX = event.deltaX;
-  const threshold = 20;
-  if (event.altKey) {
-    if (Math.abs(deltaY) > threshold) {
-      scale += Math.sign(deltaY) * 0.1;
-    }
-  } else if (event.shiftKey) {
-    if (Math.abs(deltaY) > threshold) {
-      x += Math.sign(deltaY) * 50 * scale;
-    }
-  } else {
-    if (Math.abs(deltaY) > threshold) {
-      y += Math.sign(deltaY) * 50 * scale;
-    } else if (Math.abs(deltaX) > threshold) {
-      x += Math.sign(deltaX) * 50 * scale;
+  placeSvg(event) {
+    //Handles the placement of the svg on the screen
+    var deltaY = event.deltaY;
+    var deltaX = event.deltaX;
+    const threshold = 20;
+    if (event.altKey) {
+      if (Math.abs(deltaY) > threshold) {
+        this.scale += Math.sign(deltaY) * 0.1;
+      }
+    } else if (event.shiftKey) {
+      if (Math.abs(deltaY) > threshold) {
+        this.x += Math.sign(deltaY) * 50 * this.scale;
+      }
+    } else {
+      if (Math.abs(deltaY) > threshold) {
+        this.y += Math.sign(deltaY) * 50 * this.scale;
+      } else if (Math.abs(deltaX) > threshold) {
+        this.x += Math.sign(deltaX) * 50 * this.scale;
+      }
     }
   }
-  view.style.transform = `scale(${scale},${scale})`;
-  view.style.transformOrigin = `${x}px ${y}px`;
-});
 
-let dragging = "";
-
-function clearResize() {
-  dragging = "";
-}
-
-function setResize(str) {
-  dragging = dragging.length == 0 ? str : dragging;
-}
-
-function resizeHorizontal(event) {
-  let scale = parseFloat(view.style.transform.substring(6));
-  let box = svg.getAttribute("viewBox").split(" ");
-  if (event.clientX <= 0 || dragging == "") return;
-  if (dragging == "svgbottom") {
-    let y = svg.getBoundingClientRect().y;
-    let newHeight = (event.clientY - y) / scale;
-    view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
-    svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
-  } else if (dragging == "svgright") {
-    let x = svg.getBoundingClientRect().x;
-    let newWidth = (event.clientX - x) / scale;
-    view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
-    svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
-  } else if (dragging == "svgtop") {
-    let bound = svg.getBoundingClientRect();
-    let size = bound.y + bound.height - event.clientY;
-    let offset = bound.y - event.clientY;
-    let newHeight = size / scale;
-    view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
-    svg.setAttribute(
-      "viewBox",
-      `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`,
-    );
-    y -= offset * scale;
-    view.style.transformOrigin = `${x}px ${y}px`;
-  } else if (dragging == "svgleft") {
-    let bound = svg.getBoundingClientRect();
-    let size = bound.x + bound.width - event.clientX;
-    let offset = bound.x - event.clientX;
-    let newWidth = size / scale;
-    view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
-    svg.setAttribute(
-      "viewBox",
-      `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`,
-    );
-    x -= offset * scale;
-    view.style.transformOrigin = `${x}px ${y}px`;
-  } else if (dragging == "side") {
-    let page = document.getElementById("ui");
-
-    let rightColWidth = page.clientWidth - event.clientX;
-
-    let newColDefn = `300px 1fr 1fr 1fr 3px ${rightColWidth}px`;
-
-    page.style.gridTemplateColumns = newColDefn;
+  clearResize() {
+    this.dragging = "";
   }
-  event.preventDefault();
+
+  setResize(str) {
+    this.dragging = this.dragging.length == 0 ? str : this.dragging;
+  }
+
+  setViewStyle() {
+    view.style.transform = `scale(${this.scale},${this.scale})`;
+    view.style.transformOrigin = `${this.x}px ${this.y}px`;
+  }
+
+  resizeHorizontal(event) {
+    const scale = parseFloat(view.style.transform.substring(6));
+    let box = svg.getAttribute("viewBox").split(" ");
+    if (event.clientX <= 0 || this.dragging == "") return;
+    if (this.dragging == "svgbottom") {
+      let y = svg.getBoundingClientRect().y;
+      let newHeight = (event.clientY - y) / scale;
+      view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+      svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
+    } else if (this.dragging == "svgright") {
+      let x = svg.getBoundingClientRect().x;
+      let newWidth = (event.clientX - x) / scale;
+      view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
+      svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
+    } else if (this.dragging == "svgtop") {
+      let bound = svg.getBoundingClientRect();
+      let size = bound.y + bound.height - event.clientY;
+      let offset = bound.y - event.clientY;
+      let newHeight = size / scale;
+      view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+      svg.setAttribute(
+        "viewBox",
+        `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`,
+      );
+      this.y -= offset * scale;
+    } else if (this.dragging == "svgleft") {
+      let bound = svg.getBoundingClientRect();
+      let size = bound.x + bound.width - event.clientX;
+      let offset = bound.x - event.clientX;
+      let newWidth = size / scale;
+      view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
+      svg.setAttribute(
+        "viewBox",
+        `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`,
+      );
+      this.x -= offset * scale;
+    } else if (this.dragging == "side") {
+      let page = document.getElementById("ui");
+
+      let rightColWidth = page.clientWidth - event.clientX;
+
+      let newColDefn = `300px 1fr 1fr 1fr 3px ${rightColWidth}px`;
+
+      page.style.gridTemplateColumns = newColDefn;
+    }
+    event.preventDefault();
+    this.setViewStyle();
+  }
+
+  unfoldLayer(id) {
+    const elem = document.getElementById(id);
+    let folded = elem.getAttribute("folded") == "true";
+    elem.children[0].textContent = folded ? "v" : ">";
+    elem.children[1].hidden = !folded;
+    elem.setAttribute("folded", !folded);
+  }
 }
 
-layers.addEventListener("mousewheel", (evt) => {
-  evt.stopPropagation();
-});
-
-function unfoldLayer(id) {
-  const elem = document.getElementById(id);
-  let folded = elem.getAttribute("folded") == "true";
-  elem.children[0].textContent = folded ? "v" : ">";
-  elem.children[1].hidden = !folded;
-  elem.setAttribute("folded", !folded);
-}
+export default Ui;

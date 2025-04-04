@@ -1,5 +1,6 @@
 import Keyboard from "./keyboard.js";
 import KeyId from "./key.js";
+import Ui from "./ui.js";
 
 const TOOL = {
   Move: 0,
@@ -17,6 +18,7 @@ class App {
     this.lastClicked = null;
     this.lastMoved = null;
     this.selectedKeys = [];
+    this.ui = new Ui();
   }
 
   setModeMove() {
