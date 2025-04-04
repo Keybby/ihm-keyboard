@@ -1,5 +1,5 @@
-import Keyboard from "/js/keyboard.js";
-import KeyId from "/js/key.js";
+import Keyboard from "./keyboard.js";
+import KeyId from "./key.js";
 
 const TOOL = {
   Move: 0,

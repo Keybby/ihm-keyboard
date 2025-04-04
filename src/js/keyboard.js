@@ -1,6 +1,6 @@
-import Layer from "/js/layer.js";
-import KeyGeometry from "/js/geometry.js";
-import KeyId from "/js/key.js";
+import Layer from "./layer.js";
+import KeyGeometry from "./geometry.js";
+import KeyId from "./key.js";
 
 class Keyboard {
   /**

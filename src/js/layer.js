@@ -1,5 +1,5 @@
-import KeyId from "/js/key.js";
-import KeyLayout from "/js/key_layout.js";
+import KeyId from "./key.js";
+import KeyLayout from "./key_layout.js";
 
 class Layer {
   /**

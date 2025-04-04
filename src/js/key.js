@@ -1,6 +1,3 @@
-import KeyGeometry from "/js/geometry.js";
-import KeyLayout from "/js/key_layout.js";
-
 class KeyId {
   // corresponds to a physical key (placement on the board)
   constructor() {
