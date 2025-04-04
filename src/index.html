@@ -1,37 +1,38 @@
 <head>
-  <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="module" src="js/app.js"></script>
 </head>
-<body onmouseup="clearDrag()" onmousemove="resizeHorizontal(event)">
-  <svg
-    id="main"
-    xmlns="http://www.w3.org/2000/svg"
-    onload="makeDraggable(evt)"
-    style="transform: scale(0.7, 0.7); transform-origin: 25% 50%"
-  >
-    <image y="200" href="assets/keybby.svg" width="90" height="90"></image>
-    <image
-      x="300"
-      y="100"
-      href="assets/keybby.svg"
-      width="90"
-      height="90"
-    ></image>
-  </svg>
-  <div id="ui">
-    <div id="top">
-      <button>LOL</button>
-      <button>bozo</button>
-      <button>cringe</button>
+<body>
+    <svg
+        id="main"
+        xmlns="http://www.w3.org/2000/svg"
+        onload="makeDraggable(evt)"
+        style="transform: scale(0.7, 0.7); transform-origin: 25% 50%"
+    >
+        <image y="200" href="assets/keybby.svg" width="90" height="90"></image>
+        <image
+            x="300"
+            y="100"
+            href="assets/keybby.svg"
+            width="90"
+            height="90"
+        ></image>
+    </svg>
+    <div id="ui">
+        <div id="top">
+            <button>LOL</button>
+            <button>bozo</button>
+            <button>cringe</button>
+        </div>
+        <div id="resize" ondrag="resizeHorizontal(event)"></div>
+        <div id="side">
+            <button>Side</button>
+        </div>
+        <div id="layers">
+            <button>Layers</button>
+        </div>
     </div>
-    <div id="resize" onmousedown="setDrag()"></div>
-    <div id="side">
-      <button>Side</button>
-    </div>
-    <div id="layers">
-      <button>Layers</button>
-    </div>
-  </div>
 </body>
 
 <script src="js/ui.js"></script>
-<script src="js/grid.js"></script>  
+<script src="js/grid.js"></script>
