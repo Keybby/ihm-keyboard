@@ -1,161 +1,187 @@
+<!doctype html>
 <html>
-  <head>
-    <script type="module" src="js/app.js"></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-    <script>
-      document.addEventListener("alpine:init", () => {
-        var templates = document.querySelectorAll("svg template");
-        var el, template, attribs, attrib, count, child, content;
-        for (var i = 0; i < templates.length; i++) {
-          el = templates[i];
-          template = el.ownerDocument.createElement("template");
-          el.parentNode.insertBefore(template, el);
-          attribs = el.attributes;
-          count = attribs.length;
-          while (count-- > 0) {
-            attrib = attribs[count];
-            template.setAttribute(attrib.name, attrib.value);
-            el.removeAttribute(attrib.name);
-          }
-          el.parentNode.removeChild(el);
-          content = template.content;
-          while ((child = el.firstChild)) {
-            content.appendChild(child);
-          }
-        }
-      });
-    </script>
-    <link rel="stylesheet" href="css/ui.css" />
-    <link rel="stylesheet" href="css/layers.css" />
-    <link rel="stylesheet" href="css/side.css" />
-    <link rel="stylesheet" href="css/top.css" />
-  </head>
-  <body
-    x-data="{app: new App()}"
-    onmouseup="clearResize()"
-    onmousemove="resizeHorizontal(event)"
-  >
-    <div
-      id="svgdiv"
-      style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
+    <head>
+        <script type="module" src="js/app.js"></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
+        <script>
+            document.addEventListener("alpine:init", () => {
+                var templates = document.querySelectorAll("svg template");
+                var el, template, attribs, attrib, count, child, content;
+                for (var i = 0; i < templates.length; i++) {
+                    el = templates[i];
+                    template = el.ownerDocument.createElement("template");
+                    el.parentNode.insertBefore(template, el);
+                    attribs = el.attributes;
+                    count = attribs.length;
+                    while (count-- > 0) {
+                        attrib = attribs[count];
+                        template.setAttribute(attrib.name, attrib.value);
+                        el.removeAttribute(attrib.name);
+                    }
+                    el.parentNode.removeChild(el);
+                    content = template.content;
+                    while ((child = el.firstChild)) {
+                        content.appendChild(child);
+                    }
+                }
+            });
+        </script>
+        <link rel="stylesheet" href="css/ui.css" />
+        <link rel="stylesheet" href="css/layers.css" />
+        <link rel="stylesheet" href="css/side.css" />
+        <link rel="stylesheet" href="css/top.css" />
+    </head>
+    <body
+        x-data="{app: new App()}"
+        onmouseup="clearResize()"
+        onmousemove="resizeHorizontal(event)"
     >
-      <svg
-        id="main"
-        xmlns="http://www.w3.org/2000/svg"
-        onload="makeDraggable(evt)"
-        @click="app.handleClick($event)"
-        viewBox="0 0 1000 700"
-      >
-        <template x-for="k_id in app.keyboard.getKeys()" :key="k_id.value">
-          <g x-data="{ geometry: app.keyboard.getGeometry(k_id) }">
-            <image
-              href="assets/keybby.svg"
-              x-bind:x="geometry.x0()"
-              x-bind:y="geometry.y0()"
-              x-bind:width="geometry.getWidth()"
-              x-bind:height="geometry.getHeight()"
-              fill="none"
-              stroke="black"
-            />
-            <text
-              x-text="k_id"
-              fill="red"
-              x-bind:x="geometry.x"
-              x-bind:y="geometry.y"
-            />
-          </g>
-        </template>
-      </svg>
-      <div
-        class="resizeV"
-        onmousedown="setResize('svgtop')"
-        style="grid-area: resizetop"
-      ></div>
-      <div
-        class="resize"
-        onmousedown="setResize('svgright')"
-        style="grid-area: resizeright"
-      ></div>
-      <div
-        class="resizeV"
-        onmousedown="setResize('svgbottom')"
-        style="grid-area: resizebottom"
-      ></div>
-      <div
-        class="resize"
-        onmousedown="setResize('svgleft')"
-        style="grid-area: resizeleft"
-      ></div>
-    </div>
-    <div id="ui">
-      <div id="top">
-        <button class="top_button">Import</button>
-        <button class="top_button">Export</button>
-        <button class="top_button selected">MOVE</button>
-        <button class="top_button">ADD</button>
-      </div>
-      <div class="resize" onmousedown="setResize('side')"></div>
-      <div id="side">
-        <div>
-          <h4>GEOMETRY</h4>
-          <label for="width">Width</label>
-          <input type="range" class="custom-slider" name="width" />
-          <label for="height">Height</label>
-          <input type="range" name="height" />
-          <label for="rotation">Rotation</label>
-          <input type="range" name="rotation" />
-          <button class="top_button">EDIT SVG</button>
+        <div
+            id="svgdiv"
+            style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
+        >
+            <svg
+                id="main"
+                xmlns="http://www.w3.org/2000/svg"
+                @mousedown="app.handleMouseDown($event)"
+                @mousemove="app.handleMouseMove($event)"
+                @mouseup="app.handleMouseUp($event)"
+                viewBox="0 0 1000 700"
+            >
+                <template
+                    x-for="k_id in app.keyboard.getKeys()"
+                    :key="k_id.value"
+                >
+                    <g @mousedown="app.handleMouseDownOnKey($event, k_id)">
+                        <image
+                            href="assets/keybby.svg"
+                            x-bind:x="app.previewKeyGeometry(k_id).x"
+                            x-bind:y="app.previewKeyGeometry(k_id).y"
+                            x-bind:width="app.previewKeyGeometry(k_id).width"
+                            x-bind:height="app.previewKeyGeometry(k_id).height"
+                            fill="none"
+                            stroke="black"
+                        />
+                        <text
+                            x-text="app.getKeyLayout(k_id) || '<no keycode set>'"
+                            fill="red"
+                            x-bind:x="app.previewKeyGeometry(k_id).x"
+                            x-bind:y="app.previewKeyGeometry(k_id).y"
+                        />
+                    </g>
+                </template>
+            </svg>
+            <div
+                class="resizeV"
+                onmousedown="setResize('svgtop')"
+                style="grid-area: resizetop"
+            ></div>
+            <div
+                class="resize"
+                onmousedown="setResize('svgright')"
+                style="grid-area: resizeright"
+            ></div>
+            <div
+                class="resizeV"
+                onmousedown="setResize('svgbottom')"
+                style="grid-area: resizebottom"
+            ></div>
+            <div
+                class="resize"
+                onmousedown="setResize('svgleft')"
+                style="grid-area: resizeleft"
+            ></div>
         </div>
-        <div>
-          <h4>LAYOUT</h4>
-          <label for="behavior">Behavior</label>
-          <select name="behavior">
-            <option value="key">Key</option>
-            <option value="modifier">Modif</option>
-          </select>
-          <label for="keys">Keys</label>
-          <div id="keys" name="keys">
-            <p>A</p>
-            <p>B</p>
-            <p>C</p>
-            <div><button style="height:100%" class="top_button">+</button><input name="addkey"></div>
-            
-            
-          </div>
+        <div id="ui">
+            <div id="top">
+                <button class="top_button">Import</button>
+                <button class="top_button">Export</button>
+                <button
+                    @click="app.setModeMove()"
+                    x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
+                >
+                    MOVE
+                </button>
+                <button
+                    @click="app.setModeCreate()"
+                    x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+                >
+                    ADD
+                </button>
+            </div>
+            <div class="resize" onmousedown="setResize('side')"></div>
+            <div id="side">
+                <div>
+                    <h4>GEOMETRY</h4>
+                    <label for="width">Width</label>
+                    <input type="range" class="custom-slider" name="width" />
+                    <label for="height">Height</label>
+                    <input type="range" name="height" />
+                    <label for="rotation">Rotation</label>
+                    <input type="range" name="rotation" />
+                    <button class="top_button">EDIT SVG</button>
+                </div>
+                <div>
+                    <h4>LAYOUT</h4>
+                    <label for="behavior">Behavior</label>
+                    <select name="behavior">
+                        <option value="key">Key</option>
+                        <option value="modifier">Modif</option>
+                    </select>
+                    <label for="keys">Keys</label>
+                    <div id="keys" name="keys">
+                        <p>A</p>
+                        <p>B</p>
+                        <p>C</p>
+                        <div>
+                            <button style="height: 100%" class="top_button">
+                                +</button
+                            ><input name="addkey" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="layers">
+                <h2>Layers</h2>
+                <div class="scrollable">
+                    <div
+                        id="letters"
+                        onclick="unfoldLayer(this.id)"
+                        folded="true"
+                    >
+                        letters
+                        <a>></a>
+                        <div class="collapsable" hidden>
+                            <div>AAA</div>
+                            <div>BBB</div>
+                        </div>
+                    </div>
+                    <div
+                        id="shift"
+                        onclick="unfoldLayer(this.id)"
+                        folded="true"
+                    >
+                        shift <a>></a>
+                        <div class="collapsable" hidden>
+                            <div>BBB</div>
+                        </div>
+                    </div>
+                    <div
+                        id="symbols"
+                        onclick="unfoldLayer(this.id)"
+                        folded="true"
+                    >
+                        symbols <a>></a>
+                        <div class="collapsable" hidden>
+                            <div>BBB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div id="layers">
-        <h2>Layers</h2>
-        <div class="scrollable">
-          <div id="letters" onclick="unfoldLayer(this.id)" folded="true">
-            letters
-            <a>></a>
-            <div class="collapsable" hidden>
-              <div>AAA</div>
-              <div>BBB</div>
-            </div>
-          </div>
-          <div id="shift" onclick="unfoldLayer(this.id)" folded="true">
-            shift <a>></a>
-            <div class="collapsable" hidden>
-              <div>BBB</div>
-            </div>
-          </div>
-          <div id="symbols" onclick="unfoldLayer(this.id)" folded="true">
-            symbols <a>></a>
-            <div class="collapsable" hidden>
-              <div>BBB</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div id="headded">
-      </div> -->
-    </div>
-  </body>
-
-  <script src="js/ui.js"></script>
+    </body>
+    <script src="js/ui.js"></script>
 </html>

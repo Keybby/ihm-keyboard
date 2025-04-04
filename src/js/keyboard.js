@@ -25,10 +25,6 @@ class Keyboard {
     this.geometries[key] = new KeyGeometry(posX, posY);
   }
 
-  getGeometry(key_id) {
-    return this.geometries[key_id];
-  }
-
   getKeys() {
     return this.keys;
   }

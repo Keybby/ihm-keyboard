@@ -16,6 +16,14 @@ class KeyGeometry {
     this.centerY = posY;
   }
 
+  setX(x) {
+    this.centerX = x;
+  }
+
+  setY(y) {
+    this.centerY = y;
+  }
+
   getWidth() {
     return this.width;
   }
