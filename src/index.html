@@ -1,7 +1,7 @@
 <head>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body onmouseup="clearDrag()" onmousemove="resizeHorizontal(event)">
   <svg
     id="main"
     xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@
       <button>bozo</button>
       <button>cringe</button>
     </div>
-    <div id="resize" ondrag="resizeHorizontal(event)"></div>
+    <div id="resize" onmousedown="setDrag()"></div>
     <div id="side">
       <button>Side</button>
     </div>

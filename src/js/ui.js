@@ -3,28 +3,58 @@ const ui = document.getElementById("ui");
 const body = document.getElementsByTagName("body")[0];
 
 let scale = 0.7;
-let x=window.innerWidth/4;
-let y=window.innerHeight/2;
+let x = window.innerWidth / 4;
+let y = window.innerHeight / 2;
 
 body.addEventListener("mousewheel", function (event) {
-  console.log("scroll detected")
+  console.log("scroll detected");
   var deltaY = event.deltaY;
   var deltaX = event.deltaX;
   const threshold = 20;
   if (event.altKey) {
     if (Math.abs(deltaY) > threshold) {
-      scale+=Math.sign(deltaY) * 0.1
-    }
-  } else {
-    if (Math.abs(deltaY) > threshold) {
-      y+=Math.sign(deltaY)*30*scale;
-    } else if (Math.abs(deltaX) > threshold) {
-      x+=Math.sign(deltaX)*30*scale;
+      scale += Math.sign(deltaY) * 0.1;
     }
   }
-  view.style.transform=`scale(${scale},${scale})`
-  view.style.transformOrigin=`${x}px ${y}px`
+  else if (event.shiftKey) {
+    if (Math.abs(deltaY) > threshold) {
+      x += Math.sign(deltaY) * 30 * scale;
+    }
+  }
+  else {
+    if (Math.abs(deltaY) > threshold) {
+      y += Math.sign(deltaY) * 30 * scale;
+    } else if (Math.abs(deltaX) > threshold) {
+      x += Math.sign(deltaX) * 30 * scale;
+    }
+  }
+  view.style.transform = `scale(${scale},${scale})`;
+  view.style.transformOrigin = `${x}px ${y}px`;
 });
+
+let dragging = false;
+
+function clearDrag() {
+  dragging = false;
+}
+
+function setDrag() {
+  dragging = true;
+}
+
+function resizeHorizontal(event) {
+  if (event.clientX <= 0 || !dragging) return;
+  //console.log(event);
+
+  let page = document.getElementById("ui");
+
+  let rightColWidth = page.clientWidth - event.clientX;
+
+  let newColDefn = `1fr 1fr 1fr 1fr 10px ${rightColWidth}px`;
+
+  page.style.gridTemplateColumns = newColDefn;
+  event.preventDefault();
+}
 
 // Drag tool
 function getMousePosition(evt) {

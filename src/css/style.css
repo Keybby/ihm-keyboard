@@ -58,7 +58,7 @@ body {
   pointer-events: none;
   position: absolute;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 6px 200px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 10px 200px;
   grid-template-rows: auto;
   grid-template-areas:
     "head head head head resize side"
@@ -80,8 +80,15 @@ body {
   pointer-events: auto;
 }
 
+#ui button{
+  user-select:none;
+}
+
 #resize {
   grid-area:resize;
   cursor: ew-resize;
-  background-color:rgb(86, 86, 86)
+  width: 200%;
+  padding:10px;
+  overflow: visible;
+  background-color:rgb(86, 86, 86);
 }
