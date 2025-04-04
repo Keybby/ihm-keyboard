@@ -1,37 +1,84 @@
 <head>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/ui.css" />
+  <link rel="stylesheet" href="css/layers.css" />
+  <link rel="stylesheet" href="css/side.css" />
 </head>
-<body onmouseup="clearDrag()" onmousemove="resizeHorizontal(event)">
-  <svg
-    id="main"
-    xmlns="http://www.w3.org/2000/svg"
-    onload="makeDraggable(evt)"
-    style="transform: scale(0.7, 0.7); transform-origin: 25% 50%"
+<body onmouseup="clearResize()" onmousemove="resizeHorizontal(event)">
+  <div
+    id="svgdiv"
+    style="transform: scale(0.7, 0.7); transform-origin: 75% 60%"
   >
-    <image y="200" href="assets/keybby.svg" width="90" height="90"></image>
-    <image
-      x="300"
-      y="100"
-      href="assets/keybby.svg"
-      width="90"
-      height="90"
-    ></image>
-  </svg>
+    <svg
+      id="main"
+      xmlns="http://www.w3.org/2000/svg"
+      onload="makeDraggable(evt)"
+    >
+      <image y="200" href="assets/keybby.svg" width="90" height="90"></image>
+      <image
+        x="300"
+        y="100"
+        href="assets/keybby.svg"
+        width="90"
+        height="90"
+      ></image>
+    </svg>
+    <div
+      class="resizeV"
+      onmousedown="setResize('svgtop')"
+      style="grid-area: resizetop"
+    ></div>
+    <div
+      class="resize"
+      onmousedown="setResize('svgright')"
+      style="grid-area: resizeright"
+    ></div>
+    <div
+      class="resizeV"
+      onmousedown="setResize('svgbottom')"
+      style="grid-area: resizebottom"
+    ></div>
+    <div
+      class="resize"
+      onmousedown="setResize('svgleft')"
+      style="grid-area: resizeleft"
+    ></div>
+  </div>
   <div id="ui">
     <div id="top">
       <button>LOL</button>
       <button>bozo</button>
       <button>cringe</button>
     </div>
-    <div id="resize" onmousedown="setDrag()"></div>
+    <div class="resize" onmousedown="setResize('side')"></div>
     <div id="side">
       <button>Side</button>
     </div>
     <div id="layers">
-      <button>Layers</button>
+      <h2>Layers</h2>
+      <div class="scrollable">
+        <div id="letters" onclick="unfoldLayer(this.id)" folded="true">
+          letters
+          <a>></a>
+          <div class="collapsable" hidden>
+            <div>AAA</div>
+            <div>BBB</div>
+          </div>
+        </div>
+        <div id="shift" onclick="unfoldLayer(this.id)" folded="true">
+          shift <a>></a>
+          <div class="collapsable" hidden>
+            <div>BBB</div>
+          </div>
+        </div>
+        <div id="symbols" onclick="unfoldLayer(this.id)" folded="true">
+          symbols <a>></a>
+          <div class="collapsable" hidden>
+            <div>BBB</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
 
 <script src="js/ui.js"></script>
-<script src="js/grid.js"></script>  

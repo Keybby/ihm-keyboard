@@ -1,0 +1,46 @@
+#layers {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-radius: 0px 20px 0px 0px;
+}
+
+#layers > h2 {
+  margin: 0px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  color: var(--ui-text-color);
+}
+
+#layers > div > div {
+  background-color: var(--ui-highlight-subtle);
+  color: var(--ui-text-color);
+  margin: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: larger;
+  border-radius: 10px;
+}
+
+#layers > div > div > a:nth-child(1) {
+  text-align: right;
+  display: inline;
+  float: right;
+}
+
+#layers > div > div > div {
+  border-radius: 10px;
+  padding: 0.2em;
+}
+
+#layers > div > div > div > * {
+  padding: 0.2em;
+  margin: 0.2em;
+  margin-left: 1em;
+  text-indent: 0.5em;
+  box-shadow: -3px 0px 0px var(--bg-color);
+}

@@ -1,13 +1,19 @@
-const view = document.getElementById("main");
+const view = document.getElementById("svgdiv");
 const ui = document.getElementById("ui");
 const body = document.getElementsByTagName("body")[0];
+const svg = document.getElementsByTagName("svg")[0];
+const layers = document.getElementById("layers");
+
+// svg.style.width = svg.clientWidth;
+// svg.style.height = svg.clientHeight;
+//Fixes the height of the svg once loaded
 
 let scale = 0.7;
-let x = window.innerWidth / 4;
-let y = window.innerHeight / 2;
+let x = (window.innerWidth * 75) / 100;
+let y = (window.innerHeight * 60) / 100;
 
 body.addEventListener("mousewheel", function (event) {
-  console.log("scroll detected");
+  //Handles the placement of the svg on the screen
   var deltaY = event.deltaY;
   var deltaX = event.deltaX;
   const threshold = 20;
@@ -15,17 +21,15 @@ body.addEventListener("mousewheel", function (event) {
     if (Math.abs(deltaY) > threshold) {
       scale += Math.sign(deltaY) * 0.1;
     }
-  }
-  else if (event.shiftKey) {
+  } else if (event.shiftKey) {
     if (Math.abs(deltaY) > threshold) {
-      x += Math.sign(deltaY) * 30 * scale;
+      x += Math.sign(deltaY) * 50 * scale;
     }
-  }
-  else {
+  } else {
     if (Math.abs(deltaY) > threshold) {
-      y += Math.sign(deltaY) * 30 * scale;
+      y += Math.sign(deltaY) * 50 * scale;
     } else if (Math.abs(deltaX) > threshold) {
-      x += Math.sign(deltaX) * 30 * scale;
+      x += Math.sign(deltaX) * 50 * scale;
     }
   }
   view.style.transform = `scale(${scale},${scale})`;
@@ -34,26 +38,37 @@ body.addEventListener("mousewheel", function (event) {
 
 let dragging = false;
 
-function clearDrag() {
-  dragging = false;
+function clearResize() {
+  dragging = "";
 }
 
-function setDrag() {
-  dragging = true;
+function setResize(str) {
+  dragging = str;
 }
 
 function resizeHorizontal(event) {
-  if (event.clientX <= 0 || !dragging) return;
+  console.log(dragging)
+  if (event.clientX <= 0 || dragging == "") return;
   //console.log(event);
+  if (dragging=="svgbottom"){
+    let newHeight = y + event.clientY - view.clientHeight/2;
+    view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+  }
+  if(dragging="svgtop"){
+    let newHeight = y + event.clientY + view.clientHeight/2;
+    view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+  }
 
-  let page = document.getElementById("ui");
+  if (dragging == "side") {
+    let page = document.getElementById("ui");
 
-  let rightColWidth = page.clientWidth - event.clientX;
+    let rightColWidth = page.clientWidth - event.clientX;
 
-  let newColDefn = `1fr 1fr 1fr 1fr 10px ${rightColWidth}px`;
+    let newColDefn = `200px 1fr 1fr 1fr 3px ${rightColWidth}px`;
 
-  page.style.gridTemplateColumns = newColDefn;
-  event.preventDefault();
+    page.style.gridTemplateColumns = newColDefn;
+    event.preventDefault();
+  }
 }
 
 // Drag tool
@@ -99,4 +114,16 @@ function makeDraggable(evt) {
   function endDrag(evt) {
     selectedElement = null;
   }
+}
+
+layers.addEventListener("mousewheel", (evt) => {
+  evt.stopPropagation();
+});
+
+function unfoldLayer(id) {
+  const elem = document.getElementById(id);
+  let folded = elem.getAttribute("folded") == "true";
+  elem.children[0].textContent = folded ? "v" : ">";
+  elem.children[1].hidden = !folded;
+  elem.setAttribute("folded", !folded);
 }
