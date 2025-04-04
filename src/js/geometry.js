@@ -12,11 +12,30 @@ class KeyGeometry {
     this.width = width;
     this.height = height;
     this.rotation = rotation;
-    this.posX = posX;
-    this.posY = posY;
+    this.centerX = posX;
+    this.centerY = posY;
   }
 
-  to_svg() {}
+  getWidth() {
+    return this.width;
+  }
+
+  getHeight() {
+    return this.height;
+  }
+
+  x0() {
+    return this.centerX - this.width / 2;
+  }
+  x1() {
+    return this.centerX + this.width / 2;
+  }
+  y0() {
+    return this.centerY - this.height / 2;
+  }
+  y1() {
+    return this.centerY + this.height / 2;
+  }
 }
 
 export default KeyGeometry;

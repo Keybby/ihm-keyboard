@@ -1,22 +1,61 @@
 <head>
     <link rel="stylesheet" href="css/style.css" />
     <script type="module" src="js/app.js"></script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script>
+        document.addEventListener("alpine:init", () => {
+            var templates = document.querySelectorAll("svg template");
+            var el, template, attribs, attrib, count, child, content;
+            for (var i = 0; i < templates.length; i++) {
+                el = templates[i];
+                template = el.ownerDocument.createElement("template");
+                el.parentNode.insertBefore(template, el);
+                attribs = el.attributes;
+                count = attribs.length;
+                while (count-- > 0) {
+                    attrib = attribs[count];
+                    template.setAttribute(attrib.name, attrib.value);
+                    el.removeAttribute(attrib.name);
+                }
+                el.parentNode.removeChild(el);
+                content = template.content;
+                while ((child = el.firstChild)) {
+                    content.appendChild(child);
+                }
+            }
+        });
+    </script>
 </head>
-<body>
+<body x-data="{app: new App()}">
     <svg
         id="main"
         xmlns="http://www.w3.org/2000/svg"
         onload="makeDraggable(evt)"
         style="transform: scale(0.7, 0.7); transform-origin: 25% 50%"
+        @click="app.handleClick($event)"
     >
-        <image y="200" href="assets/keybby.svg" width="90" height="90"></image>
-        <image
-            x="300"
-            y="100"
-            href="assets/keybby.svg"
-            width="90"
-            height="90"
-        ></image>
+        <template x-for="k_id in app.keyboard.getKeys()" :key="k_id.value">
+            <g x-data="{ geometry: app.keyboard.getGeometry(k_id) }">
+                <image
+                    href="assets/keybby.svg"
+                    x-bind:x="geometry.x0()"
+                    x-bind:y="geometry.y0()"
+                    x-bind:width="geometry.getWidth()"
+                    x-bind:height="geometry.getHeight()"
+                    fill="none"
+                    stroke="black"
+                />
+                <text
+                    x-text="k_id"
+                    fill="red"
+                    x-bind:x="geometry.x"
+                    x-bind:y="geometry.y"
+                />
+            </g>
+        </template>
     </svg>
     <div id="ui">
         <div id="top">

@@ -20,11 +20,13 @@ class Keyboard {
   }
 
   addKey(posX, posY) {
-    console.log("enter");
     const key = new KeyId();
-    console.log(key);
     this.keys.push(key);
     this.geometries[key] = new KeyGeometry(posX, posY);
+  }
+
+  getGeometry(key_id) {
+    return this.geometries[key_id];
   }
 
   getKeys() {
