@@ -7,11 +7,11 @@
   padding:0.3em;
 }
 
-#top button {
+.top_button {
   flex: 0.1;
   width:100%;
   max-width:5em;
-  border-radius:10px;
+  border-radius:5px;
   background-color: var(--ui-highlight-subtle);
   border:none;
   outline:none;
@@ -20,7 +20,7 @@
   color:var(--ui-text-color)
 }
 
-#top button:hover{
+.top_button:hover{
   background-color: var(--bg-color);
 }
 
