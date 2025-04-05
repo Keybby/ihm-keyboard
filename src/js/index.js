@@ -1,5 +1,4 @@
 import App from "./app.js";
-import Ui from "./ui.js";
 
 document.addEventListener("alpine:init", () => {
   var templates = document.querySelectorAll("svg template");
