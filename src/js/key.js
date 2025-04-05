@@ -11,6 +11,10 @@ class KeyId {
   toString() {
     return this.value.toString();
   }
+
+  [Symbol.toPrimitive]() {
+    return this.value;
+  }
 }
 
 export default KeyId;

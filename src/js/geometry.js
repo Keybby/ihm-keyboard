@@ -2,6 +2,14 @@ const DEFAULT_WIDTH = 100;
 const DEFAULT_HEIGHT = 100;
 
 class KeyGeometry {
+  /**
+   *
+   * @param {number} posX
+   * @param {number} posY
+   * @param {number} width
+   * @param {number} height
+   * @param {number} rotation
+   */
   constructor(
     posX,
     posY,
@@ -16,10 +24,18 @@ class KeyGeometry {
     this.centerY = posY;
   }
 
+  /**
+   *
+   * @param {number} x
+   */
   setX(x) {
     this.centerX = x;
   }
 
+  /**
+   *
+   * @param {number} y
+   */
   setY(y) {
     this.centerY = y;
   }

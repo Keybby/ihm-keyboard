@@ -22,4 +22,5 @@ document.addEventListener("alpine:init", () => {
   }
 });
 
+// @ts-ignore
 window.App = App;

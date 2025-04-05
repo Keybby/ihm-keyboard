@@ -5,9 +5,9 @@ class Layer {
   /**
     @param name {String}
       the set of keys that must be clicked to activate this layer
-    @param keyMap {Record<KeyId, KeyLayout>} is a record from KeyId to Key
+    @param keyMap {Map<KeyId, KeyLayout>} is a record from KeyId to Key
   */
-  constructor(name = "default", keyMap = {}) {
+  constructor(name = "default", keyMap = new Map()) {
     this.name = name;
     this.keyMap = keyMap;
   }

@@ -1,19 +1,56 @@
 import Keyboard from "./keyboard.js";
 import Ui from "./ui.js";
 import Layer from "./layer.js";
+import KeyId from "./key.js";
 
 const TOOL = {
   Move: 0,
   Create: 1,
 };
 
+class Point {
+  /**
+   *
+   * @param {number} x
+   * @param {number} y
+   */
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
 class App {
+  /** @type {Keyboard} */
+  keyboard;
+
+  /** @type {number} */
+  selectedTool;
+
+  /** @type {number} - index of the layer in the array
+   * if -1, it is the default layer */
+  selectedLayer;
+
+  /** @type {SVGSVGElement} */
+  svg;
+
+  /** @type {Point| null} */
+  lastClicked;
+
+  /** @type {Point | null} */
+  lastMoved;
+
+  /** @type {KeyId[]} */
+  selectedKeys;
+
+  /** @type {Ui} */
+  ui;
+
   constructor() {
     this.keyboard = new Keyboard();
     this.selectedTool = TOOL.Move;
-    // index of the layer in the array
-    // if -1, it is the default layer
     this.selectedLayer = -1;
+    // @ts-ignore
     this.svg = document.getElementById("main");
     this.lastClicked = null;
     this.lastMoved = null;
@@ -34,6 +71,11 @@ class App {
     return this.selectedTool == TOOL.Create;
   }
 
+  /**
+   *
+   * @param {number} i
+   * @returns {String}
+   */
   getLayerName(i) {
     console.log(this.keyboard.additionalLayers, i);
     return this.keyboard.getLayer(i).name;
@@ -46,10 +88,19 @@ class App {
     this.selectedLayer = -1;
   }
 
+  /**
+   *
+   * @param {number} i
+   */
   selectLayer(i) {
     this.selectedLayer = i;
   }
 
+  /**
+   *
+   * @param {number} i
+   * @returns
+   */
   isActiveLayer(i) {
     return i == this.selectedLayer;
   }
@@ -63,10 +114,19 @@ class App {
     this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
   }
 
+  /**
+   *
+   * @param {KeyId} id
+   * @returns
+   */
   getKeyLayout(id) {
     return this.keyboard.getKeyLayout(this.selectedLayer, id);
   }
 
+  /**
+   *
+   * @param {MouseEvent} evt
+   */
   handleMouseDown(evt) {
     const { x, y } = this.getMouseCoordinates(evt);
     const pos = this.getMouseCoordinates(evt);
@@ -76,6 +136,11 @@ class App {
       this.keyboard.addKey(x, y);
     }
   }
+  /**
+   *
+   * @param {MouseEvent} evt
+   * @param {KeyId} id
+   */
   handleMouseDownOnKey(evt, id) {
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
@@ -83,25 +148,34 @@ class App {
     this.lastMoved = pos;
   }
 
-  handleMouseUp(evt) {
+  handleMouseUp() {
     for (const key_id of this.selectedKeys) {
       const translation = this.getTranslation();
-      this.keyboard.geometries[key_id].centerX += translation.x;
-      this.keyboard.geometries[key_id].centerY += translation.y;
+      this.keyboard.geometries.get(key_id).centerX += translation.x;
+      this.keyboard.geometries.get(key_id).centerY += translation.y;
     }
     this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
   }
 
+  /**
+   *
+   * @param {MouseEvent} evt
+   */
   handleMouseMove(evt) {
     if (this.selectedTool == TOOL.Move) {
       this.lastMoved = this.getMouseCoordinates(evt);
     }
   }
 
+  /**
+   *
+   * @param {KeyId} key_id
+   * @returns
+   */
   previewKeyGeometry(key_id) {
-    const geo = this.keyboard.geometries[key_id];
+    const geo = this.keyboard.geometries.get(key_id);
     const isKeySelected = this.selectedKeys.includes(key_id);
     const translation = this.getTranslation(isKeySelected);
     return {
@@ -122,6 +196,11 @@ class App {
     };
   }
 
+  /**
+   *
+   * @param {MouseEvent} evt
+   * @returns
+   */
   getMouseCoordinates(evt) {
     const CTM = this.svg.getScreenCTM();
     const x = (evt.clientX - CTM.e) / CTM.a;
@@ -140,4 +219,3 @@ class App {
 }
 
 export default App;
-window.App = App;

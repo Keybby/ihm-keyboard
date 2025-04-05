@@ -1,8 +1,5 @@
 const view = document.getElementById("svgdiv");
-const ui = document.getElementById("ui");
-const body = document.getElementsByTagName("body")[0];
 const svg = document.getElementsByTagName("svg")[0];
-const layers = document.getElementById("layers");
 
 class Ui {
   constructor() {
@@ -13,6 +10,10 @@ class Ui {
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
   }
 
+  /**
+   *
+   * @param {WheelEvent} event
+   */
   placeSvg(event) {
     //Handles the placement of the svg on the screen
     var deltaY = event.deltaY;
@@ -40,6 +41,10 @@ class Ui {
     this.dragging = "";
   }
 
+  /**
+   *
+   * @param {String} str
+   */
   setResize(str) {
     this.dragging = this.dragging.length == 0 ? str : this.dragging;
   }
@@ -49,9 +54,17 @@ class Ui {
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
   }
 
+  /**
+   *
+   * @param {MouseEvent} event
+   * @returns
+   */
   resizeHorizontal(event) {
     const scale = parseFloat(view.style.transform.substring(6));
-    let box = svg.getAttribute("viewBox").split(" ");
+    let box = svg
+      .getAttribute("viewBox")
+      .split(" ")
+      .map((x) => Number(x));
     if (event.clientX <= 0 || this.dragging == "") return;
     if (this.dragging == "svgbottom") {
       let y = svg.getBoundingClientRect().y;
