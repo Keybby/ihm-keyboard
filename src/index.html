@@ -27,7 +27,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 @mousedown.prevent="app.handleMouseDown($event)"
                 @mousemove.prevent="app.handleMouseMove($event)"
-                @mouseup.prevent="app.handleMouseUp($event)"
+                @mouseup.prevent="app.handleMouseUp()"
                 viewBox="0 0 1000 700"
             >
                 <template
@@ -65,7 +65,7 @@
             ></div>
             <div
                 class="resizeV"
-                @mousedown="app.ui.setResize('svgbottom')"
+                @mousedown.prevent="app.ui.setResize('svgbottom')"
                 style="grid-area: resizebottom"
             ></div>
             <div
