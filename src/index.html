@@ -16,6 +16,7 @@
         @mouseup="app.ui.clearResize()"
         @mouseleave="app.ui.clearResize()"
         @mousemove.prevent="app.ui.resizeHorizontal(event)"
+        @wheel="app.ui.placeSvg($event)"
     >
         <div
             id="svgdiv"
@@ -125,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div id="layers">
+            <div @mousewheel.prevent">
                 <h2>Layers</h2>
                 <div class="scrollable">
                     <div @click="app.selectDefaultLayer()">

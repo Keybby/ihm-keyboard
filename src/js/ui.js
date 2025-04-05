@@ -11,18 +11,6 @@ class Ui {
     this.y = (window.innerHeight * 60) / 100;
     this.dragging = "";
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
-
-    layers.addEventListener("mousewheel", (evt) => {
-      evt.stopPropagation();
-    });
-    body.addEventListener("mousewheel", (evt) => {
-      console.log("scroll");
-      this.placeSvg(evt);
-    });
-    body.addEventListener("click", (evt) => {
-      console.log("scroll");
-      this.placeSvg(evt);
-    });
   }
 
   placeSvg(event) {
@@ -45,6 +33,7 @@ class Ui {
         this.x += Math.sign(deltaX) * 50 * this.scale;
       }
     }
+    this.setViewStyle();
   }
 
   clearResize() {
