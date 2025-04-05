@@ -124,38 +124,29 @@
             <div id="layers">
                 <h2>Layers</h2>
                 <div class="scrollable">
-                    <div
-                        id="letters"
-                        onclick="unfoldLayer(this.id)"
-                        folded="true"
-                    >
-                        letters
-                        <a>></a>
-                        <div class="collapsable" hidden>
-                            <div>AAA</div>
-                            <div>BBB</div>
+                    <div @click="app.selectDefaultLayer()">
+                        <span>Default Layer</span>
+                        <div
+                            class="collapsable"
+                            x-show="app.isActiveLayerDefault()"
+                            x-transition
+                        >
+                            <div>Details</div>
                         </div>
                     </div>
-                    <div
-                        id="shift"
-                        onclick="unfoldLayer(this.id)"
-                        folded="true"
-                    >
-                        shift <a>></a>
-                        <div class="collapsable" hidden>
-                            <div>BBB</div>
+                    <template x-for="(el, i) in app.additionalLayers()">
+                        <div @click="app.selectLayer(i)">
+                            <span x-text="app.getLayerName(i)"> </span>
+                            <div
+                                class="collapsable"
+                                x-show="app.isActiveLayer(i)"
+                                x-transition
+                            >
+                                <div>Details</div>
+                            </div>
                         </div>
-                    </div>
-                    <div
-                        id="symbols"
-                        onclick="unfoldLayer(this.id)"
-                        folded="true"
-                    >
-                        symbols <a>></a>
-                        <div class="collapsable" hidden>
-                            <div>BBB</div>
-                        </div>
-                    </div>
+                    </template>
+                    <button @click="app.addLayer()">Add Layer</button>
                 </div>
             </div>
         </div>

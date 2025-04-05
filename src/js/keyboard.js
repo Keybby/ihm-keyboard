@@ -5,7 +5,7 @@ import KeyId from "./key.js";
 class Keyboard {
   /**
    *
-   * @param {String} name
+   * @param {Stiring} name
      @param {Array<KeyId>} keys
      @param {Record<KeyId, KeyGeometry>} geometries
      @param {Layer} defaultLayer
@@ -29,9 +29,15 @@ class Keyboard {
     return this.keys;
   }
 
-  getKeyLayout(id_layer, id_key) {
-    const layer =
-      id_layer === -1 ? this.defaultLayer : this.additionalLayers[id_layer];
+  getLayer(i_layer) {
+    if (i_layer === -1) {
+      return this.defaultLayer;
+    }
+    return this.additionalLayers[i_layer];
+  }
+
+  getKeyLayout(i_layer, id_key) {
+    const layer = this.getLayer(i_layer);
     return layer && layer.keyMap[id_key] ? layer.keyMap[id_key] : null;
   }
 }

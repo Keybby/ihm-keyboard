@@ -101,14 +101,6 @@ class Ui {
     event.preventDefault();
     this.setViewStyle();
   }
-
-  unfoldLayer(id) {
-    const elem = document.getElementById(id);
-    let folded = elem.getAttribute("folded") == "true";
-    elem.children[0].textContent = folded ? "v" : ">";
-    elem.children[1].hidden = !folded;
-    elem.setAttribute("folded", !folded);
-  }
 }
 
 export default Ui;

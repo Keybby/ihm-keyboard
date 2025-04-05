@@ -1,6 +1,6 @@
 import Keyboard from "./keyboard.js";
-import KeyId from "./key.js";
 import Ui from "./ui.js";
+import Layer from "./layer.js";
 
 const TOOL = {
   Move: 0,
@@ -32,6 +32,35 @@ class App {
   }
   isModeCreate() {
     return this.selectedTool == TOOL.Create;
+  }
+
+  getLayerName(i) {
+    console.log(this.keyboard.additionalLayers, i);
+    return this.keyboard.getLayer(i).name;
+  }
+  additionalLayers() {
+    return this.keyboard.additionalLayers;
+  }
+
+  selectDefaultLayer() {
+    this.selectedLayer = -1;
+  }
+
+  selectLayer(i) {
+    this.selectedLayer = i;
+  }
+
+  isActiveLayer(i) {
+    return i == this.selectedLayer;
+  }
+
+  isActiveLayerDefault() {
+    return this.selectedLayer == -1;
+  }
+
+  addLayer() {
+    const n = this.keyboard.additionalLayers.length + 1;
+    this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
   }
 
   getKeyLayout(id) {
