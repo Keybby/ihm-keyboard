@@ -14,7 +14,8 @@
     <body
         x-data="{app: new App()}"
         @mouseup="app.ui.clearResize()"
-        @mousemove="app.ui.resizeHorizontal(event)"
+        @mouseleave="app.ui.clearResize()"
+        @mousemove.prevent="app.ui.resizeHorizontal(event)"
     >
         <div
             id="svgdiv"
@@ -23,9 +24,9 @@
             <svg
                 id="main"
                 xmlns="http://www.w3.org/2000/svg"
-                @mousedown="app.handleMouseDown($event)"
-                @mousemove="app.handleMouseMove($event)"
-                @mouseup="app.handleMouseUp($event)"
+                @mousedown.prevent="app.handleMouseDown($event)"
+                @mousemove.prevent="app.handleMouseMove($event)"
+                @mouseup.prevent="app.handleMouseUp($event)"
                 viewBox="0 0 1000 700"
             >
                 <template
@@ -53,12 +54,12 @@
             </svg>
             <div
                 class="resizeV"
-                @mousedown="app.ui.setResize('svgtop')"
+                @mousedown.prevent="app.ui.setResize('svgtop')"
                 style="grid-area: resizetop"
             ></div>
             <div
                 class="resize"
-                @mousedown="app.ui.setResize('svgright')"
+                @mousedown.prevent="app.ui.setResize('svgright')"
                 style="grid-area: resizeright"
             ></div>
             <div
@@ -68,7 +69,7 @@
             ></div>
             <div
                 class="resize"
-                @mousedown="app.ui.setResize('svgleft')"
+                @mousedown.prevent="app.ui.setResize('svgleft')"
                 style="grid-area: resizeleft"
             ></div>
         </div>
@@ -89,7 +90,10 @@
                     ADD
                 </button>
             </div>
-            <div class="resize" @mousedown="app.ui.setResize('side')"></div>
+            <div
+                class="resize"
+                @mousedown.prevent="app.ui.setResize('side')"
+            ></div>
             <div id="side">
                 <div>
                     <h4>GEOMETRY</h4>

@@ -75,14 +75,12 @@ class App {
     if (this.selectedTool == TOOL.Create) {
       this.keyboard.addKey(x, y);
     }
-    evt.preventDefault();
   }
   handleMouseDownOnKey(evt, id) {
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
     this.lastMoved = pos;
-    evt.preventDefault();
   }
 
   handleMouseUp(evt) {
@@ -100,7 +98,6 @@ class App {
     if (this.selectedTool == TOOL.Move) {
       this.lastMoved = this.getMouseCoordinates(evt);
     }
-    evt.preventDefault();
   }
 
   previewKeyGeometry(key_id) {

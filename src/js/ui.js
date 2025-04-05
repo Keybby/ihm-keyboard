@@ -15,7 +15,14 @@ class Ui {
     layers.addEventListener("mousewheel", (evt) => {
       evt.stopPropagation();
     });
-    body.addEventListener("mousewheel", this.placeSvg);
+    body.addEventListener("mousewheel", (evt) => {
+      console.log("scroll");
+      this.placeSvg(evt);
+    });
+    body.addEventListener("click", (evt) => {
+      console.log("scroll");
+      this.placeSvg(evt);
+    });
   }
 
   placeSvg(event) {
@@ -98,7 +105,6 @@ class Ui {
 
       page.style.gridTemplateColumns = newColDefn;
     }
-    event.preventDefault();
     this.setViewStyle();
   }
 }
