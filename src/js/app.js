@@ -133,7 +133,9 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
-      this.keyboard.addKey(x, y);
+      const newKey = this.keyboard.addKey(x, y);
+      this.selectedKeys = [newKey]; //TOCHECK
+      console.log(newKey);
     }
   }
   /**
@@ -154,7 +156,7 @@ class App {
       this.keyboard.geometries.get(key_id).centerX += translation.x;
       this.keyboard.geometries.get(key_id).centerY += translation.y;
     }
-    this.selectedKeys = [];
+    //this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
   }
@@ -219,6 +221,7 @@ class App {
       y: geo.y0() + trans.y,
       width: geo.width,
       height: geo.height,
+      rotation: geo.rotation,
       layout: this.getKeyLayout(key_id),
     };
   }

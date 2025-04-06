@@ -27,11 +27,14 @@ class Keyboard {
    *
    * @param {number} posX
    * @param {number} posY
+   * @returns
    */
   addKey(posX, posY) {
     const key = new KeyId();
     this.keys.push(key);
     this.geometries.set(key, new KeyGeometry(posX, posY));
+
+    return key; //TOCHECK
   }
 
   getKeys() {

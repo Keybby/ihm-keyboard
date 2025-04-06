@@ -48,6 +48,10 @@ class KeyGeometry {
     return this.height;
   }
 
+  getRotation() {
+    return this.rotation;
+  }
+
   x0() {
     return this.centerX - this.width / 2;
   }
