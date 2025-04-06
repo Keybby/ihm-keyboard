@@ -15,7 +15,7 @@
     x-data="{app: new App()}"
     @mouseup="app.ui.clearResize()"
     @mouseleave="app.ui.clearResize()"
-    @mousemove.prevent="app.ui.resizeHorizontal(event)"
+    @mousemove="app.ui.resizeHorizontal(event)"
     @wheel="app.ui.placeSvg($event)"
   >
     <div
@@ -37,7 +37,7 @@
             @mousedown="app.handleMouseDownOnKey($event, k_id)"
           >
             <image
-              href="assets/keybby.svg"
+              href="assets/key.svg"
               x-bind:x="view.x"
               x-bind:y="view.y"
               x-bind:width="view.width"
