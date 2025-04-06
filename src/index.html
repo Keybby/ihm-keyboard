@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <script type="module" src="./js/index.js" defer></script>
+        <script type="module" src="./js/index.mjs" defer></script>
         <script
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -98,12 +98,54 @@
             <div id="side">
                 <div>
                     <h4>GEOMETRY</h4>
-                    <label for="width">Width</label>
-                    <input type="range" class="custom-slider" name="width" />
-                    <label for="height">Height</label>
-                    <input type="range" name="height" />
-                    <label for="rotation">Rotation</label>
-                    <input type="range" name="rotation" />
+                    <template x-if="app.selectedKeys.length === 1">
+                        <div id="side">
+                            <label for="X" x-text="'Position X : ' + String(Math.round(app.previewKeyGeometry(app.selectedKeys[0]).x))"></label>
+                            <label for="Y" x-text="'Position Y : ' + String(Math.round(app.previewKeyGeometry(app.selectedKeys[0]).y))"></label>
+                    
+                            <div x-data="{
+                                width: app.previewKeyGeometry(app.selectedKeys[0]).width,
+                                height: app.previewKeyGeometry(app.selectedKeys[0]).height,
+                                rotation: app.previewKeyGeometry(app.selectedKeys[0]).rotation,
+
+                                updateWidth() {
+                                    app.keyboard.geometries.get(app.selectedKeys[0]).width = this.width;},
+                                updateHeight() {
+                                    app.keyboard.geometries.get(app.selectedKeys[0]).height = this.height;},
+                                updateRotation() {
+                                    app.keyboard.geometries.get(app.selectedKeys[0]).rotation = this.rotation;}
+                                }">
+                                <label for="width">Width</label>
+                                <input type="range" class="custom-slider" name="width" min="0" max="200" step ="5" 
+                                x-model="width" @input="updateWidth()"/>
+
+                                <label for="height">Height</label>
+                                <input type="range" class="custom-slider" name="height" min="0" max="200" step ="5"
+                                x-model="height" @input="updateHeight()"/>
+                        
+                                <label for="rotation">Rotation</label>
+                                <input type="range" name="rotation" min="0" max="360" step ="30"
+                                x-model="rotation" @input="updateRotation()"/>
+                            </div>
+                            
+                        </div>
+                    </template>
+                    <!-- If we want to have a default -->
+                    <template x-if="app.selectedKeys.length !== 1">
+                        <div id="side">
+                            <label for="X">Position X :</label>
+                            <label for="Y">Position Y :</label>
+                    
+                            <label for="width">Width</label>
+                            <input type="range" class="custom-slider" name="width" value="0" disabled />
+                            <label for="height">Height</label>
+                            <input type="range" class="custom-slider" name="height" value="0" disabled />
+                    
+                            <label for="rotation">Rotation</label>
+                            <input type="range" name="rotation" value="0" disabled />
+                        </div>
+                    </template>
+                    
                     <button class="top_button">EDIT SVG</button>
                 </div>
                 <div>
