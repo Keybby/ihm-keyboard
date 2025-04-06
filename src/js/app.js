@@ -41,6 +41,9 @@ class App {
   /** @type {Point | null} */
   lastMoved;
 
+  /** @type {Boolean} */
+  onKey;
+
   /** @type {KeyId[]} */
   selectedKeys;
 
@@ -58,6 +61,7 @@ class App {
     this.svg = document.getElementById("main");
     this.lastClicked = null;
     this.lastMoved = null;
+    this.onKey = false;
     this.selectedKeys = [];
     this.ui = new Ui();
     this.popup = new Popup();
@@ -139,8 +143,11 @@ class App {
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
       const newKey = this.keyboard.addKey(x, y);
-      this.selectedKeys = [newKey]; //TOCHECK
-      console.log(newKey);
+      this.selectedKeys = [newKey]; 
+    }
+    else if(this.selectedTool == TOOL.Move && !this.onKey){
+      this.selectedKeys = [];
+      console.log("OUT" + this.onKey);
     }
   }
   /**
@@ -149,6 +156,8 @@ class App {
    * @param {KeyId} id
    */
   handleMouseDownOnKey(evt, id) {
+    this.onKey = true;
+    console.log("IN" + this.onKey);
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
@@ -164,6 +173,7 @@ class App {
     //this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
+    this.onKey = false;
   }
 
   /**
@@ -230,6 +240,48 @@ class App {
       layout: this.getKeyLayout(key_id),
     };
   }
+
+  /**
+   * 
+   * @param {string} axis
+   * @returns 
+   */
+  toStringPos(axis){
+    if(axis === "x"){
+      return "Position X : "  + String(Math.round(this.keyView(this.selectedKeys[0]).x));
+    }
+    else if(axis === "y"){
+      return "Position Y : " + String(Math.round(this.keyView(this.selectedKeys[0]).y));
+    }
+    return "";
+  }
+
+  /**
+   *
+   * @param {number} width
+   */
+  updateWidth(width) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).width = width;
+  }
+
+  /**
+   * 
+   *
+   * @param {number} height
+   */
+  updateHeight(height) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).height = height;
+  }
+
+  /**
+   * 
+   *
+   * @param {number} rotation
+   */
+  updateRotation(rotation) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).rotation = rotation;
+  }
+
 
   sayHello() {
     console.log("hello");
