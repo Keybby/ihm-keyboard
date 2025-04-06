@@ -14,8 +14,8 @@ typst watch partie_0_intro.typ --root ..
 ## Tâches qui restent à faire
 
 Reste à faire : 
-- les menus
-- click sur uen key = geometri et layout qui change
+- les menus => EVA
+- click sur une key = geometri et layout qui change => EVA
 - add layer et notamment
 - barre d'outils (déplacer, rotation, ...)
 - import/export
