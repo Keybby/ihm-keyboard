@@ -37,7 +37,7 @@
             @mousedown="app.handleMouseDownOnKey($event, k_id)"
           >
             <image
-              href="assets/keybby.svg"
+              href="assets/key.svg"
               x-bind:x="view.x"
               x-bind:y="view.y"
               x-bind:width="view.width"
@@ -45,6 +45,17 @@
               fill="none"
               stroke="black"
             />
+
+            <rect
+            x-bind:x="view.x"
+            x-bind:y="view.y"
+            x-bind:width="view.width"
+            x-bind:height="view.height"
+            fill="#FFFFFF"
+            fill-opacity="0.5"
+            rx="4"
+            ry="4"
+        />
             <text
             x-text="view.layout || '<no keycode set>'"
             fill="red"
