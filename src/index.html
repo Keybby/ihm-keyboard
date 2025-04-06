@@ -42,6 +42,10 @@
               x-bind:y="view.y"
               x-bind:width="view.width"
               x-bind:height="view.height"
+              x-bind:style="{
+                transform: `rotate(${view.rotation}deg)`,
+                transformOrigin: `${view.x + view.width / 2}px ${view.y + view.height / 2}px`
+              }"
               fill="none"
               stroke="black"
               preserveAspectRatio="none"
@@ -52,6 +56,10 @@
             x-bind:y="view.y"
             x-bind:width="view.width"
             x-bind:height="view.height"
+            x-bind:style="{
+                transform: `rotate(${view.rotation}deg)`,
+                transformOrigin: `${view.x + view.width / 2}px ${view.y + view.height / 2}px`
+            }"
             fill="#FFFFFF"
             fill-opacity="0.5"
             rx="4"
@@ -66,6 +74,10 @@
             pointer-events="none"
             x-bind:x="view.x + view.width / 2"
             x-bind:y="view.y + view.height / 2"
+            x-bind:style="{
+                transform: `rotate(${view.rotation}deg)`,
+                transformOrigin: `${view.x + view.width / 2}px ${view.y + view.height / 2}px`
+            }"
         />
           </g>
         </template>
