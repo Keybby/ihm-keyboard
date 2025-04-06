@@ -40,6 +40,9 @@ class App {
   /** @type {Point | null} */
   lastMoved;
 
+  /** @type {Boolean} */
+  onKey;
+
   /** @type {KeyId[]} */
   selectedKeys;
 
@@ -54,6 +57,7 @@ class App {
     this.svg = document.getElementById("main");
     this.lastClicked = null;
     this.lastMoved = null;
+    this.onKey = false;
     this.selectedKeys = [];
     this.ui = new Ui();
   }
@@ -134,8 +138,11 @@ class App {
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
       const newKey = this.keyboard.addKey(x, y);
-      this.selectedKeys = [newKey]; //TOCHECK
-      console.log(newKey);
+      this.selectedKeys = [newKey]; 
+    }
+    else if(this.selectedTool == TOOL.Move && !this.onKey){
+      this.selectedKeys = [];
+      console.log("OUT" + this.onKey);
     }
   }
   /**
@@ -144,6 +151,8 @@ class App {
    * @param {KeyId} id
    */
   handleMouseDownOnKey(evt, id) {
+    this.onKey = true;
+    console.log("IN" + this.onKey);
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
@@ -159,6 +168,7 @@ class App {
     //this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
+    this.onKey = false;
   }
 
   /**
