@@ -15,7 +15,7 @@
     x-data="{app: new App()}"
     @mouseup="app.ui.clearResize()"
     @mouseleave="app.ui.clearResize()"
-    @mousemove="app.ui.resizeHorizontal(event)"
+    @mousemove="app.ui.resizeHorizontal($event)"
     @wheel="app.ui.placeSvg($event)"
   >
     <div
