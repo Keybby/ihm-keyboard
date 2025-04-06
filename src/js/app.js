@@ -2,6 +2,7 @@ import Keyboard from "./keyboard.js";
 import Ui from "./ui.js";
 import Layer from "./layer.js";
 import KeyId from "./key.js";
+import Popup from	"./popup.js";
 
 const TOOL = {
   Move: 0,
@@ -46,6 +47,9 @@ class App {
   /** @type {Ui} */
   ui;
 
+  /** @type {Popup} */
+  popup;
+
   constructor() {
     this.keyboard = new Keyboard();
     this.selectedTool = TOOL.Move;
@@ -56,6 +60,7 @@ class App {
     this.lastMoved = null;
     this.selectedKeys = [];
     this.ui = new Ui();
+    this.popup = new Popup();
   }
 
   setModeMove() {

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/layers.css" />
     <link rel="stylesheet" href="css/side.css" />
     <link rel="stylesheet" href="css/top.css" />
+    <link rel="stylesheet" href="css/popup.css" />
   </head>
   <body
     x-data="{app: new App()}"
@@ -18,6 +19,15 @@
     @mousemove="app.ui.resizeHorizontal(event)"
     @wheel="app.ui.placeSvg($event)"
   >
+    <div id="popup_area" hidden="true">
+      <div id="popup">
+        <div class="popuptop" @mousedown="app.popup.setMoving(event)" @mouseup="app.popup.clearMoving()" @mousemove.prevent="app.popup.move(event)">
+          <h2 id="popup_title">Popup</h2>
+          <button id="popup_exit" @click="app.popup.close(event)">X</button>
+        </div>
+        <div></div>
+      </div>
+    </div>
     <div
       id="svgdiv"
       style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
@@ -48,25 +58,25 @@
             />
 
             <rect
-            x-bind:x="view.x"
-            x-bind:y="view.y"
-            x-bind:width="view.width"
-            x-bind:height="view.height"
-            fill="#FFFFFF"
-            fill-opacity="0.5"
-            rx="4"
-            ry="4"
-        />
+              x-bind:x="view.x"
+              x-bind:y="view.y"
+              x-bind:width="view.width"
+              x-bind:height="view.height"
+              fill="#FFFFFF"
+              fill-opacity="0.5"
+              rx="4"
+              ry="4"
+            />
             <text
-            x-text="view.layout || '<no keycode set>'"
-            fill="red"
-            font-size="12"
-            text-anchor="middle"
-            dominant-baseline="middle"
-            pointer-events="none"
-            x-bind:x="view.x + view.width / 2"
-            x-bind:y="view.y + view.height / 2"
-        />
+              x-text="view.layout || '<no keycode set>'"
+              fill="red"
+              font-size="12"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              pointer-events="none"
+              x-bind:x="view.x + view.width / 2"
+              x-bind:y="view.y + view.height / 2"
+            />
           </g>
         </template>
       </svg>
@@ -101,27 +111,41 @@
             x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
             class="top_button"
           >
-            <img src="assets/move.svg">
+            <img src="assets/move.svg" />
           </button>
           <button
             @click="app.setModeCreate()"
             x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
             class="top_button"
           >
-          <img src="assets/add.svg">
+            <img src="assets/add.svg" />
+          </button>
+          <button
+            @click="app.popup.show()"
+            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            ?
           </button>
         </div>
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div id="side">
         <div>
-            <h4>GEOMETRY</h4>
-            <template x-if="app.selectedKeys.length === 1">
-                <div id="side">
-                    <label for="X" x-text="'Position X : ' + String(Math.round(app.keyView(app.selectedKeys[0]).x))"></label>
-                    <label for="Y" x-text="'Position Y : ' + String(Math.round(app.keyView(app.selectedKeys[0]).y))"></label>
-            
-                    <div x-data="{
+          <h4>GEOMETRY</h4>
+          <template x-if="app.selectedKeys.length === 1">
+            <div id="side">
+              <label
+                for="X"
+                x-text="'Position X : ' + String(Math.round(app.keyView(app.selectedKeys[0]).x))"
+              ></label>
+              <label
+                for="Y"
+                x-text="'Position Y : ' + String(Math.round(app.keyView(app.selectedKeys[0]).y))"
+              ></label>
+
+              <div
+                x-data="{
                         width: app.keyView(app.selectedKeys[0]).width,
                         height: app.keyView(app.selectedKeys[0]).height,
                         rotation: app.keyView(app.selectedKeys[0]).rotation,
@@ -132,88 +156,122 @@
                             app.keyboard.geometries.get(app.selectedKeys[0]).height = this.height;},
                         updateRotation() {
                             app.keyboard.geometries.get(app.selectedKeys[0]).rotation = this.rotation;}
-                        }">
-                        <label for="width">Width</label>
-                        <input type="range" class="custom-slider" name="width" min="0" max="200" step ="5" 
-                        x-model="width" @input="updateWidth()"/>
+                        }"
+              >
+                <label for="width">Width</label>
+                <input
+                  type="range"
+                  class="custom-slider"
+                  name="width"
+                  min="0"
+                  max="200"
+                  step="5"
+                  x-model="width"
+                  @input="updateWidth()"
+                />
 
-                        <label for="height">Height</label>
-                        <input type="range" class="custom-slider" name="height" min="0" max="200" step ="5"
-                        x-model="height" @input="updateHeight()"/>
-                
-                        <label for="rotation">Rotation</label>
-                        <input type="range" name="rotation" min="0" max="360" step ="30"
-                        x-model="rotation" @input="updateRotation()"/>
-                    </div>
-                    
-                </div>
-            </template>
-            <!-- If we want to have a default -->
-            <template x-if="app.selectedKeys.length !== 1">
-                <div id="side">
-                    <label for="X">Position X :</label>
-                    <label for="Y">Position Y :</label>
-            
-                    <label for="width">Width</label>
-                    <input type="range" class="custom-slider" name="width" value="0" disabled />
-                    <label for="height">Height</label>
-                    <input type="range" class="custom-slider" name="height" value="0" disabled />
-            
-                    <label for="rotation">Rotation</label>
-                    <input type="range" name="rotation" value="0" disabled />
-                </div>
-            </template>
-            
-            <button class="top_button">EDIT SVG</button>
+                <label for="height">Height</label>
+                <input
+                  type="range"
+                  class="custom-slider"
+                  name="height"
+                  min="0"
+                  max="200"
+                  step="5"
+                  x-model="height"
+                  @input="updateHeight()"
+                />
+
+                <label for="rotation">Rotation</label>
+                <input
+                  type="range"
+                  name="rotation"
+                  min="0"
+                  max="360"
+                  step="30"
+                  x-model="rotation"
+                  @input="updateRotation()"
+                />
+              </div>
+            </div>
+          </template>
+          <!-- If we want to have a default -->
+          <template x-if="app.selectedKeys.length !== 1">
+            <div id="side">
+              <label for="X">Position X :</label>
+              <label for="Y">Position Y :</label>
+
+              <label for="width">Width</label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="width"
+                value="0"
+                disabled
+              />
+              <label for="height">Height</label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="height"
+                value="0"
+                disabled
+              />
+
+              <label for="rotation">Rotation</label>
+              <input type="range" name="rotation" value="0" disabled />
+            </div>
+          </template>
+
+          <button class="top_button">EDIT SVG</button>
         </div>
         <div>
-            <h4>LAYOUT</h4>
-            <label for="behavior">Behavior</label>
-            <select name="behavior">
-                <option value="key">Key</option>
-                <option value="modifier">Modif</option>
-            </select>
-            <label for="keys">Keys</label>
-            <div id="keys" name="keys">
-                <p>A</p>
-                <p>B</p>
-                <p>C</p>
-                <div>
-                    <button style="height: 100%" class="top_button">
-                        +</button
-                    ><input name="addkey" />
-                </div>
+          <h4>LAYOUT</h4>
+          <label for="behavior">Behavior</label>
+          <select name="behavior">
+            <option value="key">Key</option>
+            <option value="modifier">Modif</option>
+          </select>
+          <label for="keys">Keys</label>
+          <div id="keys" name="keys">
+            <p>A</p>
+            <p>B</p>
+            <p>C</p>
+            <div>
+              <button style="height: 100%" class="top_button">+</button
+              ><input name="addkey" />
             </div>
+          </div>
         </div>
-    </div>
-    <div id="layers" @wheel.prevent>
+      </div>
+      <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
         <div class="scrollable">
-            <div @click="app.selectDefaultLayer()">
-                <span>Default Layer</span>
-                <div
-                    class="collapsable"
-                    x-show="app.isActiveLayerDefault()"
-                    x-transition
-                >
-                    <div>Details</div>
-                </div>
+          <div @click="app.selectDefaultLayer()">
+            <span>Default Layer</span>
+            <div
+              class="collapsable"
+              x-show="app.isActiveLayerDefault()"
+              x-transition
+            >
+              <div>Details</div>
             </div>
-            <template x-for="(el, i) in app.additionalLayers()">
-                <div @click="app.selectLayer(i)">
-                    <span x-text="app.getLayerName(i)"> </span>
-                    <div
-                        class="collapsable"
-                        x-show="app.isActiveLayer(i)"
-                        x-transition
-                    >
-                        <div>Details</div>
-                    </div>
-                </div>
-            </template>
-            <button @click="app.addLayer()">Add Layer</button>
+          </div>
+          <template x-for="(el, i) in app.additionalLayers()">
+            <div @click="app.selectLayer(i)">
+              <span x-text="app.getLayerName(i)"> </span>
+              <div
+                class="collapsable"
+                x-show="app.isActiveLayer(i)"
+                x-transition
+              >
+                <div>Details</div>
+              </div>
+            </div>
+          </template>
+          <button @click="app.addLayer()">Add Layer</button>
         </div>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>
