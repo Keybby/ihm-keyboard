@@ -150,7 +150,7 @@ class App {
 
   handleMouseUp() {
     for (const key_id of this.selectedKeys) {
-      const translation = this.getTranslation();
+      const translation = this.getTranslation(key_id);
       this.keyboard.geometries.get(key_id).centerX += translation.x;
       this.keyboard.geometries.get(key_id).centerY += translation.y;
     }
@@ -174,25 +174,20 @@ class App {
    * @param {KeyId} key_id
    * @returns
    */
-  previewKeyGeometry(key_id) {
-    const geo = this.keyboard.geometries.get(key_id);
-    const isKeySelected = this.selectedKeys.includes(key_id);
-    const translation = this.getTranslation(isKeySelected);
-    return {
-      x: geo.x0() + translation.x,
-      y: geo.y0() + translation.y,
-      width: geo.getWidth(),
-      height: geo.getHeight(),
-    };
+  getKeyGeometry(key_id) {
+    return this.keyboard.geometries.get(key_id);
   }
 
-  getTranslation(checkSelected = true) {
-    if (!this.lastClicked || !this.lastMoved) {
-      return { x: 0, y: 0 };
-    }
+  /**
+   *
+   * @param {KeyId} key_id
+   * @returns
+   */
+  getTranslation(key_id) {
+    const selected = this.selectedKeys.includes(key_id) && this.lastClicked;
     return {
-      x: checkSelected ? this.lastMoved.x - this.lastClicked.x : 0,
-      y: checkSelected ? this.lastMoved.y - this.lastClicked.y : 0,
+      x: selected ? this.lastMoved.x - this.lastClicked.x : 0,
+      y: selected ? this.lastMoved.y - this.lastClicked.y : 0,
     };
   }
 
@@ -208,6 +203,23 @@ class App {
     return {
       x: x,
       y: y,
+    };
+  }
+
+  /**
+   *
+   * @param {KeyId} key_id
+   */
+  keyView(key_id) {
+    const geo = this.getKeyGeometry(key_id);
+    const trans = this.getTranslation(key_id);
+    return {
+      trans: this.getTranslation(key_id),
+      x: geo.x0() + trans.x,
+      y: geo.y0() + trans.y,
+      width: geo.width,
+      height: geo.height,
+      layout: this.getKeyLayout(key_id),
     };
   }
 

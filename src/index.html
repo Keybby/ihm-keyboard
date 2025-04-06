@@ -34,21 +34,25 @@
                     x-for="k_id in app.keyboard.getKeys()"
                     :key="k_id.value"
                 >
-                    <g @mousedown="app.handleMouseDownOnKey($event, k_id)">
+                    <g
+                        x-data="{view: null}"
+                        x-effect="view = app.keyView(k_id)"
+                        @mousedown="app.handleMouseDownOnKey($event, k_id)"
+                    >
                         <image
                             href="assets/keybby.svg"
-                            x-bind:x="app.previewKeyGeometry(k_id).x"
-                            x-bind:y="app.previewKeyGeometry(k_id).y"
-                            x-bind:width="app.previewKeyGeometry(k_id).width"
-                            x-bind:height="app.previewKeyGeometry(k_id).height"
+                            x-bind:x="view.x"
+                            x-bind:y="view.y"
+                            x-bind:width="view.width"
+                            x-bind:height="view.height"
                             fill="none"
                             stroke="black"
                         />
                         <text
-                            x-text="app.getKeyLayout(k_id) || '<no keycode set>'"
+                            x-text="view.layout || '<no keycode set>'"
                             fill="red"
-                            x-bind:x="app.previewKeyGeometry(k_id).x"
-                            x-bind:y="app.previewKeyGeometry(k_id).y"
+                            x-bind:x="view.x"
+                            x-bind:y="view.y"
                         />
                     </g>
                 </template>
