@@ -221,6 +221,7 @@ class App {
       y: geo.y0() + trans.y,
       width: geo.width,
       height: geo.height,
+      rotation: geo.rotation,
       layout: this.getKeyLayout(key_id),
     };
   }

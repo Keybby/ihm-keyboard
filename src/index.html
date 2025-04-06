@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <script type="module" src="./js/index.mjs" defer></script>
+        <script type="module" src="./js/index.js" defer></script>
         <script
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -104,13 +104,13 @@
                     <h4>GEOMETRY</h4>
                     <template x-if="app.selectedKeys.length === 1">
                         <div id="side">
-                            <label for="X" x-text="'Position X : ' + String(Math.round(app.previewKeyGeometry(app.selectedKeys[0]).x))"></label>
-                            <label for="Y" x-text="'Position Y : ' + String(Math.round(app.previewKeyGeometry(app.selectedKeys[0]).y))"></label>
+                            <label for="X" x-text="'Position X : ' + String(Math.round(app.keyView(app.selectedKeys[0]).x))"></label>
+                            <label for="Y" x-text="'Position Y : ' + String(Math.round(app.keyView(app.selectedKeys[0]).y))"></label>
                     
                             <div x-data="{
-                                width: app.previewKeyGeometry(app.selectedKeys[0]).width,
-                                height: app.previewKeyGeometry(app.selectedKeys[0]).height,
-                                rotation: app.previewKeyGeometry(app.selectedKeys[0]).rotation,
+                                width: app.keyView(app.selectedKeys[0]).width,
+                                height: app.keyView(app.selectedKeys[0]).height,
+                                rotation: app.keyView(app.selectedKeys[0]).rotation,
 
                                 updateWidth() {
                                     app.keyboard.geometries.get(app.selectedKeys[0]).width = this.width;},
