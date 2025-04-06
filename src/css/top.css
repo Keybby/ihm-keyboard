@@ -1,6 +1,6 @@
 #top {
   display: flex;
-  background-color: var(--ui-highlight-subtle);
+  background-color: var(--ui-color);
   margin-bottom:0.3em;
   text-align: center;
   position: sticky;
@@ -10,9 +10,10 @@
 .top_button {
   flex: 0.1;
   width:100%;
+  height: 100%;
   max-width:5em;
   border-radius:5px;
-  background-color: var(--ui-highlight-subtle);
+  background-color: var(--ui-color);
   border:none;
   outline:none;
   box-shadow:none;
@@ -21,9 +22,38 @@
 }
 
 .top_button:hover{
-  background-color: var(--bg-color);
+  background-color: var(--ui-highlight);
 }
 
 .selected{
   background-color: var(--ui-highlight) !important;
+}
+
+#tools {
+  display: flex;
+  background-color: var(--bg-color);
+  text-align: center;
+  position: sticky;
+  padding: 0.2em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius:10px;
+}
+
+#tools .top_button {
+  flex: 0.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width:7em;
+}
+
+#tools img{
+  max-height:90%;
 }

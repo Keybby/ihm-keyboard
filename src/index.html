@@ -1,163 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <script type="module" src="./js/index.js" defer></script>
-        <script
-            defer
-            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-        ></script>
-        <link rel="stylesheet" href="css/ui.css" />
-        <link rel="stylesheet" href="css/layers.css" />
-        <link rel="stylesheet" href="css/side.css" />
-        <link rel="stylesheet" href="css/top.css" />
-    </head>
-    <body
-        x-data="{app: new App()}"
-        @mouseup="app.ui.clearResize()"
-        @mouseleave="app.ui.clearResize()"
-        @mousemove.prevent="app.ui.resizeHorizontal(event)"
-        @wheel.prevent="app.ui.placeSvg($event)"
+  <head>
+    <script type="module" src="./js/index.js" defer></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/layers.css" />
+    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="css/top.css" />
+  </head>
+  <body
+    x-data="{app: new App()}"
+    @mouseup="app.ui.clearResize()"
+    @mouseleave="app.ui.clearResize()"
+    @mousemove.prevent="app.ui.resizeHorizontal(event)"
+    @wheel.prevent="app.ui.placeSvg($event)"
+  >
+    <div
+      id="svgdiv"
+      style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
     >
-        <div
-            id="svgdiv"
-            style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
-        >
-            <svg
-                id="main"
-                xmlns="http://www.w3.org/2000/svg"
-                @mousedown.prevent="app.handleMouseDown($event)"
-                @mousemove.prevent="app.handleMouseMove($event)"
-                @mouseup.prevent="app.handleMouseUp()"
-                viewBox="0 0 1000 700"
+      <svg
+        id="main"
+        xmlns="http://www.w3.org/2000/svg"
+        @mousedown.prevent="app.handleMouseDown($event)"
+        @mousemove.prevent="app.handleMouseMove($event)"
+        @mouseup.prevent="app.handleMouseUp()"
+        viewBox="0 0 1000 700"
+      >
+        <template x-for="k_id in app.keyboard.getKeys()" :key="k_id.value">
+          <g
+            x-data="{view: null}"
+            x-effect="view = app.keyView(k_id)"
+            @mousedown="app.handleMouseDownOnKey($event, k_id)"
+          >
+            <image
+              href="assets/keybby.svg"
+              x-bind:x="view.x"
+              x-bind:y="view.y"
+              x-bind:width="view.width"
+              x-bind:height="view.height"
+              fill="none"
+              stroke="black"
+            />
+            <text
+              x-text="view.layout || '<no keycode set>'"
+              fill="red"
+              x-bind:x="view.x"
+              x-bind:y="view.y"
+            />
+          </g>
+        </template>
+      </svg>
+      <div
+        class="resizeV"
+        @mousedown.prevent="app.ui.setResize('svgtop')"
+        style="grid-area: resizetop"
+      ></div>
+      <div
+        class="resize"
+        @mousedown.prevent="app.ui.setResize('svgright')"
+        style="grid-area: resizeright"
+      ></div>
+      <div
+        class="resizeV"
+        @mousedown.prevent="app.ui.setResize('svgbottom')"
+        style="grid-area: resizebottom"
+      ></div>
+      <div
+        class="resize"
+        @mousedown.prevent="app.ui.setResize('svgleft')"
+        style="grid-area: resizeleft"
+      ></div>
+    </div>
+    <div id="ui">
+      <div id="top">
+        <button class="top_button">Import</button>
+        <button class="top_button">Export</button>
+        <div id="tools">
+          <button
+            @click="app.setModeMove()"
+            x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
+          >
+            <img src="assets/move.svg">
+          </button>
+          <button
+            @click="app.setModeCreate()"
+            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+          >
+          <img src="assets/add.svg">
+          </button>
+        </div>
+      </div>
+      <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
+      <div id="side">
+        <div>
+          <h4>GEOMETRY</h4>
+          <label for="width">Width</label>
+          <input type="range" class="custom-slider" name="width" />
+          <label for="height">Height</label>
+          <input type="range" name="height" />
+          <label for="rotation">Rotation</label>
+          <input type="range" name="rotation" />
+          <button class="top_button">EDIT SVG</button>
+        </div>
+        <div>
+          <h4>LAYOUT</h4>
+          <label for="behavior">Behavior</label>
+          <select name="behavior">
+            <option value="key">Key</option>
+            <option value="modifier">Modif</option>
+          </select>
+          <label for="keys">Keys</label>
+          <div id="keys" name="keys">
+            <p>A</p>
+            <p>B</p>
+            <p>C</p>
+            <div>
+              <button style="height: 100%" class="top_button">+</button
+              ><input name="addkey" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="layers" @wheel.prevent>
+        <h2>Layers</h2>
+        <div class="scrollable">
+          <div @click="app.selectDefaultLayer()">
+            <span>Default Layer</span>
+            <div
+              class="collapsable"
+              x-show="app.isActiveLayerDefault()"
+              x-transition
             >
-                <template
-                    x-for="k_id in app.keyboard.getKeys()"
-                    :key="k_id.value"
-                >
-                    <g
-                        x-data="{view: null}"
-                        x-effect="view = app.keyView(k_id)"
-                        @mousedown="app.handleMouseDownOnKey($event, k_id)"
-                    >
-                        <image
-                            href="assets/keybby.svg"
-                            x-bind:x="view.x"
-                            x-bind:y="view.y"
-                            x-bind:width="view.width"
-                            x-bind:height="view.height"
-                            fill="none"
-                            stroke="black"
-                        />
-                        <text
-                            x-text="view.layout || '<no keycode set>'"
-                            fill="red"
-                            x-bind:x="view.x"
-                            x-bind:y="view.y"
-                        />
-                    </g>
-                </template>
-            </svg>
-            <div
-                class="resizeV"
-                @mousedown.prevent="app.ui.setResize('svgtop')"
-                style="grid-area: resizetop"
-            ></div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('svgright')"
-                style="grid-area: resizeright"
-            ></div>
-            <div
-                class="resizeV"
-                @mousedown.prevent="app.ui.setResize('svgbottom')"
-                style="grid-area: resizebottom"
-            ></div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('svgleft')"
-                style="grid-area: resizeleft"
-            ></div>
+              <div>Details</div>
+            </div>
+          </div>
+          <template x-for="(el, i) in app.additionalLayers()">
+            <div @click="app.selectLayer(i)">
+              <span x-text="app.getLayerName(i)"> </span>
+              <div
+                class="collapsable"
+                x-show="app.isActiveLayer(i)"
+                x-transition
+              >
+                <div>Details</div>
+              </div>
+            </div>
+          </template>
+          <button @click="app.addLayer()">Add Layer</button>
         </div>
-        <div id="ui">
-            <div id="top">
-                <button class="top_button">Import</button>
-                <button class="top_button">Export</button>
-                <button
-                    @click="app.setModeMove()"
-                    x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
-                >
-                    MOVE
-                </button>
-                <button
-                    @click="app.setModeCreate()"
-                    x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-                >
-                    ADD
-                </button>
-            </div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('side')"
-            ></div>
-            <div id="side">
-                <div>
-                    <h4>GEOMETRY</h4>
-                    <label for="width">Width</label>
-                    <input type="range" class="custom-slider" name="width" />
-                    <label for="height">Height</label>
-                    <input type="range" name="height" />
-                    <label for="rotation">Rotation</label>
-                    <input type="range" name="rotation" />
-                    <button class="top_button">EDIT SVG</button>
-                </div>
-                <div>
-                    <h4>LAYOUT</h4>
-                    <label for="behavior">Behavior</label>
-                    <select name="behavior">
-                        <option value="key">Key</option>
-                        <option value="modifier">Modif</option>
-                    </select>
-                    <label for="keys">Keys</label>
-                    <div id="keys" name="keys">
-                        <p>A</p>
-                        <p>B</p>
-                        <p>C</p>
-                        <div>
-                            <button style="height: 100%" class="top_button">
-                                +</button
-                            ><input name="addkey" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="layers" @wheel.prevent>
-                <h2>Layers</h2>
-                <div class="scrollable">
-                    <div @click="app.selectDefaultLayer()">
-                        <span>Default Layer</span>
-                        <div
-                            class="collapsable"
-                            x-show="app.isActiveLayerDefault()"
-                            x-transition
-                        >
-                            <div>Details</div>
-                        </div>
-                    </div>
-                    <template x-for="(el, i) in app.additionalLayers()">
-                        <div @click="app.selectLayer(i)">
-                            <span x-text="app.getLayerName(i)"> </span>
-                            <div
-                                class="collapsable"
-                                x-show="app.isActiveLayer(i)"
-                                x-transition
-                            >
-                                <div>Details</div>
-                            </div>
-                        </div>
-                    </template>
-                    <button @click="app.addLayer()">Add Layer</button>
-                </div>
-            </div>
-        </div>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>

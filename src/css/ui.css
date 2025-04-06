@@ -1,9 +1,9 @@
 :root {
-    --bg-color: rgb(36, 43, 43);
+    --bg-color: #252525;
     --svg-color: rgb(174, 174, 174);
-    --ui-color: rgb(30, 30, 30);
+    --ui-color: #474747;
     --ui-color-op: rgba(30, 30, 30, 0.511);
-    --ui-highlight: rgb(86, 86, 86);
+    --ui-highlight: #5d5d5d;
     --ui-highlight-subtle: rgb(57, 57, 57);
     --ui-text-color: white;
 }
@@ -51,7 +51,7 @@ body {
     position: absolute;
     display: grid;
     grid-template-columns: 300px 1fr 1fr 1fr 6px 200px;
-    grid-template-rows: 40px 2fr 2fr 1.5fr 1fr;
+    grid-template-rows: 60px 2fr 2fr 1.5fr 1fr;
     grid-template-areas:
         "head head head head head head"
         ". . . . resize side"
