@@ -25,13 +25,13 @@ class Ui {
       }
     } else if (event.shiftKey) {
       if (Math.abs(deltaY) > threshold) {
-        this.x += Math.sign(deltaY) * 50 * this.scale;
+        this.x +=deltaY * this.scale;
       }
     } else {
       if (Math.abs(deltaY) > threshold) {
-        this.y += Math.sign(deltaY) * 50 * this.scale;
+        this.y += deltaY * this.scale;
       } else if (Math.abs(deltaX) > threshold) {
-        this.x += Math.sign(deltaX) * 50 * this.scale;
+        this.x += deltaX * this.scale;
       }
     }
     this.setViewStyle();
