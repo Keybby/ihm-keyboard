@@ -16,7 +16,7 @@
     @mouseup="app.ui.clearResize()"
     @mouseleave="app.ui.clearResize()"
     @mousemove.prevent="app.ui.resizeHorizontal(event)"
-    @wheel.prevent="app.ui.placeSvg($event)"
+    @wheel="app.ui.placeSvg($event)"
   >
     <div
       id="svgdiv"
@@ -83,12 +83,14 @@
           <button
             @click="app.setModeMove()"
             x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
+            class="top_button"
           >
             <img src="assets/move.svg">
           </button>
           <button
             @click="app.setModeCreate()"
             x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+            class="top_button"
           >
           <img src="assets/add.svg">
           </button>
