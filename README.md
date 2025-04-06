@@ -22,5 +22,5 @@ Reste à faire :
 - export svg (peut être même que importe export mais d'après des commentaires ce serait utile de le faire en json pour que ce soit importable sur des logiciels permettant d'imprimer les différent layout en 3D etc)
 - vérifier qu'on arrive à récupérer la position sur le canvas
 - vérifier qu'on peut créer une touche
-- double click sur une touche pour changer le layout
+- double click sur une touche pour changer le layout => EVA
 - pop-up pour les touches spéciales, a définir peut être dans une classe, assez flou encore
