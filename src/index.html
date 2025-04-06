@@ -118,8 +118,8 @@
             <h4>GEOMETRY</h4>
             <template x-if="app.selectedKeys.length === 1">
                 <div id="side">
-                    <label for="X" x-text="'Position X : ' + String(Math.round(app.keyView(app.selectedKeys[0]).x))"></label>
-                    <label for="Y" x-text="'Position Y : ' + String(Math.round(app.keyView(app.selectedKeys[0]).y))"></label>
+                    <label for="X" x-text="app.toStringPos('x')"></label>
+                    <label for="Y" x-text="app.toStringPos('y')"></label>
             
                     <div x-data="{
                         width: app.keyView(app.selectedKeys[0]).width,

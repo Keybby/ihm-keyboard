@@ -227,6 +227,21 @@ class App {
   }
 
   /**
+   * 
+   * @param {string} axis
+   * @returns 
+   */
+  toStringPos(axis){
+    if(axis === "x"){
+      return "Position X : "  + String(Math.round(this.keyView(this.selectedKeys[0]).x));
+    }
+    else if(axis === "y"){
+      return "Position Y : " + String(Math.round(this.keyView(this.selectedKeys[0]).y));
+    }
+    return "";
+  }
+
+  /**
    *
    * @param {number} width
    */
