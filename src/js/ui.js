@@ -1,5 +1,5 @@
 const view = document.getElementById("svgdiv");
-const svg = document.getElementsByTagName("svg")[0];
+const svg = document.getElementById("main");
 
 class Ui {
   constructor() {
@@ -21,7 +21,11 @@ class Ui {
     const threshold = 20;
     if (event.altKey) {
       if (Math.abs(deltaY) > threshold) {
-        this.scale += Math.sign(deltaY) * 0.1;
+        this.scale = this.scale + Math.sign(deltaY) * 0.1;
+        if (Math.abs(this.scale-1)<=0.001){
+          this.scale += Math.sign(deltaY) * 0.1;
+        }
+        // this.scale=0.5;
       }
     } else if (event.shiftKey) {
       if (Math.abs(deltaY) > threshold) {
