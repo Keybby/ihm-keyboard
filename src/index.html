@@ -14,14 +14,14 @@
   </head>
   <body
     x-data="{app: new App()}"
-    @mouseup="app.ui.clearResize()"
+    @mouseup="app.ui.clearResize(); app.popup.clearMoving()"
     @mouseleave="app.ui.clearResize()"
     @mousemove="app.ui.resizeHorizontal(event)"
     @wheel="app.ui.placeSvg($event)"
   >
     <div id="popup_area" hidden="true">
       <div id="popup">
-        <div class="popuptop" @mousedown="app.popup.setMoving(event)" @mouseup="app.popup.clearMoving()" @mousemove.prevent="app.popup.move(event)">
+        <div class="popuptop" @mousedown="app.popup.setMoving(event)" @mousemove.prevent="app.popup.move(event)">
           <h2 id="popup_title">Popup</h2>
           <button id="popup_exit" @click="app.popup.close(event)">X</button>
         </div>

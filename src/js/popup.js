@@ -32,7 +32,6 @@ class Popup{
     }
 
     setMoving(event){
-        console.log("moving")
         this.moving=true;
         this.offX=event.clientX;
         this.offY=event.clientY;
