@@ -124,26 +124,19 @@
                     <div x-data="{
                         width: app.keyView(app.selectedKeys[0]).width,
                         height: app.keyView(app.selectedKeys[0]).height,
-                        rotation: app.keyView(app.selectedKeys[0]).rotation,
-
-                        updateWidth() {
-                            app.keyboard.geometries.get(app.selectedKeys[0]).width = this.width;},
-                        updateHeight() {
-                            app.keyboard.geometries.get(app.selectedKeys[0]).height = this.height;},
-                        updateRotation() {
-                            app.keyboard.geometries.get(app.selectedKeys[0]).rotation = this.rotation;}
+                        rotation: app.keyView(app.selectedKeys[0]).rotation
                         }">
                         <label for="width">Width</label>
                         <input type="range" class="custom-slider" name="width" min="0" max="200" step ="5" 
-                        x-model="width" @input="updateWidth()"/>
+                        x-model="width" @input="app.updateWidth(width)"/>
 
                         <label for="height">Height</label>
                         <input type="range" class="custom-slider" name="height" min="0" max="200" step ="5"
-                        x-model="height" @input="updateHeight()"/>
+                        x-model="height" @input="app.updateHeight(height)"/>
                 
                         <label for="rotation">Rotation</label>
                         <input type="range" name="rotation" min="0" max="360" step ="30"
-                        x-model="rotation" @input="updateRotation()"/>
+                        x-model="rotation" @input="app.updateRotation(rotation)"/>
                     </div>
                     
                 </div>

@@ -226,6 +226,33 @@ class App {
     };
   }
 
+  /**
+   *
+   * @param {number} width
+   */
+  updateWidth(width) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).width = width;
+  }
+
+  /**
+   * 
+   *
+   * @param {number} height
+   */
+  updateHeight(height) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).height = height;
+  }
+
+  /**
+   * 
+   *
+   * @param {number} rotation
+   */
+  updateRotation(rotation) {
+    this.keyboard.geometries.get(this.selectedKeys[0]).rotation = rotation;
+  }
+
+
   sayHello() {
     console.log("hello");
   }
