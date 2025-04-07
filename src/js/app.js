@@ -85,6 +85,14 @@ class App {
   }
 
   /**
+   * 
+   * @returns {String}
+   */
+  getDefaultLayerName(){
+    return this.keyboard.defaultLayer.name;
+  }
+
+  /**
    *
    * @param {number} i
    * @returns {String}
@@ -93,6 +101,7 @@ class App {
     console.log(this.keyboard.additionalLayers, i);
     return this.keyboard.getLayer(i).name;
   }
+
   additionalLayers() {
     return this.keyboard.additionalLayers;
   }
@@ -134,11 +143,28 @@ class App {
 
   /**
    *
+   * @returns
+   */
+  isChangedDefaultLayer() {
+    return (this.selectedLayer == -1) && this.changingNameLayer;
+  }
+
+  /**
+   *
    * @param {number} i
    * @returns
    */
   isChangedLayer(i) {
     return (i == this.selectedLayer) && this.changingNameLayer;
+  }
+
+  /**
+   *
+   * @param {String} name
+   */
+  changeNameDefaultLayer(name){
+    this.keyboard.defaultLayer.changeName(name);
+    this.changingNameLayer = false;
   }
 
   /**

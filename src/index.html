@@ -210,8 +210,15 @@
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
         <div class="scrollable">
-          <div @click="app.selectDefaultLayer()">
-            <span>Default Layer</span>
+          <div @click="app.selectDefaultLayer()" @dblclick="app.enterNameLayer()">
+            <div x-show="!app.isChangedDefaultLayer()">
+              <span x-text="app.getDefaultLayerName()"> </span>
+            </div>
+            <div 
+            x-data="{newName: ''}"
+            x-show="app.isChangedDefaultLayer()">
+              <input type="text" name="newName" x-model="newName" @keyup.enter="app.changeNameDefaultLayer(newName)"/>
+            </div>
             <div
               class="collapsable"
               x-show="app.isActiveLayerDefault()"
@@ -221,7 +228,7 @@
             </div>
           </div>
           <template x-for="(el, i) in app.additionalLayers()">
-            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer(i)">
+            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
               <div x-show="!app.isChangedLayer(i)">
                 <span x-text="app.getLayerName(i)"> </span>
               </div>
