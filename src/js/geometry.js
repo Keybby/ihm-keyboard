@@ -67,3 +67,4 @@ class KeyGeometry {
 }
 
 export default KeyGeometry;
+export { DEFAULT_WIDTH, DEFAULT_HEIGHT };

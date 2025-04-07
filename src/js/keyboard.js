@@ -1,5 +1,5 @@
 import Layer from "./layer.js";
-import KeyGeometry from "./geometry.js";
+import KeyGeometry, { DEFAULT_HEIGHT, DEFAULT_WIDTH } from "./geometry.js";
 import KeyId from "./key.js";
 
 class Keyboard {
@@ -29,10 +29,19 @@ class Keyboard {
    * @param {number} posY
    * @returns
    */
-  addKey(posX, posY) {
+  addKey(
+    posX,
+    posY,
+    width = DEFAULT_WIDTH,
+    height = DEFAULT_HEIGHT,
+    rotation = 0,
+  ) {
     const key = new KeyId();
     this.keys.push(key);
-    this.geometries.set(key, new KeyGeometry(posX, posY));
+    this.geometries.set(
+      key,
+      new KeyGeometry(posX, posY, width, height, rotation),
+    );
 
     return key; //TOCHECK
   }

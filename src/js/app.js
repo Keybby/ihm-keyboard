@@ -3,6 +3,7 @@ import Ui from "./ui.js";
 import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 
 const TOOL = {
   Move: 0,
@@ -69,6 +70,10 @@ class App {
     this.selectedKeys = [];
     this.ui = new Ui();
     this.popup = new Popup();
+
+    this.toolWidth = DEFAULT_WIDTH;
+    this.toolHeight = DEFAULT_HEIGHT;
+    this.toolRotation = 0;
   }
 
   setModeMove() {
@@ -174,10 +179,7 @@ class App {
     this.keyboard.additionalLayers[i].changeName(name);
     this.changingNameLayer = false;
   }
-  /**
-   *
-   * @param {number} i
-   */
+
   cancelChangeNameLayer() {
     this.changingNameLayer = false;
   }
@@ -201,7 +203,13 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
-      const newKey = this.keyboard.addKey(x, y);
+      const newKey = this.keyboard.addKey(
+        x,
+        y,
+        this.toolWidth,
+        this.toolHeight,
+        this.toolRotation,
+      );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move && !this.onKey) {
       this.selectedKeys = [];
@@ -339,6 +347,7 @@ class App {
    * @param {number} width
    */
   updateWidth(width) {
+    this.toolWidth = width;
     this.keyboard.geometries.get(this.selectedKeys[0]).width = width;
   }
 
@@ -348,6 +357,7 @@ class App {
    * @param {number} height
    */
   updateHeight(height) {
+    this.toolHeight = height;
     this.keyboard.geometries.get(this.selectedKeys[0]).height = height;
   }
 
@@ -357,6 +367,7 @@ class App {
    * @param {number} rotation
    */
   updateRotation(rotation) {
+    this.toolRotation = rotation;
     this.keyboard.geometries.get(this.selectedKeys[0]).rotation = rotation;
   }
 
