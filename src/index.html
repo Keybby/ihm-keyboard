@@ -27,7 +27,7 @@
           @mousemove.prevent="app.popup.move($event)"
         >
           <h2 id="popup_title">Popup</h2>
-          <button id="popup_exit" @click="app.popup.close()">X</button>
+          <button id="popup_exit" @click="app.popup.close(event)">X</button>
         </div>
         <div></div>
       </div>
@@ -115,15 +115,15 @@
         </div>
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
-      <div id="side">
+      <div
+        id="side"
+        x-data="{view:app.selectedKeyView()}"
+        x-effect="view=app.selectedKeyView()"
+      >
         <div>
           <h4>GEOMETRY</h4>
-          <template
-            x-data="{view:app.selectedKeyView()}"
-            x-effect="view=app.selectedKeyView()"
-            x-if="view"
-          >
-            <div id="side">
+          <template x-if="view">
+            <div>
               <span>Position X:</span>
               <label for="X" x-text="view.x"></label>
               <br />
@@ -177,21 +177,29 @@
         </div>
         <div>
           <h4>LAYOUT</h4>
-          <label for="behavior">Behavior</label>
-          <select name="behavior">
-            <option value="key">Key</option>
-            <option value="modifier">Modif</option>
-          </select>
-          <label for="keys">Keys</label>
-          <div id="keys" name="keys">
-            <p>A</p>
-            <p>B</p>
-            <p>C</p>
+          <template x-if="view">
             <div>
-              <button style="height: 100%" class="top_button">+</button
-              ><input name="addkey" />
+              <label for="behavior">Behavior</label>
+              <select name="behavior">
+                <option value="key">Key</option>
+                <option value="modifier">Modif</option>
+              </select>
+              <label for="keys">Keys</label>
+              <div id="keys" name="keys">
+                <p>A</p>
+                <p>B</p>
+                <p>C</p>
+                <div>
+                  <button style="height: 100%" class="top_button">+</button
+                  ><input name="addkey" />
+                </div>
+              </div>
             </div>
-          </div>
+          </template>
+
+          <template x-if="app.selectedKeyView() === null">
+            <span>Select or create Key</span>
+          </template>
         </div>
       </div>
       <div id="layers" @wheel.prevent>

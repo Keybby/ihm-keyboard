@@ -1,6 +1,7 @@
-import Layer from "./layer.js";
 import KeyGeometry, { DEFAULT_HEIGHT, DEFAULT_WIDTH } from "./geometry.js";
 import KeyId from "./key.js";
+import Layer from "./layer.js";
+import KeyLayout from "./key_layout.js";
 
 class Keyboard {
   /**
@@ -66,11 +67,14 @@ class Keyboard {
    *
    * @param {number} i_layer
    * @param {KeyId} key_id
-   * @returns
+   * @returns {KeyLayout}
    */
   getKeyLayout(i_layer, key_id) {
     const layer = this.getLayer(i_layer);
-    return layer && layer.keyMap.has(key_id) ? layer.keyMap.has(key_id) : null;
+    if (layer.keyMap.has(key_id)) {
+      return layer.keyMap.get(key_id);
+    }
+    return null;
   }
 }
 

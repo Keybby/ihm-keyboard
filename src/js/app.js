@@ -193,6 +193,20 @@ class App {
     return this.keyboard.getKeyLayout(this.selectedLayer, id);
   }
 
+  getSelectedKeyLayout() {
+    return this.keyboard.getKeyLayout(
+      this.selectedLayer,
+      this.getSelectedKey(),
+    );
+  }
+
+  getSelectedKey() {
+    if (this.selectedKeys.length == 1) {
+      return this.selectedKeys[0];
+    }
+    return null;
+  }
+
   /**
    *
    * @param {MouseEvent} evt
