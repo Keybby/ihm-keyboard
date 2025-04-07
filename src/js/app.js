@@ -2,7 +2,7 @@ import Keyboard from "./keyboard.js";
 import Ui from "./ui.js";
 import Layer from "./layer.js";
 import KeyId from "./key.js";
-import Popup from	"./popup.js";
+import Popup from "./popup.js";
 
 const TOOL = {
   Move: 0,
@@ -197,9 +197,8 @@ class App {
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
       const newKey = this.keyboard.addKey(x, y);
-      this.selectedKeys = [newKey]; 
-    }
-    else if(this.selectedTool == TOOL.Move && !this.onKey){
+      this.selectedKeys = [newKey];
+    } else if (this.selectedTool == TOOL.Move && !this.onKey) {
       this.selectedKeys = [];
       console.log("OUT" + this.onKey);
     }
@@ -296,16 +295,46 @@ class App {
   }
 
   /**
-   * 
-   * @param {string} axis
-   * @returns 
+   *
+   * @param {KeyId} key_id
+   * @returns
    */
-  toStringPos(axis){
-    if(axis === "x"){
-      return "Position X : "  + String(Math.round(this.keyView(this.selectedKeys[0]).x));
-    }
-    else if(axis === "y"){
-      return "Position Y : " + String(Math.round(this.keyView(this.selectedKeys[0]).y));
+  keySvgPath(key_id) {
+    const cornerRadius = 10;
+    const geo = this.getKeyGeometry(key_id);
+    const width = geo.width;
+    const height = geo.height;
+    const trans = this.getTranslation(key_id);
+    const x = geo.x0() + trans.x;
+    const y = geo.y0() + trans.y;
+    return `
+    M${x + cornerRadius},${y}
+    h${width - 2 * cornerRadius}
+    q${cornerRadius},0 ${cornerRadius},${cornerRadius}
+    v${height - 2 * cornerRadius}
+    q0,${cornerRadius} -${cornerRadius},${cornerRadius}
+    h-${width - 2 * cornerRadius}
+    q-${cornerRadius},0 -${cornerRadius},-${cornerRadius}
+    v-${height - 2 * cornerRadius}
+    q0,-${cornerRadius} ${cornerRadius},-${cornerRadius} z`;
+  }
+
+  /**
+   *
+   * @param {string} axis
+   * @returns
+   */
+  toStringPos(axis) {
+    if (axis === "x") {
+      return (
+        "Position X : " +
+        String(Math.round(this.keyView(this.selectedKeys[0]).x))
+      );
+    } else if (axis === "y") {
+      return (
+        "Position Y : " +
+        String(Math.round(this.keyView(this.selectedKeys[0]).y))
+      );
     }
     return "";
   }
@@ -319,7 +348,7 @@ class App {
   }
 
   /**
-   * 
+   *
    *
    * @param {number} height
    */
@@ -328,14 +357,13 @@ class App {
   }
 
   /**
-   * 
+   *
    *
    * @param {number} rotation
    */
   updateRotation(rotation) {
     this.keyboard.geometries.get(this.selectedKeys[0]).rotation = rotation;
   }
-
 
   sayHello() {
     console.log("hello");
