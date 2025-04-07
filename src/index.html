@@ -147,11 +147,8 @@
                             ></label>
 
                             <div
-                                x-data="{
-                        width: app.selectedKeyView().width,
-                        height: app.selectedKeyView().height,
-                        rotation: app.selectedKeyView().rotation
-                        }"
+                                x-data="{ view : app.selectedKeyView()}"
+                                x-effect="view = app.selectedKeyView()"
                             >
                                 <label for="width">Width</label>
                                 <input
@@ -161,8 +158,8 @@
                                     min="0"
                                     max="200"
                                     step="5"
-                                    x-model="width"
-                                    @input="app.updateWidth(width)"
+                                    x-bind:value="view.width"
+                                    @input="app.updateWidth($event.target.value)"
                                 />
 
                                 <label for="height">Height</label>
@@ -173,8 +170,8 @@
                                     min="0"
                                     max="200"
                                     step="5"
-                                    x-model="height"
-                                    @input="app.updateHeight(height)"
+                                    x-bind:value="view.height"
+                                    @input="app.updateHeight($event.target.value)"
                                 />
 
                                 <label for="rotation">Rotation</label>
@@ -182,10 +179,10 @@
                                     type="range"
                                     name="rotation"
                                     min="0"
-                                    max="360"
-                                    step="30"
-                                    x-model="rotation"
-                                    @input="app.updateRotation(rotation)"
+                                    max="90"
+                                    step="5"
+                                    x-bind:value="view.rotation"
+                                    @input="app.updateRotation($event.target.value)"
                                 />
                             </div>
                         </div>
