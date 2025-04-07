@@ -45,9 +45,6 @@ class App {
   /** @type {Point | null} */
   lastMoved;
 
-  /** @type {Boolean} */
-  onKey;
-
   /** @type {KeyId[]} */
   selectedKeys;
 
@@ -66,7 +63,6 @@ class App {
     this.svg = document.getElementById("main");
     this.lastClicked = null;
     this.lastMoved = null;
-    this.onKey = false;
     this.selectedKeys = [];
     this.ui = new Ui();
     this.popup = new Popup();
@@ -194,10 +190,12 @@ class App {
   }
 
   getSelectedKeyLayout() {
-    return this.keyboard.getKeyLayout(
-      this.selectedLayer,
-      this.getSelectedKey(),
-    );
+    const selectedKey = this.getSelectedKey();
+    if (selectedKey === null) {
+      console.warn(this.selectedKeys);
+      return null;
+    }
+    return this.keyboard.getKeyLayout(this.selectedLayer, selectedKey);
   }
 
   getSelectedKey() {
@@ -225,7 +223,7 @@ class App {
         this.toolRotation,
       );
       this.selectedKeys = [newKey];
-    } else if (this.selectedTool == TOOL.Move && !this.onKey) {
+    } else if (this.selectedTool == TOOL.Move) {
       this.selectedKeys = [];
     }
   }
@@ -235,11 +233,12 @@ class App {
    * @param {KeyId} id
    */
   handleMouseDownOnKey(evt, id) {
-    this.onKey = true;
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
     this.lastMoved = pos;
+    // needed, otherwise the svg will think we clicked outside
+    evt.stopPropagation();
   }
 
   handleMouseUp() {
@@ -251,7 +250,6 @@ class App {
     //this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
-    this.onKey = false;
   }
 
   /**

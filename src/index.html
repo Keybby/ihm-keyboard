@@ -60,7 +60,7 @@
             />
 
             <text
-              x-text="view.layout || '<no keycode set>'"
+              x-text="view.layout.keycodes.at(0) || '<no keycode set>'"
               fill="red"
               font-size="12"
               text-anchor="middle"
@@ -186,9 +186,9 @@
               </select>
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
-                <p>A</p>
-                <p>B</p>
-                <p>C</p>
+                <template x-for="code in view.layout.keycodes">
+                  <p x-text="code"></p>
+                </template>
                 <div>
                   <button style="height: 100%" class="top_button">+</button
                   ><input name="addkey" />

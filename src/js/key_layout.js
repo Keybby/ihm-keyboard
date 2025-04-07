@@ -1,7 +1,6 @@
 // import SPECIAL_KEYCODES from "./special_keys.js";
 
 const BEHAVIOUR = {
-  Undefined: -1,
   Classic: 0,
   Combo: 1,
   Sticky: 2,
@@ -31,10 +30,11 @@ class KeyLayout {
    * @param {Array<KeyCode>} keycodes
       if behaviour is Undefined, keycodes is []
    */
-  constructor(behaviour = BEHAVIOUR.Undefined, keycodes = []) {
+  constructor(behaviour = BEHAVIOUR.Classic, keycodes = []) {
     this.behaviour = behaviour;
-    this.keycode = keycodes;
+    this.keycodes = keycodes;
   }
 }
 
 export default KeyLayout;
+export { BEHAVIOUR };

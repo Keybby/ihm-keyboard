@@ -74,7 +74,7 @@ class Keyboard {
     if (layer.keyMap.has(key_id)) {
       return layer.keyMap.get(key_id);
     }
-    return null;
+    return new KeyLayout();
   }
 }
 
