@@ -54,13 +54,17 @@ class Keyboard {
   /**
    *
    * @param {number} i_layer
-   * @returns
+   * @returns {Layer}
    */
   getLayer(i_layer) {
     if (i_layer === -1) {
       return this.defaultLayer;
     }
-    return this.additionalLayers[i_layer];
+    const layer = this.additionalLayers[i_layer];
+    if (!layer) {
+      throw new Error("layer is not defined");
+    }
+    return layer;
   }
 
   /**
@@ -71,10 +75,8 @@ class Keyboard {
    */
   getKeyLayout(i_layer, key_id) {
     const layer = this.getLayer(i_layer);
-    if (layer.keyMap.has(key_id)) {
-      return layer.keyMap.get(key_id);
-    }
-    return new KeyLayout();
+    const layout = layer.keyMap.get(key_id);
+    return layout || new KeyLayout();
   }
 }
 

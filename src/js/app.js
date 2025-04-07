@@ -3,7 +3,8 @@ import Ui from "./ui.js";
 import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
+import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
+import assert from "./assert.js";
 
 const TOOL = {
   Move: 0,
@@ -176,7 +177,7 @@ class App {
    * @param {String} name
    */
   changeNameLayer(i, name) {
-    this.keyboard.additionalLayers[i].changeName(name);
+    this.keyboard.getLayer(i).changeName(name);
     this.changingNameLayer = false;
   }
 
@@ -195,7 +196,7 @@ class App {
 
   getSelectedKeyLayout() {
     const selectedKey = this.getSelectedKey();
-    if (selectedKey === null) {
+    if (!selectedKey) {
       console.warn(this.selectedKeys);
       return null;
     }
@@ -260,8 +261,11 @@ class App {
   handleMouseUp() {
     for (const key_id of this.selectedKeys) {
       const translation = this.getTranslation(key_id);
-      this.keyboard.geometries.get(key_id).centerX += translation.x;
-      this.keyboard.geometries.get(key_id).centerY += translation.y;
+      const geometry = this.keyboard.geometries.get(key_id);
+      if (geometry) {
+        geometry.centerX += translation.x;
+        geometry.centerY += translation.y;
+      }
     }
     //this.selectedKeys = [];
     this.lastClicked = null;
@@ -279,6 +283,9 @@ class App {
       const selection = this.getRectangleSelection();
       for (const key_id of this.keyboard.getKeys()) {
         const geo = this.getKeyGeometry(key_id);
+        if (!geo) {
+          return;
+        }
         if (selection) {
           if (
             geo.centerX >= selection.x0 &&
@@ -299,6 +306,10 @@ class App {
     if (!this.hasRectangleSelection) {
       return null;
     }
+    if (!this.lastClicked || !this.lastMoved) {
+      throw new Error("lastClicked and lastMoved should not be null");
+    }
+
     return {
       x0: Math.min(this.lastClicked.x, this.lastMoved.x),
       y0: Math.min(this.lastClicked.y, this.lastMoved.y),
@@ -310,10 +321,14 @@ class App {
   /**
    *
    * @param {KeyId} key_id
-   * @returns
+   * @returns {KeyGeometry}
    */
   getKeyGeometry(key_id) {
-    return this.keyboard.geometries.get(key_id);
+    const geometry = this.keyboard.geometries.get(key_id);
+    if (!geometry) {
+      throw new Error(`Key geometry not found for key_id: ${key_id}`);
+    }
+    return geometry;
   }
 
   /**
@@ -322,13 +337,20 @@ class App {
    * @returns
    */
   getTranslation(key_id) {
-    const selected =
+    if (
       this.isSelected(key_id) &&
       this.lastClicked &&
-      !this.hasRectangleSelection;
+      this.lastMoved &&
+      !this.hasRectangleSelection
+    ) {
+      return {
+        x: this.lastMoved.x - this.lastClicked.x,
+        y: this.lastMoved.y - this.lastClicked.y,
+      };
+    }
     return {
-      x: selected ? this.lastMoved.x - this.lastClicked.x : 0,
-      y: selected ? this.lastMoved.y - this.lastClicked.y : 0,
+      x: 0,
+      y: 0,
     };
   }
 
@@ -338,7 +360,7 @@ class App {
    * @returns
    */
   getMouseCoordinates(evt) {
-    const CTM = this.svg.getScreenCTM();
+    const CTM = assert(this.svg.getScreenCTM(), "svg has no CTM");
     const x = (evt.clientX - CTM.e) / CTM.a;
     const y = (evt.clientY - CTM.f) / CTM.d;
     return {
@@ -353,6 +375,9 @@ class App {
    */
   keyView(key_id) {
     const geo = this.getKeyGeometry(key_id);
+    if (!geo) {
+      throw new Error("Key geometry not found");
+    }
     const trans = this.getTranslation(key_id);
     const x = Math.round(geo.x0() + trans.x);
     const y = Math.round(geo.y0() + trans.y);
@@ -398,7 +423,10 @@ class App {
     if (this.selectedKeys.length != 1) {
       return null;
     }
-    const key = this.selectedKeys[0];
+    const key = this.getSelectedKey();
+    if (!key) {
+      return null;
+    }
     return this.keyView(key);
   }
 
@@ -408,7 +436,10 @@ class App {
    */
   updateWidth(width) {
     this.toolWidth = width;
-    this.keyboard.geometries.get(this.selectedKeys[0]).width = width;
+    for (const key_id of this.selectedKeys) {
+      const geometry = this.getKeyGeometry(key_id);
+      geometry.width = width;
+    }
   }
 
   /**
@@ -418,7 +449,10 @@ class App {
    */
   updateHeight(height) {
     this.toolHeight = height;
-    this.keyboard.geometries.get(this.selectedKeys[0]).height = height;
+    for (const key_id of this.selectedKeys) {
+      const geometry = this.getKeyGeometry(key_id);
+      geometry.height = height;
+    }
   }
 
   /**
@@ -428,7 +462,10 @@ class App {
    */
   updateRotation(rotation) {
     this.toolRotation = rotation;
-    this.keyboard.geometries.get(this.selectedKeys[0]).rotation = rotation;
+    for (const key_id of this.selectedKeys) {
+      const geometry = this.getKeyGeometry(key_id);
+      geometry.rotation = rotation;
+    }
   }
 
   sayHello() {
