@@ -283,10 +283,14 @@ class App {
   keyView(key_id) {
     const geo = this.getKeyGeometry(key_id);
     const trans = this.getTranslation(key_id);
+    const x = Math.round(geo.x0() + trans.x);
+    const y = Math.round(geo.y0() + trans.y);
     return {
       trans: this.getTranslation(key_id),
-      x: geo.x0() + trans.x,
-      y: geo.y0() + trans.y,
+      x: x,
+      y: y,
+      centerX: x + geo.width / 2,
+      centerY: y + geo.height / 2,
       width: geo.width,
       height: geo.height,
       rotation: geo.rotation,
@@ -319,24 +323,12 @@ class App {
     q0,-${cornerRadius} ${cornerRadius},-${cornerRadius} z`;
   }
 
-  /**
-   *
-   * @param {string} axis
-   * @returns
-   */
-  toStringPos(axis) {
-    if (axis === "x") {
-      return (
-        "Position X : " +
-        String(Math.round(this.keyView(this.selectedKeys[0]).x))
-      );
-    } else if (axis === "y") {
-      return (
-        "Position Y : " +
-        String(Math.round(this.keyView(this.selectedKeys[0]).y))
-      );
+  selectedKeyView() {
+    if (this.selectedKeys.length != 1) {
+      return null;
     }
-    return "";
+    const key = this.selectedKeys[0];
+    return this.keyView(key);
   }
 
   /**

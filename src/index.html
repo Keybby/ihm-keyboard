@@ -57,6 +57,7 @@
                     >
                         <path
                             x-bind:d="app.keySvgPath(key_id)"
+                            x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
                             fill="#f0f0f0"
                             stroke="#333333"
                             stroke-width="3"
@@ -133,20 +134,23 @@
                     <h4>GEOMETRY</h4>
                     <template x-if="app.selectedKeys.length === 1">
                         <div id="side">
+                            <span>Position X:</span>
                             <label
                                 for="X"
-                                x-text="app.toStringPos('x')"
+                                x-text="app.selectedKeyView().x"
                             ></label>
+                            <br />
+                            <span>Position Y:</span>
                             <label
                                 for="Y"
-                                x-text="app.toStringPos('y')"
+                                x-text="app.selectedKeyView().y"
                             ></label>
 
                             <div
                                 x-data="{
-                        width: app.keyView(app.selectedKeys[0]).width,
-                        height: app.keyView(app.selectedKeys[0]).height,
-                        rotation: app.keyView(app.selectedKeys[0]).rotation
+                        width: app.selectedKeyView().width,
+                        height: app.selectedKeyView().height,
+                        rotation: app.selectedKeyView().rotation
                         }"
                             >
                                 <label for="width">Width</label>
