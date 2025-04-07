@@ -207,17 +207,19 @@
             @click="app.selectDefaultLayer()"
             @dblclick="app.enterNameLayer()"
           >
-            <div x-show="!app.isChangedDefaultLayer()">
+            <template x-if="!app.isChangedDefaultLayer()">
               <span x-text="app.getDefaultLayerName()"> </span>
-            </div>
-            <div x-data="{newName: ''}" x-show="app.isChangedDefaultLayer()">
+            </template>
+            <template x-if="app.isChangedDefaultLayer()">
               <input
+                x-effect="$el.focus()"
                 type="text"
                 name="newName"
-                x-model="newName"
-                @keyup.enter="app.changeNameDefaultLayer(newName)"
+                x-bind:placeholder="app.getDefaultLayerName()"
+                @keyup.enter="app.changeNameDefaultLayer($event.target.value)"
+                @keyup.escape="app.cancelChangeNameLayer()"
               />
-            </div>
+            </template>
             <div
               class="collapsable"
               x-show="app.isActiveLayerDefault()"
@@ -228,17 +230,18 @@
           </div>
           <template x-for="(el, i) in app.additionalLayers()">
             <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
-              <div x-show="!app.isChangedLayer(i)">
+              <template x-if="!app.isChangedLayer(i)">
                 <span x-text="app.getLayerName(i)"> </span>
-              </div>
-              <div x-data="{newName: ''}" x-show="app.isChangedLayer(i)">
+              </template>
+              <template x-if="app.isChangedLayer(i)">
                 <input
+                  x-effect="$el.focus()"
                   type="text"
-                  name="newName"
-                  x-model="newName"
-                  @keyup.enter="app.changeNameLayer(i, newName)"
+                  x-bind:placeholder="app.getLayerName(i)"
+                  @keyup.enter="app.changeNameLayer(i, $event.target.value)"
+                  @keyup.escape="app.changeNameLayer(i, $event.target.value)"
                 />
-              </div>
+              </template>
 
               <div
                 class="collapsable"

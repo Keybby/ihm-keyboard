@@ -174,6 +174,13 @@ class App {
     this.keyboard.additionalLayers[i].changeName(name);
     this.changingNameLayer = false;
   }
+  /**
+   *
+   * @param {number} i
+   */
+  cancelChangeNameLayer() {
+    this.changingNameLayer = false;
+  }
 
   /**
    *
