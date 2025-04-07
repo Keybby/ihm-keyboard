@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/side.css" />
     <link rel="stylesheet" href="css/top.css" />
     <link rel="stylesheet" href="css/popup.css" />
+    <link rel="stylesheet" href="css/svg.css" />
   </head>
   <body
     x-data="{app: new App()}"
@@ -51,6 +52,7 @@
             @dblclick="app.popup.show()"
             @mousedown="app.handleMouseDownOnKey($event, key_id)"
             x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
+            :class="app.isSelected(key_id) ? 'selected_key' : ''"
           >
             <path
               x-bind:d="app.keySvgPath(key_id)"
@@ -70,6 +72,21 @@
               x-bind:y="view.y + 20"
             />
           </g>
+        </template>
+        <template
+          x-data="{selection: app.getRectangleSelection()}"
+          x-effect="selection=app.getRectangleSelection()"
+          x-if="selection"
+        >
+          <rect
+            fill="lightblue"
+            fill-opacity="0.3"
+            stroke="#ffffff"
+            x-bind:x="selection.x0"
+            x-bind:y="selection.y0"
+            x-bind:width="selection.x1 - selection.x0"
+            x-bind:height="selection.y1 - selection.y0"
+          ></rect>
         </template>
       </svg>
       <div

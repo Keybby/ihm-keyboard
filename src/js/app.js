@@ -36,6 +36,9 @@ class App {
   /** @type {Boolean} */
   changingNameLayer;
 
+  /** @type {Boolean} */
+  hasRectangleSelection;
+
   /** @type {SVGSVGElement} */
   svg;
 
@@ -70,6 +73,7 @@ class App {
     this.toolWidth = DEFAULT_WIDTH;
     this.toolHeight = DEFAULT_HEIGHT;
     this.toolRotation = 0;
+    this.hasRectangleSelection = false;
   }
 
   setModeMove() {
@@ -207,6 +211,15 @@ class App {
 
   /**
    *
+   * @param {KeyId} key_id
+   * @returns {boolean}
+   */
+  isSelected(key_id) {
+    return this.selectedKeys.includes(key_id);
+  }
+
+  /**
+   *
    * @param {MouseEvent} evt
    */
   handleMouseDown(evt) {
@@ -224,16 +237,19 @@ class App {
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
+      this.hasRectangleSelection = true;
       this.selectedKeys = [];
     }
   }
   /**
    *
    * @param {MouseEvent} evt
-   * @param {KeyId} id
+   * @param {KeyId} key_id
    */
-  handleMouseDownOnKey(evt, id) {
-    this.selectedKeys = [id];
+  handleMouseDownOnKey(evt, key_id) {
+    if (!this.isSelected(key_id)) {
+      this.selectedKeys = [key_id];
+    }
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
     this.lastMoved = pos;
@@ -250,6 +266,7 @@ class App {
     //this.selectedKeys = [];
     this.lastClicked = null;
     this.lastMoved = null;
+    this.hasRectangleSelection = false;
   }
 
   /**
@@ -257,9 +274,37 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseMove(evt) {
-    if (this.selectedTool == TOOL.Move) {
-      this.lastMoved = this.getMouseCoordinates(evt);
+    this.lastMoved = this.getMouseCoordinates(evt);
+    if (this.hasRectangleSelection) {
+      const selection = this.getRectangleSelection();
+      for (const key_id of this.keyboard.getKeys()) {
+        const geo = this.getKeyGeometry(key_id);
+        if (selection) {
+          if (
+            geo.centerX >= selection.x0 &&
+            geo.centerX <= selection.x1 &&
+            geo.centerY >= selection.y0 &&
+            geo.centerY <= selection.y1
+          ) {
+            if (!this.isSelected(key_id)) {
+              this.selectedKeys.push(key_id);
+            }
+          }
+        }
+      }
     }
+  }
+
+  getRectangleSelection() {
+    if (!this.hasRectangleSelection) {
+      return null;
+    }
+    return {
+      x0: Math.min(this.lastClicked.x, this.lastMoved.x),
+      y0: Math.min(this.lastClicked.y, this.lastMoved.y),
+      x1: Math.max(this.lastClicked.x, this.lastMoved.x),
+      y1: Math.max(this.lastClicked.y, this.lastMoved.y),
+    };
   }
 
   /**
@@ -277,7 +322,10 @@ class App {
    * @returns
    */
   getTranslation(key_id) {
-    const selected = this.selectedKeys.includes(key_id) && this.lastClicked;
+    const selected =
+      this.isSelected(key_id) &&
+      this.lastClicked &&
+      !this.hasRectangleSelection;
     return {
       x: selected ? this.lastMoved.x - this.lastClicked.x : 0,
       y: selected ? this.lastMoved.y - this.lastClicked.y : 0,
