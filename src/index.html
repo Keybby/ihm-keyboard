@@ -1,275 +1,207 @@
 <!doctype html>
 <html>
-    <head>
-        <script type="module" src="./js/index.mjs" defer></script>
-        <script
-            defer
-            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-        ></script>
-        <link rel="stylesheet" href="css/ui.css" />
-        <link rel="stylesheet" href="css/layers.css" />
-        <link rel="stylesheet" href="css/side.css" />
-        <link rel="stylesheet" href="css/top.css" />
-        <link rel="stylesheet" href="css/popup.css" />
-    </head>
-    <body
-        x-data="{app: new App()}"
-        @mouseup="app.ui.clearResize(); app.popup.clearMoving()"
-        @mouseleave="app.ui.clearResize()"
-        @mousemove="app.ui.resizeHorizontal(event)"
-        @wheel="app.ui.placeSvg($event)"
-    >
-        <div id="popup_area" hidden="true">
-            <div id="popup">
-                <div
-                    class="popuptop"
-                    @mousedown="app.popup.setMoving(event)"
-                    @mousemove.prevent="app.popup.move(event)"
-                >
-                    <h2 id="popup_title">Popup</h2>
-                    <button id="popup_exit" @click="app.popup.close(event)">
-                        X
-                    </button>
-                </div>
-                <div></div>
-            </div>
-        </div>
+  <head>
+    <script type="module" src="./js/index.mjs" defer></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/layers.css" />
+    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="css/top.css" />
+    <link rel="stylesheet" href="css/popup.css" />
+  </head>
+  <body
+    x-data="{app: new App()}"
+    @mouseup="app.ui.clearResize(); app.popup.clearMoving()"
+    @mouseleave="app.ui.clearResize()"
+    @mousemove="app.ui.resizeHorizontal(event)"
+    @wheel="app.ui.placeSvg($event)"
+  >
+    <div id="popup_area" hidden="true">
+      <div id="popup">
         <div
-            id="svgdiv"
-            style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
+          class="popuptop"
+          @mousedown="app.popup.setMoving(event)"
+          @mousemove.prevent="app.popup.move(event)"
         >
-            <svg
-                id="main"
-                xmlns="http://www.w3.org/2000/svg"
-                @mousedown.prevent="app.handleMouseDown($event)"
-                @mousemove.prevent="app.handleMouseMove($event)"
-                @mouseup.prevent="app.handleMouseUp()"
-                viewBox="0 0 1000 700"
-            >
-                <template
-                    x-for="key_id in app.keyboard.getKeys()"
-                    :key="key_id.value"
-                >
-                    <g
-                        x-data="{view: app.keyView(key_id)}"
-                        x-effect="view = app.keyView(key_id)"
-                        @mousedown="app.handleMouseDownOnKey($event, key_id)"
-                    >
-                        <path
-                            x-bind:d="app.keySvgPath(key_id)"
-                            x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
-                            fill="#f0f0f0"
-                            stroke="#333333"
-                            stroke-width="3"
-                        />
-
-                        <text
-                            x-text="view.layout || '<no keycode set>'"
-                            fill="red"
-                            font-size="12"
-                            text-anchor="middle"
-                            dominant-baseline="middle"
-                            pointer-events="none"
-                            x-bind:x="view.x + view.width / 2"
-                            x-bind:y="view.y + 20"
-                        />
-                    </g>
-                </template>
-            </svg>
-            <div
-                class="resizeV"
-                @mousedown.prevent="app.ui.setResize('svgtop')"
-                style="grid-area: resizetop"
-            ></div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('svgright')"
-                style="grid-area: resizeright"
-            ></div>
-            <div
-                class="resizeV"
-                @mousedown.prevent="app.ui.setResize('svgbottom')"
-                style="grid-area: resizebottom"
-            ></div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('svgleft')"
-                style="grid-area: resizeleft"
-            ></div>
+          <h2 id="popup_title">Popup</h2>
+          <button id="popup_exit" @click="app.popup.close(event)">X</button>
         </div>
-        <div id="ui">
-            <div id="top">
-                <button class="top_button">Import</button>
-                <button class="top_button">Export</button>
-                <div id="tools">
-                    <button
-                        @click="app.setModeMove()"
-                        x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
-                        class="top_button"
-                    >
-                        <img src="assets/move.svg" />
-                    </button>
-                    <button
-                        @click="app.setModeCreate()"
-                        x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-                        class="top_button"
-                    >
-                        <img src="assets/add.svg" />
-                    </button>
-                    <button
-                        @click="app.popup.show()"
-                        x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-                        class="top_button"
-                    >
-                        Popup
-                    </button>
-                </div>
-            </div>
-            <div
-                class="resize"
-                @mousedown.prevent="app.ui.setResize('side')"
-            ></div>
+        <div></div>
+      </div>
+    </div>
+    <div
+      id="svgdiv"
+      style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
+    >
+      <svg
+        id="main"
+        xmlns="http://www.w3.org/2000/svg"
+        @mousedown.prevent="app.handleMouseDown($event)"
+        @mousemove.prevent="app.handleMouseMove($event)"
+        @mouseup.prevent="app.handleMouseUp()"
+        viewBox="0 0 1000 700"
+      >
+        <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
+          <g
+            x-data="{view: app.keyView(key_id)}"
+            x-effect="view = app.keyView(key_id)"
+            @mousedown="app.handleMouseDownOnKey($event, key_id)"
+          >
+            <path
+              x-bind:d="app.keySvgPath(key_id)"
+              x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
+              fill="#f0f0f0"
+              stroke="#333333"
+              stroke-width="3"
+            />
+
+            <text
+              x-text="view.layout || '<no keycode set>'"
+              fill="red"
+              font-size="12"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              pointer-events="none"
+              x-bind:x="view.x + view.width / 2"
+              x-bind:y="view.y + 20"
+            />
+          </g>
+        </template>
+      </svg>
+      <div
+        class="resizeV"
+        @mousedown.prevent="app.ui.setResize('svgtop')"
+        style="grid-area: resizetop"
+      ></div>
+      <div
+        class="resize"
+        @mousedown.prevent="app.ui.setResize('svgright')"
+        style="grid-area: resizeright"
+      ></div>
+      <div
+        class="resizeV"
+        @mousedown.prevent="app.ui.setResize('svgbottom')"
+        style="grid-area: resizebottom"
+      ></div>
+      <div
+        class="resize"
+        @mousedown.prevent="app.ui.setResize('svgleft')"
+        style="grid-area: resizeleft"
+      ></div>
+    </div>
+    <div id="ui">
+      <div id="top">
+        <button class="top_button">Import</button>
+        <button class="top_button">Export</button>
+        <div id="tools">
+          <button
+            @click="app.setModeMove()"
+            x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            <img src="assets/move.svg" />
+          </button>
+          <button
+            @click="app.setModeCreate()"
+            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            <img src="assets/add.svg" />
+          </button>
+          <button
+            @click="app.popup.show()"
+            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            Popup
+          </button>
+        </div>
+      </div>
+      <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
+      <div id="side">
+        <div>
+          <h4>GEOMETRY</h4>
+          <template x-if="app.selectedKeys.length === 1">
             <div id="side">
-                <div>
-                    <h4>GEOMETRY</h4>
-                    <template x-if="app.selectedKeys.length === 1">
-                        <div id="side">
-                            <span>Position X:</span>
-                            <label
-                                for="X"
-                                x-text="app.selectedKeyView().x"
-                            ></label>
-                            <br />
-                            <span>Position Y:</span>
-                            <label
-                                for="Y"
-                                x-text="app.selectedKeyView().y"
-                            ></label>
+              <span>Position X:</span>
+              <label for="X" x-text="app.selectedKeyView().x"></label>
+              <br />
+              <span>Position Y:</span>
+              <label for="Y" x-text="app.selectedKeyView().y"></label>
 
-                            <div
-                                x-data="{ view : app.selectedKeyView()}"
-                                x-effect="view = app.selectedKeyView()"
-                            >
-                                <label for="width">Width</label>
-                                <input
-                                    type="range"
-                                    class="custom-slider"
-                                    name="width"
-                                    min="0"
-                                    max="200"
-                                    step="5"
-                                    x-bind:value="view.width"
-                                    @input="app.updateWidth($event.target.value)"
-                                />
+              <div
+                x-data="{ view : app.selectedKeyView()}"
+                x-effect="view = app.selectedKeyView()"
+              >
+                <label for="width">Width</label>
+                <input
+                  type="range"
+                  class="custom-slider"
+                  name="width"
+                  min="0"
+                  max="200"
+                  step="5"
+                  x-bind:value="view.width"
+                  @input="app.updateWidth($event.target.value)"
+                />
 
-                                <label for="height">Height</label>
-                                <input
-                                    type="range"
-                                    class="custom-slider"
-                                    name="height"
-                                    min="0"
-                                    max="200"
-                                    step="5"
-                                    x-bind:value="view.height"
-                                    @input="app.updateHeight($event.target.value)"
-                                />
+                <label for="height">Height</label>
+                <input
+                  type="range"
+                  class="custom-slider"
+                  name="height"
+                  min="0"
+                  max="200"
+                  step="5"
+                  x-bind:value="view.height"
+                  @input="app.updateHeight($event.target.value)"
+                />
 
-                                <label for="rotation">Rotation</label>
-                                <input
-                                    type="range"
-                                    name="rotation"
-                                    min="0"
-                                    max="90"
-                                    step="5"
-                                    x-bind:value="view.rotation"
-                                    @input="app.updateRotation($event.target.value)"
-                                />
-                            </div>
-                        </div>
-                    </template>
-                    <!-- If we want to have a default -->
-                    <template x-if="app.selectedKeys.length !== 1">
-                        <div id="side">
-                            <label for="X">Position X :</label>
-                            <label for="Y">Position Y :</label>
-
-                            <label for="width">Width</label>
-                            <input
-                                type="range"
-                                class="custom-slider"
-                                name="width"
-                                value="0"
-                                disabled
-                            />
-                            <label for="height">Height</label>
-                            <input
-                                type="range"
-                                class="custom-slider"
-                                name="height"
-                                value="0"
-                                disabled
-                            />
-
-                            <label for="rotation">Rotation</label>
-                            <input
-                                type="range"
-                                name="rotation"
-                                value="0"
-                                disabled
-                            />
-                        </div>
-                    </template>
-
-                    <button class="top_button">EDIT SVG</button>
-                </div>
-                <div>
-                    <h4>LAYOUT</h4>
-                    <label for="behavior">Behavior</label>
-                    <select name="behavior">
-                        <option value="key">Key</option>
-                        <option value="modifier">Modif</option>
-                    </select>
-                    <label for="keys">Keys</label>
-                    <div id="keys" name="keys">
-                        <p>A</p>
-                        <p>B</p>
-                        <p>C</p>
-                        <div>
-                            <button style="height: 100%" class="top_button">
-                                +</button
-                            ><input name="addkey" />
-                        </div>
-                    </div>
-                </div>
+                <label for="rotation">Rotation</label>
+                <input
+                  type="range"
+                  name="rotation"
+                  min="0"
+                  max="90"
+                  step="5"
+                  x-bind:value="view.rotation"
+                  @input="app.updateRotation($event.target.value)"
+                />
+              </div>
             </div>
-            <div id="layers" @wheel.prevent>
-                <h2>Layers</h2>
-                <div class="scrollable">
-                    <div @click="app.selectDefaultLayer()">
-                        <span>Default Layer</span>
-                        <div
-                            class="collapsable"
-                            x-show="app.isActiveLayerDefault()"
-                            x-transition
-                        >
-                            <div>Details</div>
-                        </div>
-                    </div>
-                    <template x-for="(el, i) in app.additionalLayers()">
-                        <div @click="app.selectLayer(i)">
-                            <span x-text="app.getLayerName(i)"> </span>
-                            <div
-                                class="collapsable"
-                                x-show="app.isActiveLayer(i)"
-                                x-transition
-                            >
-                                <div>Details</div>
-                            </div>
-                        </div>
-                    </template>
-                    <button @click="app.addLayer()">Add Layer</button>
-                </div>
+          </template>
+          <!-- If we want to have a default -->
+          <template x-if="app.selectedKeys.length !== 1">
+            <div id="side">
+              <label for="X">Position X :</label>
+              <label for="Y">Position Y :</label>
+
+              <label for="width">Width</label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="width"
+                value="0"
+                disabled
+              />
+              <label for="height">Height</label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="height"
+                value="0"
+                disabled
+              />
+
+              <label for="rotation">Rotation</label>
+              <input type="range" name="rotation" value="0" disabled />
             </div>
+          </template>
+
+          <button class="top_button">EDIT SVG</button>
         </div>
         <div id="layers" @wheel.prevent>
             <h2>Layers</h2>
