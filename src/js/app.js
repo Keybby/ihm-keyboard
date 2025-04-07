@@ -4,7 +4,6 @@ import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
-import assert from "./assert.js";
 
 const TOOL = {
   Move: 0,
@@ -360,7 +359,10 @@ class App {
    * @returns
    */
   getMouseCoordinates(evt) {
-    const CTM = assert(this.svg.getScreenCTM(), "svg has no CTM");
+    const CTM = this.svg.getScreenCTM();
+    if (!CTM) {
+      throw new Error("svg has no CTM");
+    }
     const x = (evt.clientX - CTM.e) / CTM.a;
     const y = (evt.clientY - CTM.f) / CTM.d;
     return {
