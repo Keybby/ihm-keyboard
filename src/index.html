@@ -23,11 +23,11 @@
       <div id="popup">
         <div
           class="popuptop"
-          @mousedown="app.popup.setMoving(event)"
-          @mousemove.prevent="app.popup.move(event)"
+          @mousedown="app.popup.setMoving($event)"
+          @mousemove.prevent="app.popup.move($event)"
         >
           <h2 id="popup_title">Popup</h2>
-          <button id="popup_exit" @click="app.popup.close(event)">X</button>
+          <button id="popup_exit" @click="app.popup.close()">X</button>
         </div>
         <div></div>
       </div>
@@ -48,6 +48,7 @@
           <g
             x-data="{view: app.keyView(key_id)}"
             x-effect="view = app.keyView(key_id)"
+            @dblclick="app.popup.show()"
             @mousedown="app.handleMouseDownOnKey($event, key_id)"
             x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
           >
@@ -110,13 +111,6 @@
             class="top_button"
           >
             <img src="assets/add.svg" />
-          </button>
-          <button
-            @click="app.popup.show()"
-            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-            class="top_button"
-          >
-            Popup
           </button>
         </div>
       </div>
