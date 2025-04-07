@@ -11,6 +11,14 @@ class Layer {
     this.name = name;
     this.keyMap = keyMap;
   }
+
+  /**
+   * 
+   * @param {String} name 
+   */
+  changeName(name){
+    this.name = name;
+  }
 }
 
 export default Layer;

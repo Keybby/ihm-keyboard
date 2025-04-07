@@ -32,6 +32,9 @@ class App {
    * if -1, it is the default layer */
   selectedLayer;
 
+  /** @type {Boolean} */
+  changingNameLayer;
+
   /** @type {SVGSVGElement} */
   svg;
 
@@ -57,6 +60,7 @@ class App {
     this.keyboard = new Keyboard();
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
+    this.changingNameLayer = false;
     // @ts-ignore
     this.svg = document.getElementById("main");
     this.lastClicked = null;
@@ -103,6 +107,7 @@ class App {
    */
   selectLayer(i) {
     this.selectedLayer = i;
+    console.log("HI");
   }
 
   /**
@@ -121,6 +126,29 @@ class App {
   addLayer() {
     const n = this.keyboard.additionalLayers.length + 1;
     this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
+  }
+
+  enterNameLayer() {
+    this.changingNameLayer = true;
+  }
+
+  /**
+   *
+   * @param {number} i
+   * @returns
+   */
+  isChangedLayer(i) {
+    return (i == this.selectedLayer) && this.changingNameLayer;
+  }
+
+  /**
+   *
+   * @param {number} i
+   * @param {String} name
+   */
+  changeNameLayer(i, name){
+    this.keyboard.additionalLayers[i].changeName(name);
+    this.changingNameLayer = false;
   }
 
   /**

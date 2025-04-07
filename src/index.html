@@ -221,8 +221,16 @@
             </div>
           </div>
           <template x-for="(el, i) in app.additionalLayers()">
-            <div @click="app.selectLayer(i)">
-              <span x-text="app.getLayerName(i)"> </span>
+            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer(i)">
+              <div x-show="!app.isChangedLayer(i)">
+                <span x-text="app.getLayerName(i)"> </span>
+              </div>
+              <div 
+              x-data="{newName: ''}"
+              x-show="app.isChangedLayer(i)">
+                <input type="text" name="newName" x-model="newName" @keyup.enter="app.changeNameLayer(i, newName)"/>
+              </div>
+              
               <div
                 class="collapsable"
                 x-show="app.isActiveLayer(i)"
