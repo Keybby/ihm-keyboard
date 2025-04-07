@@ -203,66 +203,77 @@
 
           <button class="top_button">EDIT SVG</button>
         </div>
-        <div id="layers" @wheel.prevent>
-            <h2>Layers</h2>
-            <div class="scrollable">
-                <div
-                    @click="app.selectDefaultLayer()"
-                    @dblclick="app.enterNameLayer()"
-                >
-                    <div x-show="!app.isChangedDefaultLayer()">
-                        <span x-text="app.getDefaultLayerName()"> </span>
-                    </div>
-                    <div
-                        x-data="{newName: ''}"
-                        x-show="app.isChangedDefaultLayer()"
-                    >
-                        <input
-                            type="text"
-                            name="newName"
-                            x-model="newName"
-                            @keyup.enter="app.changeNameDefaultLayer(newName)"
-                        />
-                    </div>
-                    <div
-                        class="collapsable"
-                        x-show="app.isActiveLayerDefault()"
-                        x-transition
-                    >
-                        <div>Details</div>
-                    </div>
-                </div>
-                <template x-for="(el, i) in app.additionalLayers()">
-                    <div
-                        @click="app.selectLayer(i)"
-                        @dblclick="app.enterNameLayer()"
-                    >
-                        <div x-show="!app.isChangedLayer(i)">
-                            <span x-text="app.getLayerName(i)"> </span>
-                        </div>
-                        <div
-                            x-data="{newName: ''}"
-                            x-show="app.isChangedLayer(i)"
-                        >
-                            <input
-                                type="text"
-                                name="newName"
-                                x-model="newName"
-                                @keyup.enter="app.changeNameLayer(i, newName)"
-                            />
-                        </div>
-
-                        <div
-                            class="collapsable"
-                            x-show="app.isActiveLayer(i)"
-                            x-transition
-                        >
-                            <div>Details</div>
-                        </div>
-                    </div>
-                </template>
-                <button @click="app.addLayer()">Add Layer</button>
+        <div>
+          <h4>LAYOUT</h4>
+          <label for="behavior">Behavior</label>
+          <select name="behavior">
+            <option value="key">Key</option>
+            <option value="modifier">Modif</option>
+          </select>
+          <label for="keys">Keys</label>
+          <div id="keys" name="keys">
+            <p>A</p>
+            <p>B</p>
+            <p>C</p>
+            <div>
+              <button style="height: 100%" class="top_button">+</button
+              ><input name="addkey" />
             </div>
+          </div>
         </div>
-    </body>
+      </div>
+      <div id="layers" @wheel.prevent>
+        <h2>Layers</h2>
+        <div class="scrollable">
+          <div
+            @click="app.selectDefaultLayer()"
+            @dblclick="app.enterNameLayer()"
+          >
+            <div x-show="!app.isChangedDefaultLayer()">
+              <span x-text="app.getDefaultLayerName()"> </span>
+            </div>
+            <div x-data="{newName: ''}" x-show="app.isChangedDefaultLayer()">
+              <input
+                type="text"
+                name="newName"
+                x-model="newName"
+                @keyup.enter="app.changeNameDefaultLayer(newName)"
+              />
+            </div>
+            <div
+              class="collapsable"
+              x-show="app.isActiveLayerDefault()"
+              x-transition
+            >
+              <div>Details</div>
+            </div>
+          </div>
+          <template x-for="(el, i) in app.additionalLayers()">
+            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
+              <div x-show="!app.isChangedLayer(i)">
+                <span x-text="app.getLayerName(i)"> </span>
+              </div>
+              <div x-data="{newName: ''}" x-show="app.isChangedLayer(i)">
+                <input
+                  type="text"
+                  name="newName"
+                  x-model="newName"
+                  @keyup.enter="app.changeNameLayer(i, newName)"
+                />
+              </div>
+
+              <div
+                class="collapsable"
+                x-show="app.isActiveLayer(i)"
+                x-transition
+              >
+                <div>Details</div>
+              </div>
+            </div>
+          </template>
+          <button @click="app.addLayer()">Add Layer</button>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
