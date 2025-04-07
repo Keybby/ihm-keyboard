@@ -85,10 +85,10 @@ class App {
   }
 
   /**
-   * 
+   *
    * @returns {String}
    */
-  getDefaultLayerName(){
+  getDefaultLayerName() {
     return this.keyboard.defaultLayer.name;
   }
 
@@ -98,7 +98,6 @@ class App {
    * @returns {String}
    */
   getLayerName(i) {
-    console.log(this.keyboard.additionalLayers, i);
     return this.keyboard.getLayer(i).name;
   }
 
@@ -116,7 +115,6 @@ class App {
    */
   selectLayer(i) {
     this.selectedLayer = i;
-    console.log("HI");
   }
 
   /**
@@ -146,7 +144,7 @@ class App {
    * @returns
    */
   isChangedDefaultLayer() {
-    return (this.selectedLayer == -1) && this.changingNameLayer;
+    return this.selectedLayer == -1 && this.changingNameLayer;
   }
 
   /**
@@ -155,14 +153,14 @@ class App {
    * @returns
    */
   isChangedLayer(i) {
-    return (i == this.selectedLayer) && this.changingNameLayer;
+    return i == this.selectedLayer && this.changingNameLayer;
   }
 
   /**
    *
    * @param {String} name
    */
-  changeNameDefaultLayer(name){
+  changeNameDefaultLayer(name) {
     this.keyboard.defaultLayer.changeName(name);
     this.changingNameLayer = false;
   }
@@ -172,7 +170,7 @@ class App {
    * @param {number} i
    * @param {String} name
    */
-  changeNameLayer(i, name){
+  changeNameLayer(i, name) {
     this.keyboard.additionalLayers[i].changeName(name);
     this.changingNameLayer = false;
   }
@@ -200,7 +198,6 @@ class App {
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move && !this.onKey) {
       this.selectedKeys = [];
-      console.log("OUT" + this.onKey);
     }
   }
   /**
@@ -210,7 +207,6 @@ class App {
    */
   handleMouseDownOnKey(evt, id) {
     this.onKey = true;
-    console.log("IN" + this.onKey);
     this.selectedKeys = [id];
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;

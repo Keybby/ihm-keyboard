@@ -124,18 +124,19 @@
       <div id="side">
         <div>
           <h4>GEOMETRY</h4>
-          <template x-if="app.selectedKeys.length === 1">
+          <template
+            x-data="{view:app.selectedKeyView()}"
+            x-effect="view=app.selectedKeyView()"
+            x-if="view"
+          >
             <div id="side">
               <span>Position X:</span>
-              <label for="X" x-text="app.selectedKeyView().x"></label>
+              <label for="X" x-text="view.x"></label>
               <br />
               <span>Position Y:</span>
-              <label for="Y" x-text="app.selectedKeyView().y"></label>
+              <label for="Y" x-text="view.y"></label>
 
-              <div
-                x-data="{ view : app.selectedKeyView()}"
-                x-effect="view = app.selectedKeyView()"
-              >
+              <div>
                 <label for="width">Width</label>
                 <input
                   type="range"
@@ -174,31 +175,8 @@
             </div>
           </template>
           <!-- If we want to have a default -->
-          <template x-if="app.selectedKeys.length !== 1">
-            <div id="side">
-              <label for="X">Position X :</label>
-              <label for="Y">Position Y :</label>
-
-              <label for="width">Width</label>
-              <input
-                type="range"
-                class="custom-slider"
-                name="width"
-                value="0"
-                disabled
-              />
-              <label for="height">Height</label>
-              <input
-                type="range"
-                class="custom-slider"
-                name="height"
-                value="0"
-                disabled
-              />
-
-              <label for="rotation">Rotation</label>
-              <input type="range" name="rotation" value="0" disabled />
-            </div>
+          <template x-if="app.selectedKeyView() === null">
+            <span>Select or create Key</span>
           </template>
 
           <button class="top_button">EDIT SVG</button>
