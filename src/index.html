@@ -114,7 +114,7 @@
     <div id="ui">
       <div id="top">
         <button class="top_button">Import</button>
-        <button class="top_button">Export</button>
+        <button class="top_button" @click="app.popup.show('export')">Export</button>
         <div id="tools">
           <button
             @click="app.setModeMove()"

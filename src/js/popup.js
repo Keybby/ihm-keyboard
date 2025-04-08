@@ -1,6 +1,6 @@
 class Popup {
   constructor() {
-    this.title = document.getElementById("popup_title")
+    this.title = document.getElementById("popup_title");
     this.refX = 0;
     this.refY = 0;
     this.x = 0;
@@ -12,8 +12,8 @@ class Popup {
     this.pop = document.getElementById("popup");
     this.body = this.pop.children[1];
     this.moving = false;
-    this.bind="";
-    this.popup=new popupClass();
+    this.bind = "";
+    this.popup = new popupClass();
     window.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
         this.close();
@@ -21,9 +21,9 @@ class Popup {
     });
   }
 
-  show(str = "", bind="") {
-    if (bind!=""){
-      this.bind=bind;
+  show(str = "", bind = "") {
+    if (bind != "") {
+      this.bind = bind;
     }
     let title;
     let HTML;
@@ -32,8 +32,13 @@ class Popup {
       switch (str) {
         case "input":
           title = "Input key...";
-          url="popup/textinput.html"
-          this.popup=new inputPopup();
+          url = "popup/input.html";
+          this.popup = new inputPopup();
+          break;
+        case "export":
+          title = "Exporting...";
+          url = "popup/export.html";
+          this.popup = new exportPopup();
           break;
         default:
           break;
@@ -46,8 +51,8 @@ class Popup {
           this.body.innerHTML = html;
         });
     }
-    
-    this.title.textContent=title;
+
+    this.title.textContent = title;
     this.dom.style.left = "0px";
     this.dom.style.top = "0px";
     this.x = 0;
@@ -91,34 +96,33 @@ class Popup {
     this.dom.style.top = `${this.y}px`;
   }
 
-  done(){
-      this.body.innerHTML = "";
-      this.title.textContent=="Popup"
-      this.popup.done();
-      this.close();
+  done() {
+    this.body.innerHTML = "";
+    this.title.textContent == "Popup";
+    this.popup.done();
+    this.close();
   }
 }
 
-class popupClass{
-  constructor(){}
+class popupClass {
+  constructor() {}
 
-  done(){
-  }
+  done() {}
 }
 
-class inputPopup extends popupClass{
-  constructor(){
+class inputPopup extends popupClass {
+  constructor() {
     super();
-    this.display=document.getElementById("result_popup");
+    this.display = document.getElementById("result_popup");
     addEventListener("keydown", this.getkey);
   }
 
   /**
-   * 
-   * @param {Event} event 
+   *
+   * @param {Event} event
    */
   getkey(event) {
-    let display = document.getElementById("result_popup");  
+    let display = document.getElementById("result_popup");
     display.textContent = event.key;
     // this.done();
   }
@@ -126,11 +130,37 @@ class inputPopup extends popupClass{
   /**
    * @override
    */
-  done(){
-    console.log("Done input")
-    removeEventListener("keydown",this.getkey)
+  done() {
+    console.log("Done input");
+    removeEventListener("keydown", this.getkey);
     super.done();
   }
 }
 
+class exportPopup extends popupClass {
+  constructor() {
+    super();
+    this.display = document.getElementById("main").cloneNode(true);
+    this.removeAlpine(this.display);
+    let display = this.display
+    setTimeout(function(){document.getElementById("export_preview").innerHTML=display}, 100);
+  }
+  /**
+   * @param {Element} elem
+   */
+  removeAlpine(elem) {
+    elem.removeAttribute("x-data");
+    elem.removeAttribute("x-effect");
+    elem.removeAttribute("@dblclick");
+    elem.removeAttribute("@mousedown");
+    elem.removeAttribute("x-bind:transform");
+    elem.removeAttribute(":class");
+    elem.removeAttribute("@click");
+    elem.removeAttribute("x-bind:d");
+    elem.removeAttribute("x-text");
+    for (let index = 0; index < elem.children.length; index++) {
+      this.removeAlpine(elem.children[index]);
+    }
+  }
+}
 export default Popup;
