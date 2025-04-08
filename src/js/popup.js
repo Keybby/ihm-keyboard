@@ -1,7 +1,6 @@
 class Popup {
   constructor() {
-    this.html = "";
-    this.title = "Popup";
+    this.title = document.getElementById("popup_title")
     this.refX = 0;
     this.refY = 0;
     this.x = 0;
@@ -11,7 +10,9 @@ class Popup {
     this.scale = 1;
     this.dom = document.getElementById("popup_area");
     this.pop = document.getElementById("popup");
+    this.body = this.pop.children[1];
     this.moving = false;
+    this.popup=new popupClass();
     window.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
         this.close();
@@ -19,7 +20,32 @@ class Popup {
     });
   }
 
-  show() {
+  show(str = "") {
+    let title;
+    let HTML;
+    if (str != "") {
+      let url = "";
+      switch (str) {
+        case "input":
+          title = "Input key...";
+          url="popup/textinput.html"
+          this.popup=new inputPopup();
+          break;
+        default:
+          break;
+      }
+      fetch(url)
+        .then((response) => {
+          console.log(response)
+          return response.text();
+        })
+        .then((html) => {
+          console.log("HTML REçu : ", html)
+          this.body.innerHTML = html;
+        });
+    }
+    
+    this.title.textContent=title;
     this.dom.style.left = "0px";
     this.dom.style.top = "0px";
     this.x = 0;
@@ -61,6 +87,38 @@ class Popup {
     this.y = this.refY + (event.clientY - this.offY);
     this.dom.style.left = `${this.x}px`;
     this.dom.style.top = `${this.y}px`;
+  }
+}
+
+class popupClass{
+  constructor(){}
+
+  done(){
+    "done without a class ???"
+  }
+}
+
+class inputPopup extends popupClass{
+  constructor(){
+    super();
+    this.display=document.getElementById("result_popup");
+    addEventListener("keydown", this.getkey);
+  }
+
+  getkey(event) {
+    if(this.display==undefined){
+      this.display = document.getElementById("result_popup");
+    }
+    console.log("catch");
+    this.display.textContent = event.key;
+  }
+
+  /**
+   * @override
+   */
+  done(){
+    console.log("Done input")
+    removeEventListener("keydown",this.getkey)
   }
 }
 
