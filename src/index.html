@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -154,11 +154,11 @@
                   type="range"
                   class="custom-slider"
                   name="width"
-                  min="30"
-                  max="200"
-                  step="1"
-                  x-bind:value="view.width"
-                  @input="app.updateWidth($event.target.value)"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  x-bind:value="Math.log(view.width/50)/Math.log(10)"
+                  @input="app.updateWidth(50*Math.pow(10, $event.target.value))"
                 />
 
                 <span for="height">Height : </span>
@@ -168,7 +168,7 @@
                   class="custom-slider"
                   name="height"
                   min="30"
-                  max="200"
+                  max="80"
                   step="1"
                   x-bind:value="view.height"
                   @input="app.updateHeight($event.target.value)"
