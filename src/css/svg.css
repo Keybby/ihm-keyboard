@@ -1,3 +1,17 @@
 .selected_key {
-  opacity: 0.5;
+  opacity: 50%;
+  
+  filter:contrast(90%) brightness(1) saturate(2500%) hue-rotate(180deg);
+}
+
+@keyframes selected {
+  from {
+    opacity: 60%;
+  }
+  50%{
+    opacity: 30%;
+  }
+  to {
+    opacity:60%
+  }
 }

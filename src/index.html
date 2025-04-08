@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -142,41 +142,44 @@
           <template x-if="view">
             <div>
               <span>Position X:</span>
-              <label for="X" x-text="view.x"></label>
+              <span for="X" x-text="view.x"></span>
               <br />
               <span>Position Y:</span>
-              <label for="Y" x-text="view.y"></label>
+              <span for="Y" x-text="view.y"></span>
 
               <div>
-                <label for="width">Width</label>
+                <span for="width">Width : </span>
+                <label for="width" x-text="view.width"></label>
                 <input
                   type="range"
                   class="custom-slider"
                   name="width"
-                  min="0"
+                  min="30"
                   max="200"
-                  step="5"
+                  step="1"
                   x-bind:value="view.width"
                   @input="app.updateWidth($event.target.value)"
                 />
 
-                <label for="height">Height</label>
+                <span for="height">Height : </span>
+                <label for="height" x-text="view.height"></label>
                 <input
                   type="range"
                   class="custom-slider"
                   name="height"
-                  min="0"
+                  min="30"
                   max="200"
-                  step="5"
+                  step="1"
                   x-bind:value="view.height"
                   @input="app.updateHeight($event.target.value)"
                 />
 
-                <label for="rotation">Rotation</label>
+                <span for="rotation">Rotation : </span>
+                <label for="rotation" x-text="view.rotation"></label>
                 <input
                   type="range"
                   name="rotation"
-                  min="0"
+                  min="-90"
                   max="90"
                   step="5"
                   x-bind:value="view.rotation"
