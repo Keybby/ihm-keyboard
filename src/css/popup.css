@@ -34,6 +34,7 @@
   grid-area: popup;
   border-radius: 20px;
   box-shadow: rgba(0,0,0,50) 0 0 10px;
+  color:var(--ui-text-color);
 }
 
 .popuptop {
@@ -69,4 +70,16 @@
 .popuptop button:hover{
     color: black;
     cursor:pointer;
+}
+
+.popup-center {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }

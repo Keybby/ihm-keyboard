@@ -12,6 +12,7 @@ class Popup {
     this.pop = document.getElementById("popup");
     this.body = this.pop.children[1];
     this.moving = false;
+    this.bind="";
     this.popup=new popupClass();
     window.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
@@ -20,7 +21,10 @@ class Popup {
     });
   }
 
-  show(str = "") {
+  show(str = "", bind="") {
+    if (bind!=""){
+      this.bind=bind;
+    }
     let title;
     let HTML;
     if (str != "") {
@@ -36,11 +40,9 @@ class Popup {
       }
       fetch(url)
         .then((response) => {
-          console.log(response)
           return response.text();
         })
         .then((html) => {
-          console.log("HTML REçu : ", html)
           this.body.innerHTML = html;
         });
     }
@@ -88,13 +90,19 @@ class Popup {
     this.dom.style.left = `${this.x}px`;
     this.dom.style.top = `${this.y}px`;
   }
+
+  done(){
+      this.body.innerHTML = "";
+      this.title.textContent=="Popup"
+      this.popup.done();
+      this.close();
+  }
 }
 
 class popupClass{
   constructor(){}
 
   done(){
-    "done without a class ???"
   }
 }
 
@@ -105,12 +113,14 @@ class inputPopup extends popupClass{
     addEventListener("keydown", this.getkey);
   }
 
+  /**
+   * 
+   * @param {Event} event 
+   */
   getkey(event) {
-    if(this.display==undefined){
-      this.display = document.getElementById("result_popup");
-    }
-    console.log("catch");
-    this.display.textContent = event.key;
+    let display = document.getElementById("result_popup");  
+    display.textContent = event.key;
+    // this.done();
   }
 
   /**
@@ -119,6 +129,7 @@ class inputPopup extends popupClass{
   done(){
     console.log("Done input")
     removeEventListener("keydown",this.getkey)
+    super.done();
   }
 }
 

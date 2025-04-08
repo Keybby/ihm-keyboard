@@ -78,6 +78,16 @@ class Keyboard {
     const layout = layer.keyMap.get(key_id);
     return layout || new KeyLayout();
   }
+
+    /**
+   *
+   * @param {number} i_layer
+   * @param {KeyId} key_id
+   * @param {string} value
+   */
+  setKeyLayout(i_layer, key_id,value){
+    // #TODO
+  }
 }
 
 export default Keyboard;
