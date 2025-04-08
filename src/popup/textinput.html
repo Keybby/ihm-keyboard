@@ -1,10 +1,5 @@
 <body>
-  <h1 class="full-popup">INPUT KEY</h1>
-  <span> Touche : </span> <span id="result_popup">aa</span>
-  <button
-    clas="done"
-    @click=" app.popup.popup.done(); console.log('Result :', result_popup.textContent); app.popup.close(); "
-  >
-    DONE
-  </button>
+  <div  @keyup.window="app.setKeyLayout(app.popup.bind, result_popup.textContent); app.popup.done();" class="popup-center">
+    <h1 class="full-popup">INPUT KEY...</h1><span id="result_popup" hidden>a</span>
+  </div>
 </body>

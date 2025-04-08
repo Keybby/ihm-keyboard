@@ -193,6 +193,15 @@ class App {
     return this.keyboard.getKeyLayout(this.selectedLayer, id);
   }
 
+    /**
+   * @param {KeyId} id
+   * @param {string} value
+   */
+  setKeyLayout(id,value){
+    console.log("Setting ", value, " for ",id)
+    this.keyboard.setKeyLayout(this.selectedLayer,id,value)
+  }
+
   getSelectedKeyLayout() {
     const selectedKey = this.getSelectedKey();
     if (!selectedKey) {
