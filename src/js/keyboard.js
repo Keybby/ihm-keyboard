@@ -47,6 +47,25 @@ class Keyboard {
     return key; //TOCHECK
   }
 
+  /**
+   * 
+   * @param {KeyId[]} ids 
+   */
+  supprKey(ids){
+    //TODO
+    /*
+    Supprimer ds keys et ds geometries
+    Voir qd les KeyLayout seront implementés comment suppr les keys correspondantes (doivent aps rester ds keyMap)
+    */
+
+    let idSet = new Set (ids); // to decrease the complexity
+    this.keys = this.keys.filter(key => !idSet.has(key));
+
+    for (let key of idSet) {
+      this.geometries.delete(key);
+    }
+  }
+
   getKeys() {
     return this.keys;
   }

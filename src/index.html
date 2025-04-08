@@ -19,6 +19,7 @@
     @mouseleave="app.ui.clearResize()"
     @mousemove="app.ui.resizeHorizontal(event)"
     @wheel="app.ui.placeSvg($event)"
+    @keydown.backspace="app.supprKey()"
   >
     <div id="popup_area" hidden="true">
       <div id="popup">

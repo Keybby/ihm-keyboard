@@ -241,6 +241,7 @@ class App {
       this.selectedKeys = [];
     }
   }
+
   /**
    *
    * @param {MouseEvent} evt
@@ -270,6 +271,18 @@ class App {
     this.lastClicked = null;
     this.lastMoved = null;
     this.hasRectangleSelection = false;
+  }
+
+  supprKey(){
+    if(this.selectedKeys.length > 0){
+      console.log("suppr!");
+      this.keyboard.supprKey(this.selectedKeys);
+
+      this.selectedKeys = [];
+      this.lastClicked = null;
+      this.lastMoved = null;
+      this.hasRectangleSelection = false;
+    }
   }
 
   /**
