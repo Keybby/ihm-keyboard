@@ -1,5 +1,5 @@
-const DEFAULT_WIDTH = 100;
-const DEFAULT_HEIGHT = 100;
+const DEFAULT_WIDTH = 80;
+const DEFAULT_HEIGHT = 75;
 
 class KeyGeometry {
   /**
