@@ -39,6 +39,10 @@ class App {
   /** @type {Boolean} */
   hasRectangleSelection;
 
+  /** @type {*} 
+   * Contains width, height and rotation for each key selected */
+  initialGeometries;
+
   /** @type {SVGSVGElement} */
   svg;
 
@@ -73,7 +77,9 @@ class App {
     this.toolWidth = DEFAULT_WIDTH;
     this.toolHeight = DEFAULT_HEIGHT;
     this.toolRotation = 0;
+
     this.hasRectangleSelection = false;
+    this.initialGeometries = [];
   }
 
   setModeMove() {
@@ -248,6 +254,7 @@ class App {
     } else if (this.selectedTool == TOOL.Move) {
       this.hasRectangleSelection = true;
       this.selectedKeys = [];
+      this.initialGeometries = [];
     }
   }
 
@@ -291,6 +298,7 @@ class App {
       this.lastClicked = null;
       this.lastMoved = null;
       this.hasRectangleSelection = false;
+      this.initialGeometries = [];
     }
   }
 
@@ -316,6 +324,9 @@ class App {
           ) {
             if (!this.isSelected(key_id)) {
               this.selectedKeys.push(key_id);
+
+              const geoInit = {width: geo.width, height: geo.height, rotation: geo.rotation};
+              this.initialGeometries.push(geoInit);
             }
           }
         }
@@ -419,6 +430,27 @@ class App {
   }
 
   /**
+   * 
+   * @returns 
+   */
+  keysChange(){
+    const key_id = this.selectedKeys[0];
+    if (!key_id) {
+      throw new Error("Key ID not found");
+    }
+    const geo = this.getKeyGeometry(key_id);
+    if (!geo) {
+      throw new Error("Key geometry not found");
+    }
+
+    return {
+      widthChange: (geo.width / this.initialGeometries[0].width) * 100,
+      heightChange: (geo.height /  this.initialGeometries[0].height) * 100,
+      rotationChange: geo.rotation - this.initialGeometries[0].rotation,
+    };
+  }
+
+  /**
    *
    * @param {KeyId} key_id
    * @returns
@@ -443,15 +475,26 @@ class App {
     q0,-${cornerRadius} ${cornerRadius},-${cornerRadius} z`;
   }
 
+  nbSelectedKeys(){
+    return this.selectedKeys.length;
+  }
+  
   selectedKeyView() {
-    if (this.selectedKeys.length != 1) {
+    if (this.nbSelectedKeys() < 1) {
       return null;
     }
-    const key = this.getSelectedKey();
-    if (!key) {
-      return null;
+    else if(this.nbSelectedKeys() === 1){
+      const key = this.getSelectedKey();
+      if (!key) {
+        return null;
+      }
+      return this.keyView(key);
     }
-    return this.keyView(key);
+    else{
+      return this.keysChange();
+    }
+
+    
   }
 
   /**
@@ -463,6 +506,29 @@ class App {
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
       geometry.width = width;
+    }
+  }
+
+  /**
+   * 
+   * @param {number} widthChange 
+   */
+  updateWidthChange(widthChange) {
+    for (let i = 0; i < this.nbSelectedKeys(); i++) {
+        const key_id = this.selectedKeys[i];
+        if (!key_id) {
+          throw new Error("Key ID not found");
+        }
+
+        const geometryInit = this.initialGeometries[i];
+        const geometrytoChange = this.getKeyGeometry(key_id);
+        
+        if (!geometryInit || !geometrytoChange) {
+            console.log(this.initialGeometries.length);
+            throw new Error("Key geometry not found");
+        }
+
+        geometrytoChange.width = geometryInit.width * (widthChange / 100);
     }
   }
 
@@ -480,6 +546,29 @@ class App {
   }
 
   /**
+   * 
+   * @param {number} heightChange 
+   */
+  updateHeightChange(heightChange) {
+    for (let i = 0; i < this.nbSelectedKeys(); i++) {
+        const key_id = this.selectedKeys[i];
+        if (!key_id) {
+          throw new Error("Key ID not found");
+        }
+
+        const geometryInit = this.initialGeometries[i];
+        const geometrytoChange = this.getKeyGeometry(key_id);
+        
+        if (!geometryInit || !geometrytoChange) {
+            console.log(this.initialGeometries.length);
+            throw new Error("Key geometry not found");
+        }
+
+        geometrytoChange.height = geometryInit.height * (heightChange / 100);
+    }
+  }
+
+  /**
    *
    *
    * @param {number} rotation
@@ -492,8 +581,39 @@ class App {
     }
   }
 
+  /**
+   * 
+   * @param {number} rotationChange 
+   */
+  updateRotationChange(rotationChange) {
+    for (let i = 0; i < this.nbSelectedKeys(); i++) {
+        const key_id = this.selectedKeys[i];
+        if (!key_id) {
+          throw new Error("Key ID not found");
+        }
+
+        const geometryInit = this.initialGeometries[i];
+        const geometrytoChange = this.getKeyGeometry(key_id);
+        
+        if (!geometryInit || !geometrytoChange) {
+            console.log(this.initialGeometries.length);
+            throw new Error("Key geometry not found");
+        }
+
+        geometrytoChange.rotation = geometryInit.rotation + rotationChange;
+    }
+  }
+
   sayHello() {
     console.log("hello");
+  }
+
+  /**
+   * 
+   * @param {*} value 
+   */
+  printValue(value){
+    console.log(value);
   }
 
   request_template() {}

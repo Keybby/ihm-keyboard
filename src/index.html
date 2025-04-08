@@ -140,7 +140,7 @@
       >
         <div>
           <h4>GEOMETRY</h4>
-          <template x-if="view">
+          <template x-if="view && app.nbSelectedKeys() === 1">
             <div>
               <span>Position X:</span>
               <span for="X" x-text="view.x"></span>
@@ -190,15 +190,57 @@
             </div>
           </template>
           <!-- If we want to have a default -->
-          <template x-if="app.selectedKeyView() === null">
+          <template x-if="app.nbSelectedKeys() === 0">
             <span>Select or create Key</span>
+          </template>
+          <!-- If more than 1 key selected -->
+          <template x-if="view && app.nbSelectedKeys() > 1">
+            <div>
+              <span for="width">Width : </span>
+              <label for="width" x-text="view.widthChange + '%'"></label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="width"
+                min="50"
+                max="200"
+                step="10"
+                x-bind:value="view.widthChange"
+                @input="app.updateWidthChange($event.target.value)"
+              />
+
+              <span for="height">Height : </span>
+              <label for="height" x-text="view.heightChange + '%'"></label>
+              <input
+                type="range"
+                class="custom-slider"
+                name="height"
+                min="50"
+                max="200"
+                step="10"
+                x-bind:value="view.heightChange"
+                @input="app.updateHeightChange($event.target.value)"
+              />
+
+              <span for="rotation">Rotation : </span>
+              <label for="rotation" x-text="view.rotationChange"></label>
+              <input
+                type="range"
+                name="rotation"
+                min="-60"
+                max="60"
+                step="5"
+                x-bind:value="view.rotationChange"
+                @input="app.updateRotationChange($event.target.value)"
+              /> 
+            </div>
           </template>
 
           <button class="top_button">EDIT SVG</button>
         </div>
         <div>
           <h4>LAYOUT</h4>
-          <template x-if="view">
+          <template x-if="view && app.nbSelectedKeys() === 1">
             <div>
               <label for="behavior">Behavior</label>
               <select name="behavior">
@@ -218,7 +260,7 @@
             </div>
           </template>
 
-          <template x-if="app.selectedKeyView() === null">
+          <template x-if="app.nbSelectedKeys() != 1">
             <span>Select or create Key</span>
           </template>
         </div>
