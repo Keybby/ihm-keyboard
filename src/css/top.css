@@ -1,33 +1,33 @@
 #top {
   display: flex;
   background-color: var(--ui-color);
-  margin-bottom:0.3em;
+  margin-bottom: 0.3em;
   text-align: center;
   position: sticky;
-  padding:0.3em;
-  gap:0.3em;
+  padding: 0.3em;
+  gap: 0.3em;
 }
 
 .top_button {
   cursor: pointer;
   flex: 0.1;
-  width:100%;
+  width: 100%;
   height: 100%;
-  max-width:5em;
-  border-radius:5px;
+  max-width: 5em;
+  border-radius: 5px;
   background-color: var(--ui-color);
-  border:none;
-  outline:none;
-  box-shadow:none;
-  padding:0.1em;
-  color:var(--ui-text-color)
+  border: none;
+  outline: none;
+  box-shadow: none;
+  padding: 0.1em;
+  color: var(--ui-text-color);
 }
 
-.top_button:hover{
+.top_button:hover {
   background-color: var(--ui-highlight);
 }
 
-.selected{
+.selected {
   background-color: var(--ui-highlight) !important;
 }
 
@@ -42,8 +42,8 @@
   align-content: center;
   justify-content: flex-start;
   align-items: center;
-  border-radius:10px;
-  gap:0.3em;
+  border-radius: 10px;
+  gap: 0.3em;
 }
 
 #tools .top_button {
@@ -54,9 +54,9 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  width:7em;
+  width: 7em;
 }
 
-#tools img{
-  max-height:90%;
+#tools img {
+  max-height: 90%;
 }

@@ -14,12 +14,12 @@
   user-select: none;
 }
 
-#popup_area *{
-    pointer-events: all;
+#popup_area * {
+  pointer-events: all;
 }
 
 #popup_area[hidden] {
-  display:none;
+  display: none;
 }
 
 #popup {
@@ -33,43 +33,43 @@
   height: 100%;
   grid-area: popup;
   border-radius: 20px;
-  box-shadow: rgba(0,0,0,50) 0 0 10px;
-  color:var(--ui-text-color);
+  box-shadow: rgba(0, 0, 0, 50) 0 0 10px;
+  color: var(--ui-text-color);
 }
 
 .popuptop {
-  display:flex;
-  position:relative;
+  display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
-  grid-area: top; 
+  grid-area: top;
   background-color: var(--ui-highlight);
-  text-align:center;
-  color:var(--ui-text-color);
+  text-align: center;
+  color: var(--ui-text-color);
   border-radius: 20px 20px 0 0;
 }
 
-.popuptop h3{
-  font-size:small;
-    display:inline;
+.popuptop h3 {
+  font-size: small;
+  display: inline;
 }
 
-.popuptop button{
-  align-self:flex-start;
-    float:right;
-    position:absolute;
-    width:50px;
-    left:calc(100% - 50px);
-    background-color: rgba(0,0,0,0);
-    color:var(--ui-text-color);
-    overflow:hidden;
-    border:none;
-    z-index:10;
+.popuptop button {
+  align-self: flex-start;
+  float: right;
+  position: absolute;
+  width: 50px;
+  left: calc(100% - 50px);
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--ui-text-color);
+  overflow: hidden;
+  border: none;
+  z-index: 10;
 }
 
-.popuptop button:hover{
-    color: black;
-    cursor:pointer;
+.popuptop button:hover {
+  color: black;
+  cursor: pointer;
 }
 
 .popup-center {
@@ -84,34 +84,48 @@
   flex-direction: column;
 }
 
+.popup-center button {
+  cursor: pointer;
+  width: 80%;
+  border-radius: 5px;
+  background-color: var(--ui-highlight);
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-align: center;
+  align-self: center;
+  margin-top: 1em;
+  padding: 0.3em;
+  color: var(--ui-text-color);
+}
 
-.blocking{
+.blocking {
   pointer-events: all !important;
 }
 
-.blocking > div{
+.blocking > div {
   box-shadow: 0px 0px 200em 200em rgba(0, 0, 0, 0.4) !important;
 }
 
-#export_preview{
-  padding:1em;
+#export_preview {
+  padding: 1em;
 }
 
-.opacity_sway{
+.opacity_sway {
   animation-name: opacity-sway;
-  animation-duration:1s;
+  animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
 
 @keyframes opacity-sway {
-  0%{
+  0% {
     opacity: 100%;
   }
-  50%{
+  50% {
     opacity: 30%;
   }
-  100%{
+  100% {
     opacity: 100%;
   }
 }

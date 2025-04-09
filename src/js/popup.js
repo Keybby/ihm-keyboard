@@ -145,7 +145,10 @@ class exportPopup extends popupClass {
       function (display) {
         const preview = document.getElementById("export_preview");
         preview?.appendChild(display);
-        preview.children[0].setAttribute("viewBox", document.getElementById("main").getAttribute("viewBox"));
+        preview.children[0].setAttribute(
+          "viewBox",
+          document.getElementById("main").getAttribute("viewBox")
+        );
         function removeAlpine(elem) {
           elem.removeAttribute("x-data");
           elem.removeAttribute("x-effect");
@@ -163,9 +166,8 @@ class exportPopup extends popupClass {
           }
         }
         removeAlpine(preview);
-        
       },
-      200,
+      100,
       this.display
     );
   }

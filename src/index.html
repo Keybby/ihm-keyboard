@@ -17,7 +17,7 @@
     x-data="{app: new App()}"
     @mouseup="app.ui.clearResize(); app.popup.clearMoving()"
     @mouseleave="app.ui.clearResize()"
-    @mousemove="app.ui.resizeHorizontal(event)"
+    @mousemove="app.ui.resizeHorizontal(event); app.popup.move(event)"
     @wheel="app.ui.placeSvg($event)"
     @keydown.backspace="app.supprKey()"
   >
@@ -26,10 +26,10 @@
         <div
           class="popuptop"
           @mousedown="app.popup.setMoving($event)"
-          @mousemove.prevent="app.popup.move($event)"
+          
         >
           <h3 id="popup_title">Popup</h3>
-          <button id="popup_exit" @click="app.popup.close(event)">X</button>
+          <button id="popup_exit" @click="app.popup.done(event)">X</button>
         </div>
         <div></div>
       </div>

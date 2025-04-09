@@ -1,119 +1,124 @@
 :root {
-    --bg-color: #252525;
-    --svg-color: rgb(174, 174, 174);
-    --ui-color: #474747;
-    --ui-color-op: rgba(30, 30, 30, 0.511);
-    --ui-highlight: #5d5d5d;
-    --ui-highlight-subtle: rgb(57, 57, 57);
-    --ui-text-color: white;
+  --bg-color: #252525;
+  --svg-color: rgb(174, 174, 174);
+  --ui-color: #474747;
+  --ui-color-op: rgba(30, 30, 30, 0.511);
+  --ui-highlight: #5d5d5d;
+  --ui-highlight-subtle: rgb(57, 57, 57);
+  --ui-text-color: white;
 }
 
 body {
-    height: 100vh;
-    width: 100vw;
-    overscroll-behavior-x: none;
-    overflow: hidden;
-    background-color: var(--bg-color);
-    margin: 0;
+  height: 100vh;
+  width: 100vw;
+  overscroll-behavior-x: none;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  margin: 0;
 }
 
 #top {
-    width: 100%;
-    grid-area: head;
+  width: 100%;
+  grid-area: head;
 }
 
 #main {
-    background-color: var(--svg-color);
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    grid-area: main;
+  background-color: var(--svg-color);
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  grid-area: main;
 }
 
 #side {
-    grid-area: side;
-    position: sticky;
-    overflow: auto;
-    min-width: 120px;
-    max-width: 100cqi;
+  grid-area: side;
+  position: sticky;
+  overflow: auto;
+  min-width: 120px;
+  max-width: 100cqi;
 }
 
 #layers {
-    grid-area: layer;
-    background-color: var(--ui-color-op);
-    position: sticky;
-    height: 100%;
-    width: 100%;
+  grid-area: layer;
+  background-color: var(--ui-color-op);
+  position: sticky;
+  height: 100%;
+  width: 100%;
 }
 
 #ui {
-    pointer-events: none;
-    position: absolute;
-    display: grid;
-    grid-template-columns: 300px 1fr 1fr 1fr 6px 200px;
-    grid-template-rows: 60px 2fr 2fr 1.5fr 1fr;
-    grid-template-areas:
-        "head head head head head head"
-        ". . . . resize side"
-        ". . . . resize side"
-        "layer . . . resize side"
-        "layer foot foot foot resize side";
-    z-index: 1;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  display: grid;
+  grid-template-columns: 300px 1fr 1fr 1fr 6px 200px;
+  grid-template-rows: 60px 2fr 2fr 1.5fr 1fr;
+  grid-template-areas:
+    "head head head head head head"
+    ". . . . resize side"
+    ". . . . resize side"
+    "layer . . . resize side"
+    "layer foot foot foot resize side";
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 #ui image {
-    cursor: move;
+  cursor: move;
 }
 
 #ui * {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
 #ui button {
-    user-select: none;
+  user-select: none;
 }
 
 .resize {
-    grid-area: resize;
-    cursor: ew-resize;
-    width: 100%;
-    overflow: visible;
-    background-color: --var(--bg-color);
+  grid-area: resize;
+  cursor: ew-resize;
+  width: 100%;
+  overflow: visible;
+  background-color: --var(--bg-color);
 }
 
 .resizeV {
-    grid-area: resize;
-    cursor: ns-resize;
-    width: 100%;
-    overflow: visible;
-    background-color: --var(--bg-color);
+  grid-area: resize;
+  cursor: ns-resize;
+  width: 100%;
+  overflow: visible;
+  background-color: --var(--bg-color);
 }
 
 .collapsable {
-    background-color: var(--ui-highlight);
+  background-color: var(--ui-highlight);
 }
 
 .scrollable {
-    overflow: auto;
+  overflow: auto;
+  height: 100%;
 }
 
 #svgdiv {
-    position: absolute;
-    display: grid;
-    grid-template-areas:
-        ". resizetop ."
-        "resizeleft main resizeright"
-        ". resizebottom .";
-    z-index: 0;
-    grid-template-columns: 6px 1000px 6px;
-    grid-template-rows: 6px 700px 6px;
+  position: absolute;
+  display: grid;
+  grid-template-areas:
+    ". resizetop ."
+    "resizeleft main resizeright"
+    ". resizebottom .";
+  z-index: 0;
+  grid-template-columns: 6px 1000px 6px;
+  grid-template-rows: 6px 700px 6px;
 }
 
 #headded {
-    background-color: var(--ui-highlight-subtle);
-    width: 100%;
-    grid-area: headded;
+  background-color: var(--ui-highlight-subtle);
+  width: 100%;
+  grid-area: headded;
+}
+
+button:active {
+  opacity: 70%;
 }
