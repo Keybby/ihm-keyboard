@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/top.css" />
     <link rel="stylesheet" href="css/popup.css" />
     <link rel="stylesheet" href="css/svg.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <title>Keybby v0.1</title>
   </head>
   <body
     x-data="{app: new App()}"
@@ -23,11 +25,7 @@
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
-        <div
-          class="popuptop"
-          @mousedown="app.popup.setMoving($event)"
-          
-        >
+        <div class="popuptop" @mousedown="app.popup.setMoving($event)">
           <h3 id="popup_title">Popup</h3>
           <button id="popup_exit" @click="app.popup.done(event)">X</button>
         </div>
@@ -113,8 +111,10 @@
     </div>
     <div id="ui">
       <div id="top">
-        <button class="top_button">Import</button>
-        <button class="top_button" @click="app.popup.show('export')">Export</button>
+        <button class="top_button" @click="app.popup.show('import')">Import</button>
+        <button class="top_button" @click="app.popup.show('export')">
+          Export
+        </button>
         <div id="tools">
           <button
             @click="app.setModeMove()"
@@ -187,6 +187,7 @@
                   @input="app.updateRotation($event.target.value)"
                 />
               </div>
+              <button class="top_button" id="svg_edit">EDIT SVG</button>
             </div>
           </template>
           <!-- If we want to have a default -->
@@ -232,11 +233,9 @@
                 step="5"
                 x-bind:value="view.rotationChange"
                 @input="app.updateRotationChange($event.target.value)"
-              /> 
+              />
             </div>
           </template>
-
-          <button class="top_button">EDIT SVG</button>
         </div>
         <div>
           <h4>LAYOUT</h4>
@@ -253,7 +252,7 @@
                   <p x-text="code"></p>
                 </template>
                 <div>
-                  <button style="height: 100%" class="top_button">+</button
+                  <button style="height: 100%" class="top_button" id="key_add">+</button
                   ><input name="addkey" />
                 </div>
               </div>

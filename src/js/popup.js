@@ -28,28 +28,18 @@ class Popup {
     let title;
     let HTML;
     if (str != "") {
-      let url = "";
       switch (str) {
         case "input":
           title = "Key input";
-          url = "popup/input.html";
           this.popup = new inputPopup();
           break;
         case "export":
           title = "Exporting";
-          url = "popup/export.html";
           this.popup = new exportPopup();
           break;
         default:
           break;
       }
-      fetch(url)
-        .then((response) => {
-          return response.text();
-        })
-        .then((html) => {
-          this.body.innerHTML = html;
-        });
     }
 
     this.title.textContent = title;
@@ -105,14 +95,27 @@ class Popup {
 }
 
 class popupClass {
-  constructor() {}
+  constructor(url) {
+    if (url=="" || url==undefined){
+      return;
+    }
+    this.pop = document.getElementById("popup");
+    this.body = this.pop.children[1];
+    fetch(url)
+      .then((response) => {
+        return response.text();
+      })
+      .then((html) => {
+        this.body.innerHTML = html;
+      });
+  }
 
   done() {}
 }
 
 class inputPopup extends popupClass {
   constructor() {
-    super();
+    super("popup/inputkey.html");
     this.display = document.getElementById("result_popup");
     addEventListener("keydown", this.getkey);
   }
@@ -138,7 +141,7 @@ class inputPopup extends popupClass {
 
 class exportPopup extends popupClass {
   constructor() {
-    super();
+    super("popup/export.html");
     let main = document.getElementById("main");
     this.display = main.cloneNode(true);
     setTimeout(
@@ -174,5 +177,11 @@ class exportPopup extends popupClass {
   /**
    * @param {Element} elem
    */
+}
+
+class importPopup extends popupClass {
+  constructor() {
+    super("popup/import.html");
+  }
 }
 export default Popup;
