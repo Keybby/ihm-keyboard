@@ -21,14 +21,14 @@
     @wheel="app.ui.placeSvg($event)"
     @keydown.backspace="app.supprKey()"
   >
-    <div id="popup_area" hidden="true">
+    <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
         <div
           class="popuptop"
           @mousedown="app.popup.setMoving($event)"
           @mousemove.prevent="app.popup.move($event)"
         >
-          <h2 id="popup_title">Popup</h2>
+          <h3 id="popup_title">Popup</h3>
           <button id="popup_exit" @click="app.popup.close(event)">X</button>
         </div>
         <div></div>

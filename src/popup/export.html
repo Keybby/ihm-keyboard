@@ -1,12 +1,12 @@
-<body>
-  <div
-    @keyup.window="app.setKeyLayout(app.popup.bind, result_popup.textContent); app.popup.done();"
-    class="popup-center"
-  >
-    <h3>Exporting result</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr">
-      <div id="export_preview"></div>
-      <div id="export_menu"></div>
+<div
+  @keyup.window="app.setKeyLayout(app.popup.bind, result_popup.textContent); app.popup.done();"
+  class="popup-center"
+>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; height: 100%">
+    <div id="export_preview"></div>
+    <div id="export_menu" class="popup-center">
+      <h3>Exporting result</h3>
+      <button> EXPORT </button>
     </div>
   </div>
-</body>
+</div>

@@ -31,12 +31,12 @@ class Popup {
       let url = "";
       switch (str) {
         case "input":
-          title = "Input key...";
+          title = "Key input";
           url = "popup/input.html";
           this.popup = new inputPopup();
           break;
         case "export":
-          title = "Exporting...";
+          title = "Exporting";
           url = "popup/export.html";
           this.popup = new exportPopup();
           break;
@@ -90,8 +90,8 @@ class Popup {
    */
   move(event) {
     if (this.moving == false) return;
-    this.x = this.refX + (event.clientX - this.offX);
-    this.y = this.refY + (event.clientY - this.offY);
+    this.x = this.refX + event.clientX - this.offX;
+    this.y = this.refY + event.clientY - this.offY;
     this.dom.style.left = `${this.x}px`;
     this.dom.style.top = `${this.y}px`;
   }
@@ -131,7 +131,6 @@ class inputPopup extends popupClass {
    * @override
    */
   done() {
-    console.log("Done input");
     removeEventListener("keydown", this.getkey);
     super.done();
   }
@@ -140,27 +139,38 @@ class inputPopup extends popupClass {
 class exportPopup extends popupClass {
   constructor() {
     super();
-    this.display = document.getElementById("main").cloneNode(true);
-    this.removeAlpine(this.display);
-    let display = this.display
-    setTimeout(function(){document.getElementById("export_preview").innerHTML=display}, 100);
+    let main = document.getElementById("main");
+    this.display = main.cloneNode(true);
+    setTimeout(
+      function (display) {
+        const preview = document.getElementById("export_preview");
+        preview?.appendChild(display);
+        preview.children[0].setAttribute("viewBox", document.getElementById("main").getAttribute("viewBox"));
+        function removeAlpine(elem) {
+          elem.removeAttribute("x-data");
+          elem.removeAttribute("x-effect");
+          elem.removeAttribute("@dblclick");
+          elem.removeAttribute("@mousedown");
+          elem.removeAttribute("x-bind:transform");
+          elem.removeAttribute(":class");
+          elem.removeAttribute("@click");
+          elem.removeAttribute("x-if");
+          elem.removeAttribute("@mousedown.prevent");
+          elem.removeAttribute("@mouseup.prevent");
+          elem.removeAttribute("@mousemove.prevent");
+          for (let index = 0; index < elem.children.length; index++) {
+            removeAlpine(elem.children[index]);
+          }
+        }
+        removeAlpine(preview);
+        
+      },
+      200,
+      this.display
+    );
   }
   /**
    * @param {Element} elem
    */
-  removeAlpine(elem) {
-    elem.removeAttribute("x-data");
-    elem.removeAttribute("x-effect");
-    elem.removeAttribute("@dblclick");
-    elem.removeAttribute("@mousedown");
-    elem.removeAttribute("x-bind:transform");
-    elem.removeAttribute(":class");
-    elem.removeAttribute("@click");
-    elem.removeAttribute("x-bind:d");
-    elem.removeAttribute("x-text");
-    for (let index = 0; index < elem.children.length; index++) {
-      this.removeAlpine(elem.children[index]);
-    }
-  }
 }
 export default Popup;
