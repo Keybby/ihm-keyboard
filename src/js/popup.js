@@ -186,7 +186,7 @@ class exportPopup extends popupClass {
         }
         removeAlpine(preview);
       },
-      100,
+      150,
       this.display
     );
   }
