@@ -37,6 +37,10 @@ class Popup {
           title = "Exporting";
           this.popup = new exportPopup();
           break;
+        case "import":
+          title = "Importing";
+          this.popup = new importPopup();
+          break;
         default:
           break;
       }
@@ -96,7 +100,7 @@ class Popup {
 
 class popupClass {
   constructor(url) {
-    if (url=="" || url==undefined){
+    if (url == "" || url == undefined) {
       return;
     }
     this.pop = document.getElementById("popup");

@@ -1,9 +1,33 @@
 <div
-  @keyup.window="app.setKeyLayout(app.popup.bind, result_popup.textContent); app.popup.done();"
-  class="popup-center"
+  style="
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 0.15fr 0.01fr;
+    gap: 1em;
+    height: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+  "
+  class="scrollable"
+  id="popup_import"
 >
-  <div style="display: grid; grid-template-rows: 50px 1fr; height: 100%">
-    <div>Import...</div>
-    <div>AAAAAA</div>
+  <div class="scrollable">
+    <h2>Classical keyboards</h2>
+    <div class="import_list">
+      <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span
+      ><span>F</span>
+    </div>
+  </div>
+  <div class="scrollable">
+    <h2>Ergonomical keyboards</h2>
+    <div class="import_list">
+      <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span
+      ><span>F</span> <span>A</span><span>B</span><span>C</span><span>D</span
+      ><span>E</span><span>F</span>
+    </div>
+  </div>
+  <div id="import_done">
+    <button @click="app.importFromFile()">From file...</button>
+    <button @click="app.popup.done()">Done</button>
   </div>
 </div>
