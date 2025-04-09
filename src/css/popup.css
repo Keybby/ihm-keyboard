@@ -116,6 +116,10 @@
   padding: 1em;
 }
 
+#export_preview svg{
+  width:100%;
+  height:100%;
+}
 .opacity_sway {
   animation-name: opacity-sway;
   animation-duration: 1s;

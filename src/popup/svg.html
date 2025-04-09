@@ -1,0 +1,24 @@
+<div class="popup-center">
+  <div style="display: grid; grid-template-columns: 2fr 1fr; height: 100%">
+    <div id="export_preview"><svg id="svg_preview" viewBox="-10 0 80 80"></svg></div>
+    <div id="export_menu" class="popup-center">
+      <textarea
+        id="edit_svg_path"
+        placeholder=""
+        style="width: 100%; height: 80%"
+        @input="app.popup.popup.render()"
+      >
+      M0 0
+      h60
+      q10,0 10,10
+      v55
+      q0,10 -10,10
+      h-60
+      q-10,0 -10,-10
+      v-55
+      q0,-10 10,-10 z </textarea
+      >
+      <button @click="app.changesvg(app.popup.bind)">Validate</button>
+    </div>
+  </div>
+</div>

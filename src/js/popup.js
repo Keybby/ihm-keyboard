@@ -41,6 +41,10 @@ class Popup {
           title = "Importing";
           this.popup = new importPopup();
           break;
+        case "svg":
+          title = "Change svg";
+          this.popup = new svgPopup();
+          break;
         default:
           break;
       }
@@ -99,6 +103,10 @@ class Popup {
 }
 
 class popupClass {
+  /**
+   *
+   * @param {string} url
+   */
   constructor(url) {
     if (url == "" || url == undefined) {
       return;
@@ -156,6 +164,10 @@ class exportPopup extends popupClass {
           "viewBox",
           document.getElementById("main").getAttribute("viewBox")
         );
+        /**
+         *
+         * @param {Element} elem
+         */
         function removeAlpine(elem) {
           elem.removeAttribute("x-data");
           elem.removeAttribute("x-effect");
@@ -186,6 +198,51 @@ class exportPopup extends popupClass {
 class importPopup extends popupClass {
   constructor() {
     super("popup/import.html");
+  }
+}
+
+class svgPopup extends popupClass {
+  constructor() {
+    super("popup/svg.html");
+    this.preview = document.getElementById("svg_preview");
+    this.input = document.getElementById("edit_svg_path");
+    setTimeout(this.default, 100);
+    setTimeout(this.render, 150);
+  }
+
+  default() {
+    if (this.preview == undefined) {
+      this.preview = document.getElementById("svg_preview");
+    }
+    if (this.input == undefined) {
+      this.input = document.getElementById("edit_svg_path");
+    }
+    fetch("assets/key.svg")
+      // Get SVG response as text
+      .then((response) => response.text())
+      .then((str) => (new window.DOMParser()).parseFromString(str, "text/xml"))
+      .then((xml) => {
+        console.log(xml)
+        this.input.value = xml.getElementsByTagName("svg")[0].innerHTML;
+      });
+  }
+
+  render() {
+    if (this.preview == undefined) {
+      this.preview = document.getElementById("svg_preview");
+    }
+    if (this.input == undefined) {
+      this.input = document.getElementById("edit_svg_path");
+    }
+    if (this.input.value.split("<").length>1) {
+      this.preview.innerHTML = this.input.value;
+    }
+    else{
+      this.preview.innerHTML = "";
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", this.input.value);
+      this.preview.appendChild(path);
+    }
   }
 }
 export default Popup;
