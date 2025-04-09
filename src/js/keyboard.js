@@ -1,7 +1,7 @@
 import KeyGeometry, { DEFAULT_HEIGHT, DEFAULT_WIDTH } from "./geometry.js";
 import KeyId from "./key.js";
 import Layer from "./layer.js";
-import KeyLayout from "./key_layout.js";
+import KeyLayout, { KeyCode } from "./key_layout.js";
 
 class Keyboard {
   /**
@@ -48,18 +48,18 @@ class Keyboard {
   }
 
   /**
-   * 
-   * @param {KeyId[]} ids 
+   *
+   * @param {KeyId[]} ids
    */
-  supprKey(ids){
+  supprKey(ids) {
     //TODO
     /*
     Supprimer ds keys et ds geometries
     Voir qd les KeyLayout seront implementés comment suppr les keys correspondantes (doivent aps rester ds keyMap)
     */
 
-    let idSet = new Set (ids); // to decrease the complexity
-    this.keys = this.keys.filter(key => !idSet.has(key));
+    let idSet = new Set(ids); // to decrease the complexity
+    this.keys = this.keys.filter((key) => !idSet.has(key));
 
     for (let key of idSet) {
       this.geometries.delete(key);
@@ -98,14 +98,16 @@ class Keyboard {
     return layout || new KeyLayout();
   }
 
-    /**
+  /**
    *
    * @param {number} i_layer
    * @param {KeyId} key_id
    * @param {string} value
    */
-  setKeyLayout(i_layer, key_id,value){
-    // #TODO
+  setKeyLayout(i_layer, key_id, value) {
+    let layout = this.getKeyLayout(i_layer, key_id);
+    layout.keycodes = [new KeyCode(value)];
+    this.getLayer(i_layer).keyMap.set(key_id, layout);
   }
 }
 

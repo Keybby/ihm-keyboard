@@ -39,7 +39,7 @@ class App {
   /** @type {Boolean} */
   hasRectangleSelection;
 
-  /** @type {*} 
+  /** @type {*}
    * Contains width, height and rotation for each key selected */
   initialGeometries;
 
@@ -199,13 +199,12 @@ class App {
     return this.keyboard.getKeyLayout(this.selectedLayer, id);
   }
 
-    /**
+  /**
    * @param {KeyId} id
    * @param {string} value
    */
-  setKeyLayout(id,value){
-    console.log("Setting ", value, " for ",id)
-    this.keyboard.setKeyLayout(this.selectedLayer,id,value)
+  setKeyLayout(id, value) {
+    this.keyboard.setKeyLayout(this.selectedLayer, id, value);
   }
 
   getSelectedKeyLayout() {
@@ -289,8 +288,8 @@ class App {
     this.hasRectangleSelection = false;
   }
 
-  supprKey(){
-    if(this.selectedKeys.length > 0){
+  supprKey() {
+    if (this.selectedKeys.length > 0) {
       console.log("suppr!");
       this.keyboard.supprKey(this.selectedKeys);
 
@@ -325,7 +324,11 @@ class App {
             if (!this.isSelected(key_id)) {
               this.selectedKeys.push(key_id);
 
-              const geoInit = {width: geo.width, height: geo.height, rotation: geo.rotation};
+              const geoInit = {
+                width: geo.width,
+                height: geo.height,
+                rotation: geo.rotation,
+              };
               this.initialGeometries.push(geoInit);
             }
           }
@@ -430,10 +433,10 @@ class App {
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
-  keysChange(){
+  keysChange() {
     const key_id = this.selectedKeys[0];
     if (!key_id) {
       throw new Error("Key ID not found");
@@ -445,7 +448,7 @@ class App {
 
     return {
       widthChange: (geo.width / this.initialGeometries[0].width) * 100,
-      heightChange: (geo.height /  this.initialGeometries[0].height) * 100,
+      heightChange: (geo.height / this.initialGeometries[0].height) * 100,
       rotationChange: geo.rotation - this.initialGeometries[0].rotation,
     };
   }
@@ -475,26 +478,22 @@ class App {
     q0,-${cornerRadius} ${cornerRadius},-${cornerRadius} z`;
   }
 
-  nbSelectedKeys(){
+  nbSelectedKeys() {
     return this.selectedKeys.length;
   }
-  
+
   selectedKeyView() {
     if (this.nbSelectedKeys() < 1) {
       return null;
-    }
-    else if(this.nbSelectedKeys() === 1){
+    } else if (this.nbSelectedKeys() === 1) {
       const key = this.getSelectedKey();
       if (!key) {
         return null;
       }
       return this.keyView(key);
-    }
-    else{
+    } else {
       return this.keysChange();
     }
-
-    
   }
 
   /**
@@ -510,25 +509,25 @@ class App {
   }
 
   /**
-   * 
-   * @param {number} widthChange 
+   *
+   * @param {number} widthChange
    */
   updateWidthChange(widthChange) {
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
-        const key_id = this.selectedKeys[i];
-        if (!key_id) {
-          throw new Error("Key ID not found");
-        }
+      const key_id = this.selectedKeys[i];
+      if (!key_id) {
+        throw new Error("Key ID not found");
+      }
 
-        const geometryInit = this.initialGeometries[i];
-        const geometrytoChange = this.getKeyGeometry(key_id);
-        
-        if (!geometryInit || !geometrytoChange) {
-            console.log(this.initialGeometries.length);
-            throw new Error("Key geometry not found");
-        }
+      const geometryInit = this.initialGeometries[i];
+      const geometrytoChange = this.getKeyGeometry(key_id);
 
-        geometrytoChange.width = geometryInit.width * (widthChange / 100);
+      if (!geometryInit || !geometrytoChange) {
+        console.log(this.initialGeometries.length);
+        throw new Error("Key geometry not found");
+      }
+
+      geometrytoChange.width = geometryInit.width * (widthChange / 100);
     }
   }
 
@@ -546,25 +545,25 @@ class App {
   }
 
   /**
-   * 
-   * @param {number} heightChange 
+   *
+   * @param {number} heightChange
    */
   updateHeightChange(heightChange) {
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
-        const key_id = this.selectedKeys[i];
-        if (!key_id) {
-          throw new Error("Key ID not found");
-        }
+      const key_id = this.selectedKeys[i];
+      if (!key_id) {
+        throw new Error("Key ID not found");
+      }
 
-        const geometryInit = this.initialGeometries[i];
-        const geometrytoChange = this.getKeyGeometry(key_id);
-        
-        if (!geometryInit || !geometrytoChange) {
-            console.log(this.initialGeometries.length);
-            throw new Error("Key geometry not found");
-        }
+      const geometryInit = this.initialGeometries[i];
+      const geometrytoChange = this.getKeyGeometry(key_id);
 
-        geometrytoChange.height = geometryInit.height * (heightChange / 100);
+      if (!geometryInit || !geometrytoChange) {
+        console.log(this.initialGeometries.length);
+        throw new Error("Key geometry not found");
+      }
+
+      geometrytoChange.height = geometryInit.height * (heightChange / 100);
     }
   }
 
@@ -582,25 +581,25 @@ class App {
   }
 
   /**
-   * 
-   * @param {number} rotationChange 
+   *
+   * @param {number} rotationChange
    */
   updateRotationChange(rotationChange) {
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
-        const key_id = this.selectedKeys[i];
-        if (!key_id) {
-          throw new Error("Key ID not found");
-        }
+      const key_id = this.selectedKeys[i];
+      if (!key_id) {
+        throw new Error("Key ID not found");
+      }
 
-        const geometryInit = this.initialGeometries[i];
-        const geometrytoChange = this.getKeyGeometry(key_id);
-        
-        if (!geometryInit || !geometrytoChange) {
-            console.log(this.initialGeometries.length);
-            throw new Error("Key geometry not found");
-        }
+      const geometryInit = this.initialGeometries[i];
+      const geometrytoChange = this.getKeyGeometry(key_id);
 
-        geometrytoChange.rotation = geometryInit.rotation + rotationChange;
+      if (!geometryInit || !geometrytoChange) {
+        console.log(this.initialGeometries.length);
+        throw new Error("Key geometry not found");
+      }
+
+      geometrytoChange.rotation = geometryInit.rotation + rotationChange;
     }
   }
 
@@ -609,10 +608,10 @@ class App {
   }
 
   /**
-   * 
-   * @param {*} value 
+   *
+   * @param {*} value
    */
-  printValue(value){
+  printValue(value) {
     console.log(value);
   }
 

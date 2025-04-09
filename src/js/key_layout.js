@@ -37,4 +37,4 @@ class KeyLayout {
 }
 
 export default KeyLayout;
-export { BEHAVIOUR };
+export { BEHAVIOUR, KeyCode };
