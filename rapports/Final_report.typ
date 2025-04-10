@@ -1,4 +1,4 @@
-=  Low fidelity prototype
+=  Final Report
 
 #place(
   top + center,
@@ -47,7 +47,7 @@ The post we made on #link("https://www.reddit.com/r/olkb/comments/1jazgx5/usabil
 - Using #link("https://openscad.org/")[OpenSCAD] for the mechanical design : hard to use for basic tasks but there are Python extensions to make it easier to use, but not as easy as SolidWorks. The user mentionning this tools would like a computer-aided design tool for Linux that is visual.
 - One user mentioned computeritis (an ailment caused by the use of computers (pain in some fingers, etc)) as a cause for wanting to personnalise their keyboard. This user writes mostly using dictation mode and voice commands but for corrections, some keys (like backspace, etc) are still needed. This user uses a lot of chords (pressing several keys to do an action), this increases the number of actions they can do with a small number of keys. They often need to reprogramm their keyboard for specific usage, and a visual tool would be practical since it would be easier to remember and use as customized keyboards don't have the characters sent to the computers printed on them by default. This user also indicated that some combination of keys were easier for them to use relating to their placement and the Repetitive Strain Injury (or computeritis).
 
-FOr the post we made on #link("https://www.reddit.com/r/MechanicalKeyboards/comments/1jb0akb/usability_survey_for_keyboard_prototyping_tools/")[r/MechanicalKeyboards], we got one response :
+For the post we made on #link("https://www.reddit.com/r/MechanicalKeyboards/comments/1jb0akb/usability_survey_for_keyboard_prototyping_tools/")[r/MechanicalKeyboards], we got one response :
 - The user desires a more modern Keyboard Layout editor and a software that creates PCB(printed Circuit Board) according to the custom layout which would save time from having to do it in KiCad or another similar software. For them, providing statistic on keys used per language would not be really pertinent for their use.
 
 We didn't get many answers on reddit, but this could be because of how the site functions. If people agree with what has been said, they won't duplicate it by giving another answer. Therefore, this could explain why we only got five responses, some of which were really developped on the struggles the users face.
@@ -102,12 +102,26 @@ No idea, maybe a random of the three other would not be absurd.
 
 For this profile, we chose to focus the test on keyboard efficient for dactylography.
 
+To this end, we'll ask a student to configure a part of the characorder : 
+
+#figure(image("images/charachorder.png", width: 80%),)
+
+TODO : make a file that we will actually give people
+
 === Gamer hobbyist
 
 For this profile, we chose to test a custom gamer keyboard layout, that will be fixated on the closeness of certain keys that help with speed and prevent the player from losing time moving their hands to much to do an action.
 
+We have found that a gaming layout recommended is the colemak layout. Therefore, we asked our testers to implement it : 
+
+#figure(image("images/colemak_keyboard.png", width: 80%),)
+
 === Hobbyist with a disability
 For this persona, we will test the following keyboard design. We chose this design because with disability, people might have trouble accessing a lot of keys, so we choose a keyboard with a small number of keys but a lot of layers.
+
+People with disabilities might not be using letters and using voice dictation as one reddit user mentionned. However, they need the keyboard to allow them to move or correct the text and do text formatting in in limited number of keys. According to #link("https://webaim.org/techniques/keyboard/")[WEBAIM], you'll find in this link the most common interactions with non characters keys and therefore the most important to configure on this test keyboard.
+
+#figure(image("images/Tab.png", width: 80%),)
 
 === Measuring the usability and success criteria
 
@@ -117,6 +131,11 @@ To measure the usability and success criteria, we will proceed in two phases :
 
 = The design
 
+To choose our design, we first discussed what were in our opinion the most important aspects of our software, what would be the essential tools and how to implement them. After discussing these points, we each drew our first sketches to compare our visions of the software after agreeing on these points.
+
+#figure(image("images/3sketch.png", width: 80%),)
+
+After discussing these sketches, we agreed 
 
 = The prototype
 
