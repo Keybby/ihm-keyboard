@@ -5,6 +5,8 @@ import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 
+import {isRotatedRectColliding} from "./collision.js";
+
 const TOOL = {
   Move: 0,
   Create: 1,
@@ -273,14 +275,51 @@ class App {
     evt.stopPropagation();
   }
 
+
+  /**
+   * 
+   * @param {KeyId} key_id 
+   * @param {KeyId} other_id 
+   * @param {*} translation
+   * @returns 
+   */
+  verifCollision(key_id, other_id, translation){
+    const key_geometry = this.getKeyGeometry(key_id);
+    const other_geometry = this.getKeyGeometry(other_id);
+
+    if(!isRotatedRectColliding(key_geometry, other_geometry, translation)){
+      console.log("cc");
+      return translation;
+    }
+    else{
+      console.log("nope");
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
+    
+  }
+
   handleMouseUp() {
     for (const key_id of this.selectedKeys) {
       const translation = this.getTranslation(key_id);
       const geometry = this.keyboard.geometries.get(key_id);
-      if (geometry) {
-        geometry.centerX += translation.x;
-        geometry.centerY += translation.y;
+      let newTranslation = translation;
+      for( const other_id of this.keyboard.keys){
+        if(key_id === other_id){
+          continue;
+        }
+        newTranslation = this.verifCollision(key_id, other_id, translation);
+        if(newTranslation.x === 0 && newTranslation.y === 0){
+          break;
+        }
       }
+      if (geometry) {
+        geometry.centerX += newTranslation.x;
+        geometry.centerY += newTranslation.y;
+      }
+      
     }
     //this.selectedKeys = [];
     this.lastClicked = null;
