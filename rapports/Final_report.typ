@@ -10,7 +10,7 @@
   top + center,
   scope:"parent",
   float:true,
-    text(25pt)[Low fidelity prototype],
+    text(25pt)[Final Report],
 )
 #place(
   top + center,
@@ -135,7 +135,16 @@ To choose our design, we first discussed what were in our opinion the most impor
 
 #figure(image("images/3sketch.png", width: 80%),)
 
-After discussing these sketches, we agreed 
+After discussing these sketches, we agreed on several points : 
+- We wanted the user to be able to visualize their creation layer by layer, by opposition to current keyboards that allow either visualization of each key by clicking on a key or like real keyboards by putting several characters on a key touch. To select the layer, the user will click on the bottom left. This configuration allows the user to visualize clearly to which keyboard they gain access to by clicking on which modifyer
+- To configure the keycode associated to a key, the user will double click on it
+- The user will be able to modify the sizes of the keys, their rotations etc on a side menu to the right 
+- A menu would be added to the top. In this menu, the user would be able to add a key, move a key(s), import a JSON configuration file, export the current representation of the current design and export the current design as an svg file
+- Create an emulator allowing the user to try out their design
+Create a tutorial that the user can skip but that automatically appears on the screen telling them how to place a key, modify it and move it
+
+Here is the design we submitted after discussing these points : 
+#figure(image("images/sketch_final.jpg", width: 80%),)
 
 = The prototype
 
