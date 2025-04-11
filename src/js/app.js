@@ -621,7 +621,7 @@ class App {
 
   /**
    *
-   * @param {number} rotationChange
+   * @param {String} rotationChange
    */
   updateRotationChange(rotationChange) {
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
@@ -638,7 +638,7 @@ class App {
         throw new Error("Key geometry not found");
       }
 
-      geometrytoChange.rotation = geometryInit.rotation + rotationChange;
+      geometrytoChange.rotation =  parseInt(geometryInit.rotation) + parseInt(rotationChange);
     }
   }
 
