@@ -5,24 +5,13 @@ import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 import exportFunction from "./exportFunc.js";
-import {isRotatedRectColliding} from "./collision.js";
+import { isRotatedRectColliding } from "./collision.js";
+import { Vec2D, ZERO } from "./vec.js";
 
 const TOOL = {
   Move: 0,
   Create: 1,
 };
-
-class Point {
-  /**
-   *
-   * @param {number} x
-   * @param {number} y
-   */
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
 
 class App {
   /** @type {Keyboard} */
@@ -48,10 +37,10 @@ class App {
   /** @type {SVGSVGElement} */
   svg;
 
-  /** @type {Point| null} */
+  /** @type {Vec2D| null} */
   lastClicked;
 
-  /** @type {Point | null} */
+  /** @type {Vec2D | null} */
   lastMoved;
 
   /** @type {KeyId[]} */
@@ -275,51 +264,43 @@ class App {
     evt.stopPropagation();
   }
 
-
   /**
-   * 
-   * @param {KeyId} key_id 
-   * @param {KeyId} other_id 
-   * @param {*} translation
-   * @returns 
+   *
+   * @param {KeyId} key_id
+   * @param {KeyId} other_id
+   * @param {Vec2D} translation
+   * @returns
    */
-  verifCollision(key_id, other_id, translation){
+  detectCollision(key_id, other_id, translation) {
     const key_geometry = this.getKeyGeometry(key_id);
     const other_geometry = this.getKeyGeometry(other_id);
 
-    if(!isRotatedRectColliding(key_geometry, other_geometry, translation)){
-      console.log("cc");
-      return translation;
+    if (!isRotatedRectColliding(key_geometry, other_geometry, translation)) {
+      return false;
     }
-    else{
-      console.log("nope");
-      return {
-        x: 0,
-        y: 0,
-      };
+    return true;
+  }
+
+  rawTranslation() {
+    if (!this.lastMoved || !this.lastClicked) {
+      return ZERO;
     }
-    
+    return new Vec2D(
+      this.lastMoved.x - this.lastClicked.x,
+      this.lastMoved.y - this.lastClicked.y,
+    );
   }
 
   handleMouseUp() {
-    for (const key_id of this.selectedKeys) {
-      const translation = this.getTranslation(key_id);
-      const geometry = this.keyboard.geometries.get(key_id);
-      let newTranslation = translation;
-      for( const other_id of this.keyboard.keys){
-        if(key_id === other_id){
-          continue;
-        }
-        newTranslation = this.verifCollision(key_id, other_id, translation);
-        if(newTranslation.x === 0 && newTranslation.y === 0){
-          break;
+    if (this.selectedTool == TOOL.Move) {
+      const translation = this.getTranslation();
+      for (const key_id of this.selectedKeys) {
+        const geometry = this.keyboard.geometries.get(key_id);
+        if (geometry) {
+          geometry.centerX += Math.round(translation.x);
+          geometry.centerY += Math.round(translation.y);
         }
       }
-      if (geometry) {
-        geometry.centerX += newTranslation.x;
-        geometry.centerY += newTranslation.y;
-      }
-      
     }
     //this.selectedKeys = [];
     this.lastClicked = null;
@@ -329,7 +310,6 @@ class App {
 
   supprKey() {
     if (this.selectedKeys.length > 0) {
-      console.log("suppr!");
       this.keyboard.supprKey(this.selectedKeys);
 
       this.selectedKeys = [];
@@ -407,31 +387,51 @@ class App {
 
   /**
    *
-   * @param {KeyId} key_id
-   * @returns
+   * @param {Vec2D} original_translation
+   * @param {Vec2D} last_moved
    */
-  getTranslation(key_id) {
-    if (
-      this.isSelected(key_id) &&
-      this.lastClicked &&
-      this.lastMoved &&
-      !this.hasRectangleSelection
-    ) {
-      return {
-        x: this.lastMoved.x - this.lastClicked.x,
-        y: this.lastMoved.y - this.lastClicked.y,
-      };
+  resolveTranslation(original_translation, last_moved) {
+    let translation = original_translation;
+    for (let i = 0; i < 500; i++) {
+      let colide = false;
+      for (const id_a of this.selectedKeys) {
+        for (const id_b of this.keyboard.keys) {
+          if (id_a != id_b && !this.isSelected(id_b)) {
+            if (this.detectCollision(id_a, id_b, translation)) {
+              colide = true;
+              const geo_b = this.getKeyGeometry(id_b);
+              const dir = new Vec2D(
+                last_moved.x - geo_b.centerX,
+                last_moved.y - geo_b.centerY,
+              ).normalize();
+              translation.x += dir.x;
+              translation.y += dir.y;
+            }
+          }
+        }
+      }
+      if (!colide) {
+        return translation;
+      }
     }
-    return {
-      x: 0,
-      y: 0,
-    };
+    return ZERO;
+  }
+
+  /**
+   *
+   * @returns {Vec2D}
+   */
+  getTranslation() {
+    if (this.lastClicked && this.lastMoved && !this.hasRectangleSelection) {
+      return this.resolveTranslation(this.rawTranslation(), this.lastMoved);
+    }
+    return ZERO;
   }
 
   /**
    *
    * @param {MouseEvent} evt
-   * @returns
+   * @returns {Vec2D}
    */
   getMouseCoordinates(evt) {
     const CTM = this.svg.getScreenCTM();
@@ -440,10 +440,7 @@ class App {
     }
     const x = (evt.clientX - CTM.e) / CTM.a;
     const y = (evt.clientY - CTM.f) / CTM.d;
-    return {
-      x: x,
-      y: y,
-    };
+    return new Vec2D(x, y);
   }
 
   /**
@@ -455,11 +452,10 @@ class App {
     if (!geo) {
       throw new Error("Key geometry not found");
     }
-    const trans = this.getTranslation(key_id);
+    const trans = this.isSelected(key_id) ? this.getTranslation() : ZERO;
     const x = Math.round(geo.x0() + trans.x);
     const y = Math.round(geo.y0() + trans.y);
     return {
-      trans: this.getTranslation(key_id),
       x: x,
       y: y,
       centerX: x + geo.width / 2,
@@ -499,12 +495,7 @@ class App {
    */
   keySvgPath(key_id) {
     const cornerRadius = 10;
-    const geo = this.getKeyGeometry(key_id);
-    const width = geo.width;
-    const height = geo.height;
-    const trans = this.getTranslation(key_id);
-    const x = geo.x0() + trans.x;
-    const y = geo.y0() + trans.y;
+    const { x, y, width, height } = this.keyView(key_id);
     return `
     M${x + cornerRadius},${y}
     h${width - 2 * cornerRadius}
@@ -656,26 +647,26 @@ class App {
 
   request_template() {}
 
-  importFromPremade(name){
+  importFromPremade(name) {
     let file;
     let req = new XMLHttpRequest();
-    req.open('GET',`assets/keyboard/${name}.json`,false);
+    req.open("GET", `assets/keyboard/${name}.json`, false);
     req.send();
     file = JSON.parse(req.responseText);
-    this.import(file);    
+    this.import(file);
   }
 
-  importFromFile(){
+  importFromFile() {
     let json;
     //TODO
     this.popup.done(); // Si accepté; on ferme la popup
-    this.import(json)
+    this.import(json);
   }
 
-  import(json){
+  import(json) {
     //TODO
   }
-  exportFile(){
+  exportFile() {
     exportFunction(this.keyboard);
   }
 }
