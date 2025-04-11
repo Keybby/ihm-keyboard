@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -111,7 +111,9 @@
     </div>
     <div id="ui">
       <div id="top">
-        <button class="top_button" @click="app.popup.show('import')">Import</button>
+        <button class="top_button" @click="app.popup.show('import')">
+          Import
+        </button>
         <button class="top_button" @click="app.popup.show('export')">
           Export
         </button>
@@ -187,7 +189,13 @@
                   @input="app.updateRotation($event.target.value)"
                 />
               </div>
-              <button class="top_button" id="svg_edit" @click="app.popup.show('svg')">EDIT SVG</button>
+              <button
+                class="top_button"
+                id="svg_edit"
+                @click="app.popup.show('svg')"
+              >
+                EDIT SVG
+              </button>
             </div>
           </template>
           <!-- If we want to have a default -->
@@ -252,7 +260,8 @@
                   <p x-text="code"></p>
                 </template>
                 <div>
-                  <button style="height: 100%" class="top_button" id="key_add">+</button
+                  <button style="height: 100%" class="top_button" id="key_add">
+                    +</button
                   ><input name="addkey" />
                 </div>
               </div>

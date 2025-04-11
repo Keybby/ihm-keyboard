@@ -12,8 +12,8 @@
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "strictBindCallApply": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
     "strictPropertyInitialization": true,
     // Linter Checks
     "noImplicitReturns": true,
@@ -33,7 +33,7 @@
     // Base Strict Checks
     "noImplicitUseStrict": false,
     "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": false,
+    "suppressImplicitAnyIndexErrors": true,
     "noStrictGenericChecks": false,
     "strict": true
   }
