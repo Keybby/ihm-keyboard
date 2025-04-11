@@ -238,7 +238,7 @@ class App {
         y,
         this.toolWidth,
         this.toolHeight,
-        this.toolRotation,
+        this.toolRotation
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
@@ -287,7 +287,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y,
+      this.lastMoved.y - this.lastClicked.y
     );
   }
 
@@ -402,7 +402,7 @@ class App {
               const geo_b = this.getKeyGeometry(id_b);
               const dir = new Vec2D(
                 last_moved.x - geo_b.centerX,
-                last_moved.y - geo_b.centerY,
+                last_moved.y - geo_b.centerY
               ).normalize();
               translation.x += dir.x;
               translation.y += dir.y;
@@ -411,6 +411,32 @@ class App {
         }
       }
       if (!colide) {
+        if (this.selectedKeys.length == 1) {
+          const id_a = this.selectedKeys[0];
+          const geoA = this.getKeyGeometry(id_a);
+          for (const id_b of this.keyboard.keys) {
+            const geoB = this.getKeyGeometry(id_b);
+            let dist1 = Math.min(
+              Math.abs(geoA.x0() - geoB.x1()),
+              Math.abs(geoA.x1() - geoB.x0())
+            );
+            let dist2 = Math.min(
+              Math.abs(geoA.y0() - geoB.y1()),
+              Math.abs(geoA.y1() - geoB.y0())
+            );
+            console.log("Dists : ", dist1, dist2);
+            if (dist1 < dist2 && dist1 < 10) {
+              //On doit aligner sur y
+              translation.y = geoB.y0() - geoA.y0();
+              return translation;
+            } else if (dist2 < 10) {
+              //On doit aligner sur x
+              translation.x = geoB.x0() - geoA.x0();
+              return translation;
+            }
+          }
+        }
+
         return translation;
       }
     }

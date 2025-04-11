@@ -33,7 +33,7 @@ class KeyGeometry {
     // we initialize the width and height to default values
     width = DEFAULT_WIDTH,
     height = DEFAULT_HEIGHT,
-    rotation = 0,
+    rotation = 0
   ) {
     this.width = width;
     this.height = height;
@@ -86,6 +86,17 @@ class KeyGeometry {
   }
   y1() {
     return this.centerY + this.height / 2;
+  }
+
+  /**
+   *
+   * @param {KeyGeometry} a
+   * @param {KeyGeometry} b
+   */
+  static getDistance(a, b) {
+    return Math.sqrt(
+      (a.centerX - b.centerX) ** 2 + (a.centerY - b.centerY) ** 2
+    );
   }
 }
 

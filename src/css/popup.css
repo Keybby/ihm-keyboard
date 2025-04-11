@@ -109,7 +109,7 @@
 }
 
 .blocking > div {
-  box-shadow: 0px 0px 200em 200em rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0px 0px 100em 100em rgba(0, 0, 0, 0.4) !important;
 }
 
 #export_preview {
