@@ -120,6 +120,15 @@
   width:100%;
   height:100%;
 }
+
+#export_svg{
+  color:var(--ui-text-color);
+  background-color: var(--ui-highlight-subtle);
+  padding:1em;
+  width:80%;
+  border-radius:10px;
+}
+
 .opacity_sway {
   animation-name: opacity-sway;
   animation-duration: 1s;
