@@ -6,11 +6,17 @@ import Keyboard from "./keyboard.js";
    * @param {Keyboard} current_keyboard
    */
 
-// https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+// code partly taken from https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
 const exportFunction = (current_keyboard,) => {
+  //this function allows us to stringify 
+  // the class we use to represent the keyboard
+  // and to export it as a json file
+
+  // we use the replacer function to convert the Map objects to arrays
     const blob = new Blob([JSON.stringify(current_keyboard, replacer)], {
       type: 'application/json',
     });
+    // we create a way to download the json generated
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -20,6 +26,8 @@ const exportFunction = (current_keyboard,) => {
   };
 
 function replacer(key, value) {
+  // this function is used to convert the Map objects to arrays
+    // so that we can stringify them
     if(value instanceof Map) {
         return {
         dataType: 'Map',
@@ -31,6 +39,8 @@ function replacer(key, value) {
 }
 
 function reviver(key, value) {
+  // this function is used to convert the arrays back to Map objects
+    // when we parse the json file (to be used when importing the file)
     if(typeof value === 'object' && value !== null) {
       if (value.dataType === 'Map') {
         return new Map(value.value);
@@ -39,28 +49,6 @@ function reviver(key, value) {
     return value;
   }
 
+//we export the export function
 export default exportFunction;
-/*
-function export2(current_keyboard){
-    let layers = current_keyboard.additionalLayers();
 
-    let data = {};
-
-    for (let i = 0; i < layers.length; i++){
-        data[layers[i].name] = getData(layers[i]);
-    }
-}
-
-function getData(layer){
-    let data = {};
-    data.name = layer.name;
-    data.keyMap = layer.keyMap.map((key, value) => {
-        return {
-            key: key,
-            value: value
-        };
-    });
-
-    return data;
-}
-    */
