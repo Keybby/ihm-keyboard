@@ -60,7 +60,6 @@ class Popup {
     }
     // the title that will be given to the pop up
     let title;
-    let HTML;
     if (str != "") {
       switch (str) {
         /* the pop up can be : 
@@ -281,6 +280,15 @@ class importPopup extends popupClass {
   */
   constructor() {
     super("popup/import.html");
+    this.selected="azerty";
+  }
+  
+  select(name){
+    this.selected=name;
+  }
+
+  isSelected(name){
+    return name==this.selected;
   }
 }
 

@@ -656,6 +656,25 @@ class App {
 
   request_template() {}
 
+  importFromPremade(name){
+    let file;
+    let req = new XMLHttpRequest();
+    req.open('GET',`assets/keyboard/${name}.json`,false);
+    req.send();
+    file = JSON.parse(req.responseText);
+    this.import(file);    
+  }
+
+  importFromFile(){
+    let json;
+    //TODO
+    this.popup.done(); // Si accepté; on ferme la popup
+    this.import(json)
+  }
+
+  import(json){
+    //TODO
+  }
   exportFile(){
     exportFunction(this.keyboard);
   }
