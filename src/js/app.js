@@ -28,6 +28,7 @@ class App {
   changingNameLayer;
 
   /** @type {Boolean} */
+  // indicates if we are in the process of selecting keyse
   hasRectangleSelection;
 
   /** @type {*}
@@ -53,7 +54,9 @@ class App {
   popup;
 
   constructor() {
+    // will contain the keyboard layout
     this.keyboard = new Keyboard();
+    // By default move is selected
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
     this.changingNameLayer = false;
@@ -62,9 +65,13 @@ class App {
     this.lastClicked = null;
     this.lastMoved = null;
     this.selectedKeys = [];
+    // represents the canvas where we'll draw the keyboard
     this.ui = new Ui();
+    // basic pop up that will be adapted according to which button
+    // is clicked
     this.popup = new Popup();
 
+    // default values for the tools
     this.toolWidth = DEFAULT_WIDTH;
     this.toolHeight = DEFAULT_HEIGHT;
     this.toolRotation = 0;
@@ -74,11 +81,16 @@ class App {
   }
 
   setModeMove() {
+    // Selection of the move button
     this.selectedTool = TOOL.Move;
   }
   setModeCreate() {
+    // Selection of the button to create keys
     this.selectedTool = TOOL.Create;
   }
+
+  // the two following functions are used to check which button is selected
+
   isModeMove() {
     return this.selectedTool == TOOL.Move;
   }
@@ -104,6 +116,7 @@ class App {
   }
 
   additionalLayers() {
+    // gets all the layers previously created
     return this.keyboard.additionalLayers;
   }
 
@@ -116,6 +129,7 @@ class App {
    * @param {number} i
    */
   selectLayer(i) {
+    // select the layer the user clicked on
     this.selectedLayer = i;
   }
 
@@ -125,6 +139,7 @@ class App {
    * @returns
    */
   isActiveLayer(i) {
+    // check if the current layer displayed is the layer i
     return i == this.selectedLayer;
   }
 
@@ -133,6 +148,8 @@ class App {
   }
 
   addLayer() {
+    // when we add a layer, we create an instance of the layer class
+    // and we push it to the array of additional layers
     const n = this.keyboard.additionalLayers.length + 1;
     this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
   }
@@ -146,6 +163,7 @@ class App {
    * @returns
    */
   isChangedDefaultLayer() {
+    // checks if we are changing the name of the default layer
     return this.selectedLayer == -1 && this.changingNameLayer;
   }
 
@@ -173,6 +191,7 @@ class App {
    * @param {String} name
    */
   changeNameLayer(i, name) {
+    // changes the name of layer i according to the name given by the user
     this.keyboard.getLayer(i).changeName(name);
     this.changingNameLayer = false;
   }
@@ -187,6 +206,7 @@ class App {
    * @returns
    */
   getKeyLayout(id) {
+    // gets the layout of the key that was selected by the user
     return this.keyboard.getKeyLayout(this.selectedLayer, id);
   }
 
@@ -195,10 +215,12 @@ class App {
    * @param {string} value
    */
   setKeyLayout(id, value) {
+    // sets the character of keycode associated with the selected key
     this.keyboard.setKeyLayout(this.selectedLayer, id, value);
   }
 
   getSelectedKeyLayout() {
+    // gets the layout of the key that was selected by the user
     const selectedKey = this.getSelectedKey();
     if (!selectedKey) {
       console.warn(this.selectedKeys);
@@ -208,6 +230,7 @@ class App {
   }
 
   getSelectedKey() {
+    // gets the key object representing the key selected by the user
     if (this.selectedKeys.length == 1) {
       return this.selectedKeys[0];
     }
@@ -228,11 +251,13 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseDown(evt) {
+    // we get the coordinates of the mouse when the user clicks on the canvas
     const { x, y } = this.getMouseCoordinates(evt);
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
+      // if the tool is create, we create a new key at the position of the mouse
       const newKey = this.keyboard.addKey(
         x,
         y,
@@ -242,6 +267,10 @@ class App {
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
+      // if the tool is move and the user holds the mouse dow<n
+      // then the user can make a rectangle selction of the keys
+      // ie, all the keys in the rectangle will be selected and
+      // could be moved by the user
       this.hasRectangleSelection = true;
       this.selectedKeys = [];
       this.initialGeometries = [];
@@ -254,6 +283,7 @@ class App {
    * @param {KeyId} key_id
    */
   handleMouseDownOnKey(evt, key_id) {
+    // if the user clicks on a precise key, we select it
     if (!this.isSelected(key_id)) {
       this.selectedKeys = [key_id];
     }
@@ -272,6 +302,7 @@ class App {
    * @returns
    */
   detectCollision(key_id, other_id, translation) {
+    // checks if moving the key(s) created a collision
     const key_geometry = this.getKeyGeometry(key_id);
     const other_geometry = this.getKeyGeometry(other_id);
 
@@ -282,6 +313,8 @@ class App {
   }
 
   rawTranslation() {
+    // this function returns the translation vector
+    // that is the difference between the last position of the mouse and the first one
     if (!this.lastMoved || !this.lastClicked) {
       return ZERO;
     }
@@ -293,6 +326,8 @@ class App {
 
   handleMouseUp() {
     if (this.selectedTool == TOOL.Move) {
+      // if we have mouse up when we were moving keys
+      // this means the user has finished their rectangle selection
       const translation = this.getTranslation();
       for (const key_id of this.selectedKeys) {
         const geometry = this.keyboard.geometries.get(key_id);
@@ -306,6 +341,7 @@ class App {
   }
 
   supprKey() {
+    // this function deletes a key
     if (this.selectedKeys.length > 0) {
       this.keyboard.supprKey(this.selectedKeys);
 
@@ -354,6 +390,7 @@ class App {
   }
 
   getRectangleSelection() {
+    // returns the coordinates of the rectangle selection
     if (!this.hasRectangleSelection) {
       return null;
     }
@@ -388,6 +425,10 @@ class App {
    * @param {Vec2D} last_moved
    */
   resolveTranslationCollisions(original_translation, last_moved) {
+    // this function evaluates if moving a key is possible
+    // along the original_translation vector
+    // if it is not possible, we try to move the key
+    // the closest as we can to the position indicated by the user
     let translation = original_translation;
     for (let i = 0; i < 500; i++) {
       let colide = false;
@@ -518,6 +559,7 @@ class App {
    * @returns {Vec2D}
    */
   getMouseCoordinates(evt) {
+    // gets the mouse coordinates on the svg
     const CTM = this.svg.getScreenCTM();
     if (!CTM) {
       throw new Error("svg has no CTM");
@@ -532,6 +574,8 @@ class App {
    * @param {KeyId} key_id
    */
   keyView(key_id) {
+    // returns the relevant parameters to draw the key
+    // on the svg canvas
     const geo = this.getKeyGeometry(key_id);
     if (!geo) {
       throw new Error("Key geometry not found");
@@ -556,6 +600,8 @@ class App {
    * @returns
    */
   keysChange() {
+    // returns the new representation of the key selected
+    // as has been indicated by the user on the right side menu
     const key_id = this.selectedKeys[0];
     if (!key_id) {
       throw new Error("Key ID not found");
@@ -578,6 +624,7 @@ class App {
    * @returns
    */
   keySvgPath(key_id) {
+    // dynamically create the svg key based on the parameters of the key
     const cornerRadius = 10;
     const { x, y, width, height } = this.keyView(key_id);
     return `
@@ -615,6 +662,7 @@ class App {
    * @param {number} width
    */
   updateWidth(width) {
+    // updates dynamically the width of the key
     this.toolWidth = width;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
@@ -627,6 +675,7 @@ class App {
    * @param {number} widthChange
    */
   updateWidthChange(widthChange) {
+    // updates the width of the keys selected
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
       const key_id = this.selectedKeys[i];
       if (!key_id) {
@@ -651,6 +700,7 @@ class App {
    * @param {number} height
    */
   updateHeight(height) {
+    // updates dynamically the height of the key
     this.toolHeight = height;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
@@ -663,6 +713,7 @@ class App {
    * @param {number} heightChange
    */
   updateHeightChange(heightChange) {
+    // updates the height of the keys selected
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
       const key_id = this.selectedKeys[i];
       if (!key_id) {
@@ -687,6 +738,7 @@ class App {
    * @param {number} rotation
    */
   updateRotation(rotation) {
+    // updates the rotation of the key selected currently
     this.toolRotation = rotation;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
@@ -699,6 +751,7 @@ class App {
    * @param {number} rotationChange
    */
   updateRotationChange(rotationChange) {
+    // updates the rotation of the keys selected according to the rotation indicated by the user
     for (let i = 0; i < this.nbSelectedKeys(); i++) {
       const key_id = this.selectedKeys[i];
       if (!key_id) {
@@ -717,10 +770,6 @@ class App {
     }
   }
 
-  sayHello() {
-    console.log("hello");
-  }
-
   /**
    *
    * @param {*} value
@@ -732,6 +781,7 @@ class App {
   request_template() {}
 
   importFromPremade(name) {
+    // this function imports a premade keyboard from the assets folder
     let file;
     let req = new XMLHttpRequest();
     req.open("GET", `assets/keyboard/${name}.json`, false);
@@ -751,6 +801,7 @@ class App {
     //TODO
   }
   exportFile() {
+    // function called when the user clicks on the export button in the popup
     exportFunction(this.keyboard);
   }
 }
