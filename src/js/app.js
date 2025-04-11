@@ -4,7 +4,7 @@ import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
-
+import exportFunction from "./exportFunc.js";
 import {isRotatedRectColliding} from "./collision.js";
 
 const TOOL = {
@@ -655,6 +655,10 @@ class App {
   }
 
   request_template() {}
+
+  exportFile(){
+    exportFunction(this.keyboard);
+  }
 }
 
 export default App;
