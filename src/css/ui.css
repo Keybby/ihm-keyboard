@@ -8,6 +8,11 @@
   --ui-text-color: white;
 }
 
+svg text{
+  font-size:xx-large;
+  user-select: none;
+}
+
 body {
   height: 100vh;
   width: 100vw;
