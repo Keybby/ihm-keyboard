@@ -230,47 +230,18 @@ class exportPopup extends popupClass {
   constructor() {
     // we get the basic template
     super("popup/export.html");
-    let main = document.getElementById("main");
-    this.display = main.cloneNode(true);
-    // since the fetch is async, we need a timeout to be able to load it
-    setTimeout(
-      function (display) {
-        const preview = document.getElementById("export_preview");
-        preview?.appendChild(display);
-        preview.children[0].setAttribute(
-          "viewBox",
-          document.getElementById("main").getAttribute("viewBox")
-        );
-        /**
-         *
-         * @param {Element} elem
-         */
-        // this function removes all the attributes of the element that are not needed in the export
-        function removeAlpine(elem) {
-          elem.removeAttribute("x-data");
-          elem.removeAttribute("x-effect");
-          elem.removeAttribute("@dblclick");
-          elem.removeAttribute("@mousedown");
-          elem.removeAttribute("x-bind:transform");
-          elem.removeAttribute(":class");
-          elem.removeAttribute("@click");
-          elem.removeAttribute("x-if");
-          elem.removeAttribute("@mousedown.prevent");
-          elem.removeAttribute("@mouseup.prevent");
-          elem.removeAttribute("@mousemove.prevent");
-          // we remove aalpine from all the children of the node
-          for (let index = 0; index < elem.children.length; index++) {
-            removeAlpine(elem.children[index]);
-          }
-        }
-        removeAlpine(preview);
-      },
-      150,
-      this.display
-    );
+    let svg = document.getElementById("svgdiv").children[0].cloneNode(true);
+    this.removeAlpineFull(svg);
     setTimeout(() => {
+      const preview = document.getElementById("export_preview");
+      preview.innerHTML="";
+      preview?.appendChild(svg);
+      preview.children[0].setAttribute(
+        "viewBox",
+        document.getElementById("main").getAttribute("viewBox")
+      );
       this.exportSVG();
-    }, 300);
+    }, 150);
   }
   /**
    *
@@ -297,6 +268,7 @@ class exportPopup extends popupClass {
     elem.removeAttribute("x-bind:width");
     elem.removeAttribute(":key");
     elem.removeAttribute("name");
+    elem.removeAttribute("x-text");
     // we remove aalpine from all the children of the node
     let change = true;
     while (change) {
@@ -316,10 +288,7 @@ class exportPopup extends popupClass {
   }
 
   exportSVG() {
-    let svg = document
-      .getElementById("export_preview")
-      .children[0].cloneNode(true);
-    this.removeAlpineFull(svg);
+    let svg = document.getElementById("export_preview").children[0];
     const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
     let url = URL.createObjectURL(blob);
     const export_button = document.getElementById("export_svg");

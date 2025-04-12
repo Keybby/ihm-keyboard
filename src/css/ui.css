@@ -126,3 +126,7 @@ body {
 button:active {
   opacity: 70%;
 }
+
+button:hover{
+  transition: all ease 200ms;
+}

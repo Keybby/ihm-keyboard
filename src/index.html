@@ -21,7 +21,7 @@
     @mouseleave="app.ui.clearResize()"
     @mousemove="app.ui.resizeHorizontal(event); app.popup.move(event)"
     @wheel="app.ui.placeSvg($event)"
-    @keydown.backspace="app.supprKey()"
+    @keydown.delete="app.supprKey()"
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
@@ -258,15 +258,17 @@
               </select>
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
-                <template x-for="code in view.layout.keycodes">
-                  <button style="height: 100%" class="top_button" id="key_add" 
-                  @click="app.supprKeyLayout(app.getSelectedKey(), code)" x-text="'-' + code"></button>
-                  <p x-text="'-' + code"></p>
+                <div class="scrollable key_list">
+                  <template x-for="code in view.layout.keycodes">
+                  <button style="height: 100%" class="key_button" 
+                  @click="app.supprKeyLayout(app.getSelectedKey(), code)" x-text="code"></button>
+                  <p x-text="code"></p>
                 </template>
-                <div>
+                </div>
+                <div class="add_key">
                   <button style="height: 100%" class="top_button" id="key_add" 
                   @click="app.addKeyLayout(app.getSelectedKey(), $refs.input.value)">+</button>
-                  <input type="text" name="addkey" x-ref="input"/>
+                  <input id="key_add_code" type="text" name="addkey" x-ref="input" maxlength="1" @keyup.enter="this.value=''; app.addKeyLayout(app.getSelectedKey(), $refs.input.value)" placeholder="Input key..."/>
                 </div>
               </div>
             </div>

@@ -7,11 +7,10 @@
   grid-template-rows: 1fr 1fr;
 }
 
-#side div {
-  padding: 0.5em;
-  margin-bottom: 0.3em;
+#side > div {
   background-color: var(--ui-color);
   color: var(--ui-text-color);
+  overflow: hidden;
 }
 
 #side label + input {
@@ -31,11 +30,22 @@
   align-items: stretch;
 }
 
+#side > div:nth-child(1){
+  margin-bottom: 0.3em;
+  padding: 0.5em;
+}
+
+#side > div:nth-child(2) * {
+  margin-left:0.25em;
+  margin-right:0.5em;
+}
+
 #side button {
   margin-top: auto;
   text-align: center;
   align-self: center;
   justify-self: flex-end;
+  margin:0;
 }
 
 #side select {
@@ -56,12 +66,19 @@
   width: 100%;
 }
 
-#keys > div {
+.add_key {
   padding: 0;
   display: grid;
   margin: 0.2em;
   width: 100%;
   grid-template-columns: 1fr 9fr;
+}
+
+.add_key input{
+  max-width: -webkit-fill-available;
+  margin:0px !important;
+  border-radius: 0 5px 5px 0 !important;
+  border:none;
 }
 
 #keys p::before {
@@ -274,9 +291,56 @@ input[type="range"]:disabled::-moz-range-thumb {
 
 #key_add {
   background-color: var(--ui-highlight);
-  padding:0 0.5em 0 0.5em;
+  padding: 0 0.5em 0 0.5em;
+  margin-right:0 !important;
+  border-radius: 5px 0 0 5px;
 }
 
-#keys{
-	padding-left:0;
+#key_add:hover {
+  background-color: var(--bg-color);
+
+}
+
+#keys {
+  padding-left: 0px;
+  margin-right: 0px !important;
+  padding-top:0.5em;
+  padding-bottom: 0.5em;
+}
+
+.key_list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  max-height: 7em;
+  padding-top:0.2em;
+  padding-bottom:0.2em;
+  gap:0.4em;
+  background-color: var(--bg-color);
+  border-radius: 10px 0px 0px 10px;
+  margin-left:0.5em !important;
+  margin-bottom:0.5em;
+  padding: 0.5em 0 0.5em 0;
+  min-height: 0.5em;
+}
+
+.key_list:not(.key_list:has(button:nth-child(1))):before{
+  content:"Keys will be listed here";
+  font-size: smaller;
+}
+
+.key_button{
+  border: none;
+  outline: none;
+  box-shadow: none;
+  max-width:70%;
+  border-radius:10px;
+}
+
+.key_button:hover{
+  background-color: #ef233c;
+  transition: all ease 100ms;
 }

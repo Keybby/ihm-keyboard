@@ -239,6 +239,11 @@ class App {
    */
   addKeyLayout(id, value) {
     // sets the character of keycode associated with the selected key
+    if(value==""){
+      return;
+    }
+    // @ts-ignore
+    document.getElementById("key_add_code").value="";
     this.keyboard.addKeyLayout(this.selectedLayer, id, value);
   }
 
