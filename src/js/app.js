@@ -239,12 +239,26 @@ class App {
    */
   addKeyLayout(id, value) {
     // sets the character of keycode associated with the selected key
+    if(id == null){
+      this.addActivation(id, value);
+      return;
+    }
+
     if(value==""){
       return;
     }
     // @ts-ignore
     document.getElementById("key_add_code").value="";
     this.keyboard.addKeyLayout(this.selectedLayer, id, value);
+  }
+
+  /**
+   * @param {KeyId} id
+   * @param {string} value
+   */
+  addActivation(id, value){
+    const keyCode = new KeyCode(value);
+    this.keyboard.additionalActivation.push(keyCode);
   }
 
   /**

@@ -107,6 +107,8 @@
   </div>
   <div id="import_done">
     <button @click="app.importFromFile()">From file...</button>
+    <input type="file" id="file"/>
+
     <button
       @click="app.importFromPremade(app.popup.popup.selected); app.popup.done()"
     >

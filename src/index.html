@@ -268,7 +268,7 @@
                 <div class="add_key">
                   <button style="height: 100%" class="top_button" id="key_add" 
                   @click="app.addKeyLayout(app.getSelectedKey(), $refs.input.value)">+</button>
-                  <input id="key_add_code" type="text" name="addkey" x-ref="input" maxlength="1" @keyup.enter="this.value=''; app.addKeyLayout(app.getSelectedKey(), $refs.input.value)" placeholder="Input key..."/>
+                  <input id="key_add_code" type="text" name="addkey" x-ref="input" @keyup.enter="this.value=''; app.addKeyLayout(app.getSelectedKey(), $refs.input.value)" placeholder="Input key..."/>
                 </div>
               </div>
             </div>
