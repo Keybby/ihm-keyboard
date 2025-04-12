@@ -14,31 +14,19 @@ function getRotatedCorners(rect, translation) {
 
   const cos = Math.cos(angleRad);
   const sin = Math.sin(angleRad);
-  const center = new Vec2D(rect.centerX, rect.centerY);
+  const center = rect.center;
 
   // corners relative to center
   return [
     // top-left
-    new Vec2D(
-      center.x + (cos * -hw - sin * -hh) + translation.x,
-      center.y + (sin * -hw + cos * -hh) + translation.y,
-    ),
+    new Vec2D(cos * -hw - sin * -hh, sin * -hw + cos * -hh),
     // top-right
-    new Vec2D(
-      center.x + (cos * hw - sin * -hh) + translation.x,
-      center.y + (sin * hw + cos * -hh) + translation.y,
-    ),
+    new Vec2D(cos * hw - sin * -hh, sin * hw + cos * -hh),
     // bottom-right
-    new Vec2D(
-      center.x + (cos * hw - sin * hh) + translation.x,
-      center.y + (sin * hw + cos * hh) + translation.y,
-    ),
+    new Vec2D(cos * hw - sin * hh, sin * hw + cos * hh),
     // bottom-left
-    new Vec2D(
-      center.x + (cos * -hw - sin * hh) + translation.x,
-      center.y + (sin * -hw + cos * hh) + translation.y,
-    ),
-  ];
+    new Vec2D(cos * -hw - sin * hh, sin * -hw + cos * hh),
+  ].map((pos) => center.plus(translation).plus(pos));
 }
 
 /**
@@ -62,7 +50,7 @@ function getAxes(corners) {
   for (let i = 0; i < corners.length; i++) {
     const p1 = corners[i];
     const p2 = corners[(i + 1) % corners.length];
-    const edge = new Vec2D(p2.x - p1.x, p2.y - p1.y);
+    const edge = p2.minus(p1);
     const normal = new Vec2D(-edge.y, edge.x).normalize();
     axes.push(normal);
   }

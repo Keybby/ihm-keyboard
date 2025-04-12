@@ -1,16 +1,17 @@
+import { Vec2D } from "./vec.js";
+
 const DEFAULT_WIDTH = 80;
 const DEFAULT_HEIGHT = 75;
 
 class KeyGeometry {
   /*
   This class is used to calculate the geometry of a key on a keyboard.
-  Attributes : 
-  - posX : x position of the center of the key
-  - posY : y position of the center of the key
+  Attributes :
+  - center: position of the center of the key
   - width : width of the key
   - height : height of the key
   - rotation : rotation of the key in degrees
-  methods : 
+  methods :
   - setX : set the x position of the key
   - setY : set the y position of the key
   - getWidth : get the width of the key
@@ -21,43 +22,22 @@ class KeyGeometry {
   */
   /**
    *
-   * @param {number} posX
-   * @param {number} posY
+   * @param {Vec2D} center
    * @param {number} width
    * @param {number} height
    * @param {number} rotation
    */
   constructor(
-    posX,
-    posY,
+    center,
     // we initialize the width and height to default values
     width = DEFAULT_WIDTH,
     height = DEFAULT_HEIGHT,
-    rotation = 0
+    rotation = 0,
   ) {
     this.width = width;
     this.height = height;
     this.rotation = rotation;
-    this.centerX = posX;
-    this.centerY = posY;
-  }
-
-  /**
-   *
-   * @param {number} x
-   */
-  setX(x) {
-    // set the x coordinate of the center of the key
-    this.centerX = x;
-  }
-
-  /**
-   *
-   * @param {number} y
-   */
-  setY(y) {
-    // set the y coordinate of the center of the key
-    this.centerY = y;
+    this.center = center;
   }
 
   getWidth() {
@@ -76,27 +56,25 @@ class KeyGeometry {
   }
   // we get the coordinates of the corners of the key
   x0() {
-    return this.centerX - this.width / 2;
+    return this.center.x - this.width / 2;
   }
   x1() {
-    return this.centerX + this.width / 2;
+    return this.center.x + this.width / 2;
   }
   y0() {
-    return this.centerY - this.height / 2;
+    return this.center.y - this.height / 2;
   }
   y1() {
-    return this.centerY + this.height / 2;
+    return this.center.y + this.height / 2;
   }
 
   /**
    *
-   * @param {KeyGeometry} a
-   * @param {KeyGeometry} b
+   * @param {Vec2D} vec
    */
-  static getDistance(a, b) {
-    return Math.sqrt(
-      (a.centerX - b.centerX) ** 2 + (a.centerY - b.centerY) ** 2
-    );
+  translate(vec) {
+    this.center.x += vec.x;
+    this.center.y += vec.y;
   }
 }
 

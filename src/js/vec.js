@@ -48,6 +48,31 @@ export class Vec2D {
   static dot(a, b) {
     return a.x * b.x + a.y * b.y;
   }
+  /**
+   * Adds this vector to another vector
+   * @param {Vec2D} other - Other vector to add
+   * @returns {Vec2D} A new vector that is the sum of this vector and the other
+   */
+  plus(other) {
+    return new Vec2D(this.x + other.x, this.y + other.y);
+  }
+
+  /**
+   * Adds this vector to another vector
+   * @param {Vec2D} other - Other vector to add
+   * @returns {Vec2D} A new vector that is the sum of this vector and the other
+   */
+  minus(other) {
+    return new Vec2D(this.x - other.x, this.y - other.y);
+  }
+
+  /**
+   * Calculates the magnitude (norm) of this vector
+   * @returns {number} The magnitude of the vector
+   */
+  norm() {
+    return Math.hypot(this.x, this.y);
+  }
 }
 
 /**
