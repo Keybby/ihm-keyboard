@@ -28,6 +28,7 @@ class Keyboard {
     /** @type {Array<KeyCode>} */
     this.additionalActivation = [];
   }
+
   /**
    *
    * @param {number} posX
@@ -88,6 +89,22 @@ class Keyboard {
       throw new Error("layer is not defined");
     }
     return layer;
+  }
+
+  /**
+   *
+   * @param {number} i_layer
+   * @returns {string}
+   */
+  getActivation(i_layer){
+    if (i_layer === -1) {
+      return "Details";
+    }
+    const activ = this.additionalActivation[i_layer];
+    if (!activ) {
+      return "Details";
+    }
+    return activ.toString();
   }
 
   /**

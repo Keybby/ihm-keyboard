@@ -4,6 +4,7 @@ import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
+import { KeyCode } from "./key_layout.js";
 import exportFunction from "./exportFunc.js";
 import { isRotatedRectColliding } from "./collision.js";
 import { Vec2D, ZERO } from "./vec.js";
@@ -115,6 +116,15 @@ class App {
     return this.keyboard.getLayer(i).name;
   }
 
+  /**
+   *
+   * @param {number} i
+   * @returns {String}
+   */
+  getLayerActivation(i) {
+    return this.keyboard.getActivation(i);
+  }
+
   additionalLayers() {
     // gets all the layers previously created
     return this.keyboard.additionalLayers;
@@ -215,6 +225,10 @@ class App {
    * @param {string} value
    */
   setKeyLayout(id, value) {
+    if(id == null){
+      const keyCode = new KeyCode(value);
+      this.keyboard.additionalActivation.push(keyCode);
+    }
     // sets the character of keycode associated with the selected key
     this.keyboard.setKeyLayout(this.selectedLayer, id, value);
   }

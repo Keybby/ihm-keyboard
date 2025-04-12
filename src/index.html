@@ -325,11 +325,13 @@
                 x-show="app.isActiveLayer(i)"
                 x-transition
               >
-                <div>Details</div>
+                <div>
+                  <span x-text="app.getLayerActivation(i)"> </span>
+                </div>
               </div>
             </div>
           </template>
-          <button @click="app.addLayer()">Add Layer</button>
+          <button @click="app.addLayer(); app.popup.show('input', null)">Add Layer</button>
         </div>
       </div>
     </div>
