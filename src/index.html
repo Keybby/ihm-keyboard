@@ -260,8 +260,8 @@
               <div id="keys" name="keys">
                 <template x-for="code in view.layout.keycodes">
                   <button style="height: 100%" class="top_button" id="key_add" 
-                  @click="app.supprKeyLayout(app.getSelectedKey(), code)">-</button>
-                  <p x-text="code"></p>
+                  @click="app.supprKeyLayout(app.getSelectedKey(), code)" x-text="'-' + code"></button>
+                  <p x-text="'-' + code"></p>
                 </template>
                 <div>
                   <button style="height: 100%" class="top_button" id="key_add" 
