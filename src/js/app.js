@@ -387,16 +387,16 @@ class App {
    * @param {Vec2D} original_translation
    * @param {Vec2D} last_moved
    */
-  resolveTranslation(original_translation, last_moved) {
+  resolveTranslationCollisions(original_translation, last_moved) {
     let translation = original_translation;
     for (let i = 0; i < 500; i++) {
       let colide = false;
       for (const id_a of this.selectedKeys) {
         for (const id_b of this.keyboard.keys) {
+          const geo_b = this.getKeyGeometry(id_b);
           if (id_a != id_b && !this.isSelected(id_b)) {
             if (this.detectCollision(id_a, id_b, translation)) {
               colide = true;
-              const geo_b = this.getKeyGeometry(id_b);
               const dir = last_moved.minus(geo_b.center).normalize();
               translation = translation.plus(dir);
             }
@@ -412,11 +412,102 @@ class App {
 
   /**
    *
+   * @param {KeyId} key_id
+   * @returns
+   */
+  getNearestNonSelectedKeys(key_id) {
+    const nonSelectedKeys = [];
+    const geo_key = this.getKeyGeometry(key_id);
+    for (const id_b of this.keyboard.keys) {
+      if (id_b != key_id && !this.isSelected(id_b)) {
+        nonSelectedKeys.push(id_b);
+      }
+    }
+    nonSelectedKeys.sort((a, b) => {
+      const geo_a = this.getKeyGeometry(a);
+      const geo_b = this.getKeyGeometry(b);
+      const dist_a = geo_a.center.minus(geo_key.center).norm();
+      const dist_b = geo_b.center.minus(geo_key.center).norm();
+      return dist_a - dist_b;
+    });
+    return nonSelectedKeys;
+  }
+
+  /**
+   *
+   * @param {Vec2D} pos
+   * @returns
+   */
+  getNearestSelectedKeysFromMousePosition(pos) {
+    this.selectedKeys.sort((a, b) => {
+      const geo_a = this.getKeyGeometry(a);
+      const geo_b = this.getKeyGeometry(b);
+      const dist_a = geo_a.center.minus(pos).norm();
+      const dist_b = geo_b.center.minus(pos).norm();
+      return dist_a - dist_b;
+    });
+    return this.selectedKeys;
+  }
+
+  /**
+   *
+   * @param {Vec2D} original_translation
+   * @param {Vec2D} mouse_position
+   * @param {'x'|'y'} mode
+
+   */
+  resolveTranslationSnap(original_translation, mouse_position, mode) {
+    for (const id_a of this.getNearestSelectedKeysFromMousePosition(
+      mouse_position,
+    )) {
+      const current_pos =
+        this.getKeyGeometry(id_a).center.plus(original_translation);
+      for (const id_b of this.getNearestNonSelectedKeys(id_a)) {
+        const geo_b = this.getKeyGeometry(id_b);
+        const v = geo_b.center.minus(current_pos);
+        const up =
+          mode == "x"
+            ? geo_b.getVectorUp().normalize()
+            : geo_b.getVectorRight().normalize();
+        if (Math.abs(v.dot(up)) < 20) {
+          return original_translation.plus(up.scaled(v.dot(up)));
+        }
+      }
+    }
+    return original_translation;
+  }
+
+  /**
+
+  This function handles the entire mouse movement logic.
+  At any moment, the app has a list of selected keys, which the user may be moving.
+  If he is indeed moving the keys (keys are selected, he clicked once, he is dragging, and is not in rectangle selection mode),
+  we have to decide where the selected keys must be placed.
+  We first resolve the collisions, then check if there is snapping, and check a last time for collisions (the snap may have created new collisions)
+   *
    * @returns {Vec2D}
    */
   getTranslation() {
     if (this.lastClicked && this.lastMoved && !this.hasRectangleSelection) {
-      return this.resolveTranslation(this.rawTranslation(), this.lastMoved);
+      let translation = this.resolveTranslationCollisions(
+        this.rawTranslation(),
+        this.lastMoved,
+      );
+      translation = this.resolveTranslationSnap(
+        translation,
+        this.lastMoved,
+        "x",
+      );
+      translation = this.resolveTranslationSnap(
+        translation,
+        this.lastMoved,
+        "y",
+      );
+      translation = this.resolveTranslationCollisions(
+        translation,
+        this.lastMoved,
+      );
+      return translation;
     }
     return ZERO;
   }

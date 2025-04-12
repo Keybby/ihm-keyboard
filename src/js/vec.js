@@ -13,6 +13,14 @@ export class Vec2D {
   }
 
   /**
+   * Returns a string representation of the vector
+   * @returns {string} A string in the format "(x, y)"
+   */
+  toString() {
+    return `(${this.x}, ${this.y})`;
+  }
+
+  /**
    * Static method to create a vector along the X-axis
    * @param {number} x - X coordinate value
    * @returns {Vec2D} A new vector with the specified x value and y=0
@@ -55,7 +63,7 @@ export class Vec2D {
    * @param {number} scalar - The scalar value
    * @returns {Vec2D} The resulting vector
    */
-  multiply(scalar) {
+  scaled(scalar) {
     return new Vec2D(this.x * scalar, this.y * scalar);
   }
 

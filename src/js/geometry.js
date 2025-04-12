@@ -77,8 +77,11 @@ class KeyGeometry {
     this.center.y += vec.y;
   }
 
-  getNormalHorizontal() {
-    return;
+  getVectorRight() {
+    return new Vec2D(this.width, 0).rotated(this.rotation);
+  }
+  getVectorUp() {
+    return new Vec2D(0, this.height).rotated(this.rotation);
   }
 }
 
