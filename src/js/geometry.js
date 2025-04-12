@@ -76,6 +76,10 @@ class KeyGeometry {
     this.center.x += vec.x;
     this.center.y += vec.y;
   }
+
+  getNormalHorizontal() {
+    return;
+  }
 }
 
 export default KeyGeometry;

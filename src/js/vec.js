@@ -13,6 +13,35 @@ export class Vec2D {
   }
 
   /**
+   * Static method to create a vector along the X-axis
+   * @param {number} x - X coordinate value
+   * @returns {Vec2D} A new vector with the specified x value and y=0
+   */
+  static X(x) {
+    return new Vec2D(x, 0);
+  }
+
+  /**
+   * Static method to create a vector along the Y-axis
+   * @param {number} y - Y coordinate value
+   * @returns {Vec2D} A new vector with the specified y value and x=0
+   */
+  static Y(y) {
+    return new Vec2D(0, y);
+  }
+
+  /**
+   * Rotates this vector by a specified angle
+   * @param {number} angle - The angle to rotate by in radians
+   * @returns {Vec2D} A new vector that is this vector rotated by the angle
+   */
+  rotated(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new Vec2D(this.x * cos - this.y * sin, this.x * sin + this.y * cos);
+  }
+
+  /**
    * Normalizes this vector (creates a unit vector in the same direction)
    * @returns {Vec2D} A new normalized vector
    */

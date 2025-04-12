@@ -12,20 +12,18 @@ function getRotatedCorners(rect, translation) {
   const hw = rect.width / 2;
   const hh = rect.height / 2;
 
-  const cos = Math.cos(angleRad);
-  const sin = Math.sin(angleRad);
   const center = rect.center;
 
   // corners relative to center
   return [
     // top-left
-    new Vec2D(cos * -hw - sin * -hh, sin * -hw + cos * -hh),
+    new Vec2D(-hw, -hh).rotated(angleRad),
     // top-right
-    new Vec2D(cos * hw - sin * -hh, sin * hw + cos * -hh),
+    new Vec2D(hw, -hh).rotated(angleRad),
     // bottom-right
-    new Vec2D(cos * hw - sin * hh, sin * hw + cos * hh),
+    new Vec2D(hw, hh).rotated(angleRad),
     // bottom-left
-    new Vec2D(cos * -hw - sin * hh, sin * -hw + cos * hh),
+    new Vec2D(-hw, hh).rotated(angleRad),
   ].map((pos) => center.plus(translation).plus(pos));
 }
 
