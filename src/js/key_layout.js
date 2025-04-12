@@ -3,7 +3,7 @@
 const BEHAVIOUR = {
   // normal keys : letters, numbers, symbols, ...
   Classic: 0,
-  // keys that are used in combination with others, ex : CTTRL+aLT
+  // keys that are used in combination with others, ex : CTRL+ALT
   Combo: 1,
   //keys that need to keep being pressed to have an effect 
   // on the keyboard, ex : Shift
@@ -48,6 +48,11 @@ class KeyLayout {
   constructor(behaviour = BEHAVIOUR.Classic, keycodes = []) {
     this.behaviour = behaviour;
     this.keycodes = keycodes;
+  }
+
+  toString(){
+    const separator = '+';
+    return this.keycodes.map(keycode => keycode.toString()).join(separator);
   }
 }
 

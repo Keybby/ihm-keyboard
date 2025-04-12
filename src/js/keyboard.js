@@ -24,6 +24,9 @@ class Keyboard {
 
     /** @type {Array<Layer>} */
     this.additionalLayers = [];
+
+    /** @type {Array<KeyCode>} */
+    this.additionalActivation = [];
   }
   /**
    *
@@ -109,6 +112,37 @@ class Keyboard {
     let layout = this.getKeyLayout(i_layer, key_id);
     layout.keycodes = [new KeyCode(value)];
     this.getLayer(i_layer).keyMap.set(key_id, layout);
+  }
+
+  /**
+   *
+   * @param {number} i_layer
+   * @param {KeyId} key_id
+   * @param {string} value
+   */
+  addKeyLayout(i_layer, key_id, value) {
+    let layout = this.getKeyLayout(i_layer, key_id);
+    if(layout.keycodes.length === 0){
+      this.setKeyLayout(i_layer, key_id, value);
+    }
+    else{
+      layout.keycodes.push(new KeyCode(value));
+    }
+  }
+
+  /**
+   *
+   * @param {number} i_layer
+   * @param {KeyId} key_id
+   * @param {string} value
+   */
+  supprKeyLayout(i_layer, key_id, value) {
+    let layout = this.getKeyLayout(i_layer, key_id);
+
+    const index = layout.keycodes.findIndex(keyCode => keyCode.toString() == value);
+    if (index !== -1) {
+      layout.keycodes.splice(index, 1); // Remove the element at the found index
+    }
   }
 }
 

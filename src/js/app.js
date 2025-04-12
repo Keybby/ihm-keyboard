@@ -219,6 +219,24 @@ class App {
     this.keyboard.setKeyLayout(this.selectedLayer, id, value);
   }
 
+  /**
+   * @param {KeyId} id
+   * @param {string} value
+   */
+  addKeyLayout(id, value) {
+    // sets the character of keycode associated with the selected key
+    this.keyboard.addKeyLayout(this.selectedLayer, id, value);
+  }
+
+  /**
+   * @param {KeyId} id
+   * @param {string} value
+   */
+  supprKeyLayout(id, value) {
+    // sets the character of keycode associated with the selected key
+    this.keyboard.supprKeyLayout(this.selectedLayer, id, value);
+  }
+
   getSelectedKeyLayout() {
     // gets the layout of the key that was selected by the user
     const selectedKey = this.getSelectedKey();

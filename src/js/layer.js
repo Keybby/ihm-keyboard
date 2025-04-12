@@ -3,9 +3,9 @@ import KeyLayout from "./key_layout.js";
 
 class Layer {
   /**
-    @param name {String}
+    @param {String} name 
       the set of keys that must be clicked to activate this layer
-    @param keyMap {Map<KeyId, KeyLayout>} is a record from KeyId to Key
+    @param {Map<KeyId, KeyLayout>} keyMap  is a record from KeyId to Key
   */
   constructor(name = "default", keyMap = new Map()) {
     this.name = name;

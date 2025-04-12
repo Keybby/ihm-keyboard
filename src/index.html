@@ -61,7 +61,7 @@
             />
 
             <text
-              x-text="view.layout.keycodes.at(0) || '<None>'"
+              x-text="view.layout.toString() || '<None>'"
               fill="red"
               font-size="xx-large"
               stroke="#000000"
@@ -259,12 +259,14 @@
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
                 <template x-for="code in view.layout.keycodes">
+                  <button style="height: 100%" class="top_button" id="key_add" 
+                  @click="app.supprKeyLayout(app.getSelectedKey(), code)">-</button>
                   <p x-text="code"></p>
                 </template>
                 <div>
-                  <button style="height: 100%" class="top_button" id="key_add">
-                    +</button
-                  ><input name="addkey" />
+                  <button style="height: 100%" class="top_button" id="key_add" 
+                  @click="app.addKeyLayout(app.getSelectedKey(), $refs.input.value)">+</button>
+                  <input type="text" name="addkey" x-ref="input"/>
                 </div>
               </div>
             </div>
