@@ -148,8 +148,8 @@ class Popup {
   }
 
   done() {
-    // This function suppresses traces 
-    // of the pop up in the html once 
+    // This function suppresses traces
+    // of the pop up in the html once
     // we have finished using it
     this.body.innerHTML = "";
     this.title.textContent == "Popup";
@@ -268,7 +268,66 @@ class exportPopup extends popupClass {
       150,
       this.display
     );
+    setTimeout(() => {
+      this.exportSVG();
+    }, 300);
   }
+  /**
+   *
+   * @param {Element} elem
+   * @returns
+   */
+  removeAlpineFull(elem) {
+    elem.removeAttribute("x-data");
+    elem.removeAttribute("x-effect");
+    elem.removeAttribute("@dblclick");
+    elem.removeAttribute("@mousedown");
+    elem.removeAttribute("x-bind:transform");
+    elem.removeAttribute(":class");
+    elem.removeAttribute("@click");
+    elem.removeAttribute("x-if");
+    elem.removeAttribute("@mousedown.prevent");
+    elem.removeAttribute("@mouseup.prevent");
+    elem.removeAttribute("@mousemove.prevent");
+    elem.removeAttribute("x-bind:transform");
+    elem.removeAttribute("x-bind:d");
+    elem.removeAttribute("x-bind:x");
+    elem.removeAttribute("x-bind:y");
+    elem.removeAttribute("x-bind:height");
+    elem.removeAttribute("x-bind:width");
+    elem.removeAttribute(":key");
+    elem.removeAttribute("name");
+    // we remove aalpine from all the children of the node
+    let change = true;
+    while (change) {
+      change = false;
+      for (let index = 0; index < elem.children.length; index++) {
+        if (elem.children[index].tagName == "TEMPLATE") {
+          elem.removeChild(elem.children[index]);
+          change = true;
+          break;
+        }
+      }
+    }
+    for (let index = 0; index < elem.children.length; index++) {
+      this.removeAlpineFull(elem.children[index]);
+    }
+    return elem;
+  }
+
+  exportSVG() {
+    let svg = document
+      .getElementById("export_preview")
+      .children[0].cloneNode(true);
+    this.removeAlpineFull(svg);
+    const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
+    let url = URL.createObjectURL(blob);
+    const export_button = document.getElementById("export_svg");
+    console.log(url);
+    export_button?.setAttribute("href", url);
+    export_button.disabled = false;
+  }
+
   /**
    * @param {Element} elem
    */
@@ -280,15 +339,15 @@ class importPopup extends popupClass {
   */
   constructor() {
     super("popup/import.html");
-    this.selected="azerty";
-  }
-  
-  select(name){
-    this.selected=name;
+    this.selected = "azerty";
   }
 
-  isSelected(name){
-    return name==this.selected;
+  select(name) {
+    this.selected = name;
+  }
+
+  isSelected(name) {
+    return name == this.selected;
   }
 }
 
@@ -320,9 +379,9 @@ class svgPopup extends popupClass {
     fetch("assets/key.svg")
       // Get SVG response as text
       .then((response) => response.text())
-      .then((str) => (new window.DOMParser()).parseFromString(str, "text/xml"))
+      .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
       .then((xml) => {
-        console.log(xml)
+        console.log(xml);
         this.input.value = xml.getElementsByTagName("svg")[0].innerHTML;
       });
   }
@@ -335,13 +394,15 @@ class svgPopup extends popupClass {
     if (this.input == undefined) {
       this.input = document.getElementById("edit_svg_path");
     }
-    if (this.input.value.split("<").length>1) {
+    if (this.input.value.split("<").length > 1) {
       this.preview.innerHTML = this.input.value;
-    }
-    else{
+    } else {
       this.preview.innerHTML = "";
       // we create a new svg element
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      const path = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
       path.setAttribute("d", this.input.value);
       this.preview.appendChild(path);
     }

@@ -2,6 +2,7 @@ import KeyGeometry, { DEFAULT_HEIGHT, DEFAULT_WIDTH } from "./geometry.js";
 import KeyId from "./key.js";
 import Layer from "./layer.js";
 import KeyLayout, { KeyCode } from "./key_layout.js";
+import { Vec2D } from "./vec.js";
 
 class Keyboard {
   /**
@@ -41,7 +42,7 @@ class Keyboard {
     this.keys.push(key);
     this.geometries.set(
       key,
-      new KeyGeometry(posX, posY, width, height, rotation),
+      new KeyGeometry(new Vec2D(posX, posY), width, height, rotation),
     );
 
     return key; //TOCHECK

@@ -3,9 +3,10 @@
 >
   <div style="display: grid; grid-template-columns: 2fr 1fr; height: 100%">
     <div id="export_preview"></div>
-    <div id="export_menu" class="popup-center">
+    <dixv id="export_menu" class="popup-center">
       <h3>Exporting result</h3>
-      <button @click="app.export()"> EXPORT </button>
+      <a id="export_svg" download="keyboard.svg"  disabled> Export SVG </a> 
+      <button @click="app.exportFile()"> EXPORT </button>
     </div>
   </div>
 </div>
