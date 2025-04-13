@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -22,6 +22,7 @@
     @mousemove="app.ui.resizeHorizontal(event); app.popup.move(event)"
     @wheel="app.ui.placeSvg($event)"
     @keydown.delete="app.supprKey()"
+    @keydown.ctrl.c="app.handleCopy()"
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
@@ -260,15 +261,32 @@
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
                   <template x-for="code in view.layout.keycodes">
-                  <button style="height: 100%" class="key_button" 
-                  @click="app.supprKeyLayout(app.getSelectedKey(), code)" x-text="code"></button>
-                  <p x-text="code"></p>
-                </template>
+                    <button
+                      style="height: 100%"
+                      class="key_button"
+                      @click="app.supprKeyLayout(app.getSelectedKey(), code)"
+                      x-text="code"
+                    ></button>
+                    <p x-text="code"></p>
+                  </template>
                 </div>
                 <div class="add_key">
-                  <button style="height: 100%" class="top_button" id="key_add" 
-                  @click="app.addKeyLayout(app.getSelectedKey(), $refs.input.value)">+</button>
-                  <input id="key_add_code" type="text" name="addkey" x-ref="input" @keyup.enter="this.value=''; app.addKeyLayout(app.getSelectedKey(), $refs.input.value)" placeholder="Input key..."/>
+                  <button
+                    style="height: 100%"
+                    class="top_button"
+                    id="key_add"
+                    @click="app.addKeyLayout(app.getSelectedKey(), $refs.input.value)"
+                  >
+                    +
+                  </button>
+                  <input
+                    id="key_add_code"
+                    type="text"
+                    name="addkey"
+                    x-ref="input"
+                    @keyup.enter="this.value=''; app.addKeyLayout(app.getSelectedKey(), $refs.input.value)"
+                    placeholder="Input key..."
+                  />
                 </div>
               </div>
             </div>
@@ -333,7 +351,9 @@
               </div>
             </div>
           </template>
-          <button @click="app.addLayer(); app.popup.show('input', null)">Add Layer</button>
+          <button @click="app.addLayer(); app.popup.show('input', null)">
+            Add Layer
+          </button>
         </div>
       </div>
     </div>

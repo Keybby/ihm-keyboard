@@ -1,5 +1,5 @@
 import KeyGeometry from "./geometry.js";
-import { Vec2D } from "./vec.js";
+import Vec2D from "./vec.js";
 
 /**
  *

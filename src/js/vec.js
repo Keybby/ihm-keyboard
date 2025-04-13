@@ -1,7 +1,7 @@
 /**
  * Class representing a 2D position or vector
  */
-export class Vec2D {
+export default class Vec2D {
   /**
    * Creates a new 2D vector
    * @param {number} x - X coordinate
@@ -110,10 +110,8 @@ export class Vec2D {
   norm() {
     return Math.hypot(this.x, this.y);
   }
-}
 
-/**
- * Zero vector constant
- * @type {Vec2D}
- */
-export const ZERO = new Vec2D(0, 0);
+  static zero() {
+    return new Vec2D(0, 0);
+  }
+}

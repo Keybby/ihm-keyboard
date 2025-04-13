@@ -7,7 +7,7 @@ import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 import { KeyCode } from "./key_layout.js";
 import exportFunction from "./exportFunc.js";
 import { isRotatedRectColliding } from "./collision.js";
-import { Vec2D, ZERO } from "./vec.js";
+import Vec2D from "./vec.js";
 
 const TOOL = {
   Move: 0,
@@ -32,6 +32,11 @@ class App {
   // indicates if we are in the process of selecting keyse
   hasRectangleSelection;
 
+  /**
+  @type {Boolean}
+  indicates if the user is currently dragging keys */
+  hasDrag;
+
   /** @type {*}
    * Contains width, height and rotation for each key selected */
   initialGeometries;
@@ -39,14 +44,17 @@ class App {
   /** @type {SVGSVGElement} */
   svg;
 
-  /** @type {Vec2D| null} */
+  /** @type {Vec2D} */
   lastClicked;
 
-  /** @type {Vec2D | null} */
+  /** @type {Vec2D} */
   lastMoved;
 
   /** @type {KeyId[]} */
   selectedKeys;
+
+  /** @type {KeyId[]} */
+  copiedKeys;
 
   /** @type {Ui} */
   ui;
@@ -63,9 +71,10 @@ class App {
     this.changingNameLayer = false;
     // @ts-ignore
     this.svg = document.getElementById("main");
-    this.lastClicked = null;
-    this.lastMoved = null;
+    this.lastClicked = Vec2D.zero();
+    this.lastMoved = Vec2D.zero();
     this.selectedKeys = [];
+    this.copiedKeys = [];
     // represents the canvas where we'll draw the keyboard
     this.ui = new Ui();
     // basic pop up that will be adapted according to which button
@@ -78,6 +87,7 @@ class App {
     this.toolRotation = 0;
 
     this.hasRectangleSelection = false;
+    this.hasDrag = true;
     this.initialGeometries = [];
   }
 
@@ -366,7 +376,7 @@ class App {
     // this function returns the translation vector
     // that is the difference between the last position of the mouse and the first one
     if (!this.lastMoved || !this.lastClicked) {
-      return ZERO;
+      return Vec2D.zero();
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
@@ -384,9 +394,7 @@ class App {
         geometry?.translate(translation);
       }
     }
-    //this.selectedKeys = [];
-    this.lastClicked = null;
-    this.lastMoved = null;
+    this.hasDrag = false;
     this.hasRectangleSelection = false;
   }
 
@@ -396,8 +404,6 @@ class App {
       this.keyboard.supprKey(this.selectedKeys);
 
       this.selectedKeys = [];
-      this.lastClicked = null;
-      this.lastMoved = null;
       this.hasRectangleSelection = false;
       this.initialGeometries = [];
     }
@@ -498,7 +504,7 @@ class App {
         return translation;
       }
     }
-    return ZERO;
+    return Vec2D.zero();
   }
 
   /**
@@ -600,7 +606,7 @@ class App {
       );
       return translation;
     }
-    return ZERO;
+    return Vec2D.zero();
   }
 
   /**
@@ -630,7 +636,9 @@ class App {
     if (!geo) {
       throw new Error("Key geometry not found");
     }
-    const trans = this.isSelected(key_id) ? this.getTranslation() : ZERO;
+    const trans = this.isSelected(key_id)
+      ? this.getTranslation()
+      : Vec2D.zero();
     const x = Math.round(geo.x0() + trans.x);
     const y = Math.round(geo.y0() + trans.y);
     return {
@@ -820,6 +828,21 @@ class App {
         parseInt(geometryInit.rotation) + parseInt(rotationChange);
     }
   }
+
+  handleCopy() {
+    if (this.selectedKeys.length == 0) {
+      return;
+    }
+    this.copiedKeys = this.selectedKeys.slice();
+    for (const key_id of this.selectedKeys) {
+      this.lastClicked = Vec2D.zero();
+      const geo = this.getKeyGeometry(key_id);
+      this.lastClicked.x = Math.min(this.lastClicked.x, geo.center.x);
+      this.lastClicked.y = Math.min(this.lastClicked.y, geo.center.x);
+    }
+  }
+
+  handlePaste() {}
 
   /**
    *

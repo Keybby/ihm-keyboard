@@ -1,4 +1,4 @@
-import { Vec2D } from "./vec.js";
+import Vec2D from "./vec.js";
 
 const DEFAULT_WIDTH = 80;
 const DEFAULT_HEIGHT = 75;
