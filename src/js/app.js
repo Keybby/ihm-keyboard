@@ -14,6 +14,8 @@ const TOOL = {
   Create: 1,
 };
 
+const MAX_ITERATION_BEFORE_GIVE_UP = 500;
+
 class App {
   /** @type {Keyboard} */
   keyboard;
@@ -348,6 +350,7 @@ class App {
       this.selectedKeys = [key_id];
     }
     const pos = this.getMouseCoordinates(evt);
+    this.hasDrag = true;
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
@@ -356,20 +359,24 @@ class App {
 
   /**
    *
-   * @param {KeyId} key_id
-   * @param {KeyId} other_id
+   * @param {KeyId[]} key_ids
    * @param {Vec2D} translation
-   * @returns
+   * @returns {KeyId|null} (is in keys_b)
    */
-  detectCollision(key_id, other_id, translation) {
+  detectCollision(key_ids, translation) {
     // checks if moving the key(s) created a collision
-    const key_geometry = this.getKeyGeometry(key_id);
-    const other_geometry = this.getKeyGeometry(other_id);
 
-    if (!isRotatedRectColliding(key_geometry, other_geometry, translation)) {
-      return false;
+    for (const id_a of key_ids) {
+      for (const id_b of this.getNearestNonSelectedKeys(id_a)) {
+        const key_geometry = this.getKeyGeometry(id_a);
+        const other_geometry = this.getKeyGeometry(id_b);
+        if (isRotatedRectColliding(key_geometry, other_geometry, translation)) {
+          return id_b;
+        }
+      }
     }
-    return true;
+
+    return null;
   }
 
   rawTranslation() {
@@ -486,23 +493,14 @@ class App {
     // if it is not possible, we try to move the key
     // the closest as we can to the position indicated by the user
     let translation = original_translation;
-    for (let i = 0; i < 500; i++) {
-      let colide = false;
-      for (const id_a of this.selectedKeys) {
-        for (const id_b of this.keyboard.keys) {
-          const geo_b = this.getKeyGeometry(id_b);
-          if (id_a != id_b && !this.isSelected(id_b)) {
-            if (this.detectCollision(id_a, id_b, translation)) {
-              colide = true;
-              const dir = last_moved.minus(geo_b.center).normalize();
-              translation = translation.plus(dir);
-            }
-          }
-        }
-      }
-      if (!colide) {
+    for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
+      const key_colide = this.detectCollision(this.selectedKeys, translation);
+      if (key_colide == null) {
         return translation;
       }
+      const geo = this.getKeyGeometry(key_colide);
+      const dir = last_moved.minus(geo.center).normalize().scaled(2);
+      translation = translation.plus(dir);
     }
     return Vec2D.zero();
   }
@@ -585,7 +583,7 @@ class App {
    * @returns {Vec2D}
    */
   getTranslation() {
-    if (this.lastClicked && this.lastMoved && !this.hasRectangleSelection) {
+    if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
         this.lastMoved,
@@ -834,15 +832,58 @@ class App {
       return;
     }
     this.copiedKeys = this.selectedKeys.slice();
-    for (const key_id of this.selectedKeys) {
-      this.lastClicked = Vec2D.zero();
-      const geo = this.getKeyGeometry(key_id);
-      this.lastClicked.x = Math.min(this.lastClicked.x, geo.center.x);
-      this.lastClicked.y = Math.min(this.lastClicked.y, geo.center.x);
-    }
   }
 
-  handlePaste() {}
+  /**
+   *
+   * @param {KeyId[]} copied_keys
+   */
+  getBestTranslationForCopiedKeys(copied_keys) {
+    const maxWidth = copied_keys.reduce((acc, key_id) => {
+      const geo = this.getKeyGeometry(key_id);
+      return Math.max(acc, geo.width);
+    }, 0);
+
+    /** @type {number} */
+    const maxHeight = copied_keys.reduce((acc, key_id) => {
+      const geo = this.getKeyGeometry(key_id);
+      return Math.max(acc, geo.height);
+    }, 0);
+
+    let dx = maxWidth;
+    let dy = maxHeight;
+
+    for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
+      let translation = Vec2D.X(dx + i);
+      let key_colide = this.detectCollision(this.copiedKeys, translation);
+      if (key_colide === null) {
+        return translation;
+      }
+      translation = Vec2D.Y(dy + i);
+      key_colide = this.detectCollision(this.copiedKeys, translation);
+      if (key_colide === null) {
+        return translation;
+      }
+    }
+    return Vec2D.zero();
+  }
+
+  handlePaste() {
+    if (this.copiedKeys.length == 0) {
+      return;
+    }
+    this.selectedKeys = [];
+    const translation = this.getBestTranslationForCopiedKeys(this.copiedKeys);
+    for (const id of this.copiedKeys) {
+      const geo = this.getKeyGeometry(id);
+      const key_id = this.keyboard.addKey(
+        geo.center.x + translation.x,
+        geo.center.y + translation.y,
+      );
+      this.selectedKeys.push(key_id);
+    }
+    this.copiedKeys = this.selectedKeys.slice();
+  }
 
   /**
    *

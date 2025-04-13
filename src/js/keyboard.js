@@ -2,7 +2,7 @@ import KeyGeometry, { DEFAULT_HEIGHT, DEFAULT_WIDTH } from "./geometry.js";
 import KeyId from "./key.js";
 import Layer from "./layer.js";
 import KeyLayout, { KeyCode } from "./key_layout.js";
-import { Vec2D } from "./vec.js";
+import Vec2D from "./vec.js";
 
 class Keyboard {
   /**
@@ -96,7 +96,7 @@ class Keyboard {
    * @param {number} i_layer
    * @returns {string}
    */
-  getActivation(i_layer){
+  getActivation(i_layer) {
     if (i_layer === -1) {
       return "Details";
     }
@@ -139,10 +139,9 @@ class Keyboard {
    */
   addKeyLayout(i_layer, key_id, value) {
     let layout = this.getKeyLayout(i_layer, key_id);
-    if(layout.keycodes.length === 0){
+    if (layout.keycodes.length === 0) {
       this.setKeyLayout(i_layer, key_id, value);
-    }
-    else{
+    } else {
       layout.keycodes.push(new KeyCode(value));
     }
   }
@@ -156,7 +155,9 @@ class Keyboard {
   supprKeyLayout(i_layer, key_id, value) {
     let layout = this.getKeyLayout(i_layer, key_id);
 
-    const index = layout.keycodes.findIndex(keyCode => keyCode.toString() == value);
+    const index = layout.keycodes.findIndex(
+      (keyCode) => keyCode.toString() == value,
+    );
     if (index !== -1) {
       layout.keycodes.splice(index, 1); // Remove the element at the found index
     }

@@ -23,6 +23,7 @@
     @wheel="app.ui.placeSvg($event)"
     @keydown.delete="app.supprKey()"
     @keydown.ctrl.c="app.handleCopy()"
+    @keydown.ctrl.v="app.handlePaste()"
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
