@@ -225,7 +225,7 @@ class App {
    * @param {string} value
    */
   setKeyLayout(id, value) {
-    if(id == null){
+    if (id == null) {
       const keyCode = new KeyCode(value);
       this.keyboard.additionalActivation.push(keyCode);
     }
@@ -239,24 +239,23 @@ class App {
    */
   addKeyLayout(id, value) {
     // sets the character of keycode associated with the selected key
-    if(id == null){
-      this.addActivation(id, value);
+    if (id == null) {
+      this.addActivation(value);
       return;
     }
 
-    if(value==""){
+    if (value == "") {
       return;
     }
     // @ts-ignore
-    document.getElementById("key_add_code").value="";
+    document.getElementById("key_add_code").value = "";
     this.keyboard.addKeyLayout(this.selectedLayer, id, value);
   }
 
   /**
-   * @param {KeyId} id
    * @param {string} value
    */
-  addActivation(id, value){
+  addActivation(value) {
     const keyCode = new KeyCode(value);
     this.keyboard.additionalActivation.push(keyCode);
   }
@@ -817,7 +816,8 @@ class App {
         throw new Error("Key geometry not found");
       }
 
-      geometrytoChange.rotation =  parseInt(geometryInit.rotation) + parseInt(rotationChange);
+      geometrytoChange.rotation =
+        parseInt(geometryInit.rotation) + parseInt(rotationChange);
     }
   }
 
@@ -831,6 +831,10 @@ class App {
 
   request_template() {}
 
+  /**
+   *
+   * @param {string} name
+   */
   importFromPremade(name) {
     // this function imports a premade keyboard from the assets folder
     let file;
@@ -848,6 +852,10 @@ class App {
     this.import(json);
   }
 
+  /**
+   *
+   * @param {any} json
+   */
   import(json) {
     //TODO
   }

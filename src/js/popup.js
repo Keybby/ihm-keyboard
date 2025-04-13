@@ -1,3 +1,30 @@
+/**
+ *
+ * @param {string} id
+ * @returns {HTMLElement}
+ */
+function getElementById(id) {
+  const result = document.getElementById(id);
+  if (!result) {
+    throw new Error(`${id} not found in DOM`);
+  }
+  return result;
+}
+
+/**
+ *
+ * @param {string} id
+ * @returns {HTMLInputElement}
+ */
+function getInputElementById(id) {
+  const result = document.getElementById(id);
+  if (!result) {
+    throw new Error(`${id} not found in DOM`);
+  }
+  // @ts-ignore
+  return result;
+}
+
 class Popup {
   /*
   Definition of the pop-up class.
@@ -16,9 +43,9 @@ class Popup {
   - body : the body of the pop up
   - moving : boolean indicating if the pop up is being moved
   - bind : string indicating the type of pop up to be displayed
-  - popup : construction of a popup class instance representing the pop up 
+  - popup : construction of a popup class instance representing the pop up
 
-  Methods : 
+  Methods :
   - show : display the pop up
   - close : close the pop up
   - setMoving : set the moving attribute to true and store the current mouse position
@@ -28,7 +55,7 @@ class Popup {
 
   */
   constructor() {
-    this.title = document.getElementById("popup_title");
+    this.title = getElementById("popup_title");
     this.refX = 0;
     this.refY = 0;
     this.x = 0;
@@ -36,8 +63,8 @@ class Popup {
     this.offX = 0;
     this.offY = 0;
     this.scale = 1;
-    this.dom = document.getElementById("popup_area");
-    this.pop = document.getElementById("popup");
+    this.dom = getElementById("popup_area");
+    this.pop = getElementById("popup");
     this.body = this.pop.children[1];
     this.moving = false;
     this.bind = "";
@@ -59,10 +86,10 @@ class Popup {
       this.bind = bind;
     }
     // the title that will be given to the pop up
-    let title;
+    let title = "";
     if (str != "") {
       switch (str) {
-        /* the pop up can be : 
+        /* the pop up can be :
         - an input pop up to set key values or the values of modifyers to atteign a specific layout
         - an export pop up allowing the user to export their configuration as a json
         - an import pop up allowing the user to inport a json file to display in the app
@@ -135,8 +162,8 @@ class Popup {
    * @param {MouseEvent} event
    */
   move(event) {
-    /* if we have started moving the popup, 
-    we will move it's position according to 
+    /* if we have started moving the popup,
+    we will move it's position according to
     the mouse's position until the event is stopped
     */
     if (this.moving == false) return;
@@ -165,14 +192,22 @@ class popupClass {
   */
   /**
    *
-   * @param {string} url
+   * @param {string|null} url
    */
-  constructor(url) {
-    if (url == "" || url == undefined) {
-      return;
+  constructor(url = null) {
+    if (!url) {
+      throw new Error("url is null !");
     }
-    this.pop = document.getElementById("popup");
-    this.body = this.pop.children[1];
+    const pop = document.getElementById("popup");
+    if (pop === null) {
+      throw new Error("popup element not found in DOM");
+    }
+    this.pop = pop;
+    const body = this.pop.children[1];
+    if (!body) {
+      throw new Error("popup body not found in DOM");
+    }
+    this.body = body;
     fetch(url)
       .then((response) => {
         return response.text();
@@ -195,16 +230,16 @@ class inputPopup extends popupClass {
   */
   constructor() {
     super("popup/inputkey.html");
-    this.display = document.getElementById("result_popup");
+    this.display = getElementById("result_popup");
     addEventListener("keydown", this.getkey);
   }
 
   /**
    *
-   * @param {Event} event
+   * @param {KeyboardEvent} event
    */
   getkey(event) {
-    let display = document.getElementById("result_popup");
+    let display = getElementById("result_popup");
     // we display the key pressed in the pop up
     display.textContent = event.key;
     // this.done();
@@ -230,16 +265,18 @@ class exportPopup extends popupClass {
   constructor() {
     // we get the basic template
     super("popup/export.html");
-    let svg = document.getElementById("svgdiv").children[0].cloneNode(true);
+    let svg = /** @type {Element} */ (
+      getElementById("svgdiv").children[0].cloneNode(true)
+    );
     this.removeAlpineFull(svg);
     setTimeout(() => {
-      const preview = document.getElementById("export_preview");
-      preview.innerHTML="";
+      const preview = getElementById("export_preview");
+      preview.innerHTML = "";
       preview?.appendChild(svg);
-      preview.children[0].setAttribute(
-        "viewBox",
-        document.getElementById("main").getAttribute("viewBox")
-      );
+      const view_box = getElementById("main").getAttribute("viewBox");
+      if (view_box) {
+        preview.children[0].setAttribute("viewBox", view_box);
+      }
       this.exportSVG();
     }, 150);
   }
@@ -288,12 +325,12 @@ class exportPopup extends popupClass {
   }
 
   exportSVG() {
-    let svg = document.getElementById("export_preview").children[0];
+    let svg = getElementById("export_preview").children[0];
     const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
     let url = URL.createObjectURL(blob);
-    const export_button = document.getElementById("export_svg");
+    const export_button = getInputElementById("export_svg");
     console.log(url);
-    export_button?.setAttribute("href", url);
+    export_button.setAttribute("href", url);
     export_button.disabled = false;
   }
 
@@ -311,10 +348,19 @@ class importPopup extends popupClass {
     this.selected = "azerty";
   }
 
+  /**
+   *
+   * @param {string} name
+   */
   select(name) {
     this.selected = name;
   }
 
+  /**
+   *
+   * @param {string} name
+   * @returns
+   */
   isSelected(name) {
     return name == this.selected;
   }
@@ -328,9 +374,9 @@ class svgPopup extends popupClass {
     // we use the template
     super("popup/svg.html");
     // to preview the svg
-    this.preview = document.getElementById("svg_preview");
+    this.preview = getElementById("svg_preview");
     // to modify the outline of the svg
-    this.input = document.getElementById("edit_svg_path");
+    this.input = getInputElementById("edit_svg_path");
     // we set timeouts to wait for the fetch to be done
     setTimeout(this.default, 100);
     setTimeout(this.render, 150);
@@ -338,10 +384,13 @@ class svgPopup extends popupClass {
 
   default() {
     if (this.preview == undefined) {
-      this.preview = document.getElementById("svg_preview");
+      this.preview = getElementById("svg_preview");
     }
     if (this.input == undefined) {
-      this.input = document.getElementById("edit_svg_path");
+      /** @type {HTMLInputElement} */
+      this.input =
+        /** @type {HTMLInputElement} */
+        (getElementById("edit_svg_path"));
     }
     // we fetch the svg file representing a key
     // and we set the inner html of the preview to the svg file
@@ -358,10 +407,10 @@ class svgPopup extends popupClass {
   render() {
     // we render the svg in the preview
     if (this.preview == undefined) {
-      this.preview = document.getElementById("svg_preview");
+      this.preview = getElementById("svg_preview");
     }
     if (this.input == undefined) {
-      this.input = document.getElementById("edit_svg_path");
+      this.input = getInputElementById("edit_svg_path");
     }
     if (this.input.value.split("<").length > 1) {
       this.preview.innerHTML = this.input.value;
@@ -370,7 +419,7 @@ class svgPopup extends popupClass {
       // we create a new svg element
       const path = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "path"
+        "path",
       );
       path.setAttribute("d", this.input.value);
       this.preview.appendChild(path);
