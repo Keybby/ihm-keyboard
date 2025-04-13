@@ -195,9 +195,6 @@ class popupClass {
    * @param {string|null} url
    */
   constructor(url = null) {
-    if (!url) {
-      throw new Error("url is null !");
-    }
     const pop = document.getElementById("popup");
     if (pop === null) {
       throw new Error("popup element not found in DOM");
@@ -208,13 +205,15 @@ class popupClass {
       throw new Error("popup body not found in DOM");
     }
     this.body = body;
-    fetch(url)
-      .then((response) => {
-        return response.text();
-      })
-      .then((html) => {
-        this.body.innerHTML = html;
-      });
+    if (url) {
+      fetch(url)
+        .then((response) => {
+          return response.text();
+        })
+        .then((html) => {
+          this.body.innerHTML = html;
+        });
+    }
   }
 
   done() {}

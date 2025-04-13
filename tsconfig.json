@@ -33,7 +33,6 @@
     // Base Strict Checks
     "noImplicitUseStrict": false,
     "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": true,
     "noStrictGenericChecks": false,
     "strict": true
   }
