@@ -127,6 +127,18 @@ button:active {
   opacity: 70%;
 }
 
-button:hover{
+button:hover {
   transition: all ease 200ms;
+}
+
+.body_move_mode g {
+  cursor: grab;
+}
+
+.body_move_mode .selected_key {
+  cursor: move;
+}
+
+.body_create_mode svg {
+  cursor: url("/src/assets/add_contour.png") 26 40, copy;
 }
