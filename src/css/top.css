@@ -4,8 +4,12 @@
   margin-bottom: 0.3em;
   text-align: center;
   position: sticky;
-  padding: 0.3em;
+  padding-left: 0.3em;
+  padding-top: 0.3em;
   gap: 0.3em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .top_button {
@@ -61,4 +65,28 @@
 
 #tools img {
   max-height: 90%;
+}
+
+
+#top_buttons {
+  display: flex;
+  background-color: var(--ui-color);
+  text-align: center;
+  position: sticky;
+  padding: 0;
+  gap: 0.3em;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width:10em;
+}
+
+#top_buttons .top_button {
+  flex: 0.5;  
+}
+
+.invisible{
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
 }

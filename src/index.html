@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <script type="module" src="./js/index.mjs" defer></script>
@@ -116,6 +116,14 @@
     </div>
     <div id="ui">
       <div id="top">
+        <div id="top_buttons">
+          <button class="top_button" @click="app.popup.show('import')">
+            Import
+          </button>
+          <button class="top_button" @click="app.popup.show('export')">
+            Export
+          </button>
+        </div>
         <div id="tools">
           <button
             @click="app.setModeMove()"
@@ -132,12 +140,7 @@
             <img src="assets/add.svg" />
           </button>
         </div>
-        <button class="top_button" @click="app.popup.show('import')">
-          Import
-        </button>
-        <button class="top_button" @click="app.popup.show('export')">
-          Export
-        </button>
+        <span class="invisible">centering tool, do not touch :(</span>
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div
