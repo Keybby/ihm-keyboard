@@ -1,7 +1,7 @@
 import Vec2D from "./vec.js";
 
-const DEFAULT_WIDTH = 80;
-const DEFAULT_HEIGHT = 75;
+const DEFAULT_WIDTH = 77;
+const DEFAULT_HEIGHT = 77;
 
 class KeyGeometry {
   /*

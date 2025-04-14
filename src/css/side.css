@@ -327,9 +327,9 @@ input[type="range"]:disabled::-moz-range-thumb {
   min-height: 0.5em;
 }
 
-.key_list:not(.key_list:has(button:nth-child(1))):before{
+.key_list:has(template:nth-child(1):last-child)::before{
   content:"Keys will be listed here";
-  font-size: smaller;
+  font-size: 100%;
 }
 
 .key_button{
@@ -344,3 +344,4 @@ input[type="range"]:disabled::-moz-range-thumb {
   background-color: #ef233c;
   transition: all ease 100ms;
 }
+

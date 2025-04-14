@@ -237,6 +237,8 @@ class inputPopup extends popupClass {
     let display = getElementById("result_popup");
     // we display the key pressed in the pop up
     display.textContent = event.key;
+    event.preventDefault();
+    event.stopPropagation();
     // this.done();
   }
 
@@ -324,7 +326,6 @@ class exportPopup extends popupClass {
     const blob = new Blob([svg.outerHTML], { type: "image/svg+xml" });
     let url = URL.createObjectURL(blob);
     const export_button = getInputElementById("export_svg");
-    console.log(url);
     export_button.setAttribute("href", url);
     export_button.disabled = false;
   }
@@ -394,7 +395,6 @@ class svgPopup extends popupClass {
       .then((response) => response.text())
       .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
       .then((xml) => {
-        console.log(xml);
         this.input.value = xml.getElementsByTagName("svg")[0].innerHTML;
       });
   }
