@@ -68,6 +68,7 @@ class Popup {
     this.body = this.pop.children[1];
     this.moving = false;
     this.popup = new popupClass();
+    this.inputmode = false;
     // If the user presses escape, the pop up is closed
     window.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {

@@ -92,7 +92,7 @@ input[type="range"] {
 }
 
 input[type="range"] {
-  color: #ef233c;
+  color: var(--ui-danger);
   --thumb-height: 0.7em;
   --track-height: 0.125em;
   --track-color: rgba(0, 0, 0, 0.2);
@@ -341,7 +341,7 @@ input[type="range"]:disabled::-moz-range-thumb {
 }
 
 .key_button:hover{
-  background-color: #ef233c;
+  background-color: var(--ui-danger);
   transition: all ease 100ms;
 }
 

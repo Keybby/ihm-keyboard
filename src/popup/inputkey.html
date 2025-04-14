@@ -1,7 +1,25 @@
 <div
-  @keyup.window="app.addKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
+  @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), result_popup.textContent) : app.setKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
   class="popup-center"
 >
-  <h1 class="full-popup opacity_sway" style="font-size:5em">... INPUT KEY ...</h1>
+  <h1 class="full-popup opacity_sway" x-bind:style="app.popup.inputmode ? 'color: var(--ui-detail)' : 'color: var(--ui-ok)'">
+    ... INPUT KEY ...
+  </h1>
+  <div class="bauble_explain">
+    <h2>Replace mode</h2>
+    <div class="bauble_box">
+      <input
+        class="bauble_input"
+        id="input_mode"
+        name="bauble"
+        type="checkbox"
+        style="display: none";
+        @change="app.popup.inputmode = !app.popup.inputmode"
+        x-bind:checked="app.popup.inputmode"
+      />
+      <label class="bauble_label" for="input_mode">Toggle</label>
+    </div>
+    <h2>Append mode</h2>
+  </div>
   <span id="result_popup" hidden>a</span>
 </div>
