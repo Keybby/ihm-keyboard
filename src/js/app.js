@@ -65,6 +65,9 @@ class App {
   /** @type {Popup} */
   popup;
 
+  /** @type {string} */
+  instructionMessage;
+
   constructor() {
     // will contain the keyboard layout
     this.keyboard = new Keyboard();
@@ -83,6 +86,7 @@ class App {
     // basic pop up that will be adapted according to which button
     // is clicked
     this.popup = new Popup();
+    this.instructionMessage = "";
 
     // default values for the tools
     this.toolWidth = DEFAULT_WIDTH;
@@ -92,6 +96,10 @@ class App {
     this.hasRectangleSelection = false;
     this.hasDrag = true;
     this.initialGeometries = [];
+  }
+
+  getInstructionMessage() {
+    return this.instructionMessage;
   }
 
   isFocusMode() {
@@ -166,7 +174,8 @@ class App {
   selectActivationKeys() {
     this.selectedTool = TOOL.Pick;
     this.selectedKeys = [];
-    console.log(this.selectedTool);
+    this.instructionMessage =
+      "Please select keys, then validate. The keys you select will be the 'activation combo' for this layer.";
   }
 
   // TODO: rename in validatePickedKeysForLayer
@@ -174,6 +183,7 @@ class App {
     this.selectedTool = TOOL.Move;
     this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
     this.selectedKeys = [];
+    this.instructionMessage = "";
   }
 
   /**
@@ -340,6 +350,7 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseDown(evt) {
+    this.instructionMessage = "";
     // we get the coordinates of the mouse when the user clicks on the canvas
     const { x, y } = this.getMouseCoordinates(evt);
     const pos = this.getMouseCoordinates(evt);

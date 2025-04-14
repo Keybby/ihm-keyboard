@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/top.css" />
     <link rel="stylesheet" href="css/popup.css" />
     <link rel="stylesheet" href="css/svg.css" />
+    <link rel="stylesheet" href="css/instructions.css" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <title>Keybby v0.1</title>
   </head>
@@ -48,7 +49,7 @@
         @mouseup.prevent="app.handleMouseUp()"
         viewBox="0 0 1280 700"
       >
-        <image href="assets/keybby_logo_off.svg" style="opacity:0.5"></image>
+        <image href="assets/keybby_logo_off.svg" style="opacity: 0.5"></image>
         <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
           <g
             x-data="{view: app.keyView(key_id)}"
@@ -119,9 +120,7 @@
     <div id="ui">
       <div id="top">
         <div id="top_buttons">
-          <button class="top_button" @click="app.popup.show('import')">
-            Import
-          </button>
+          <button class="top_button disabled">Import</button>
           <button class="top_button" @click="app.popup.show('export')">
             Export
           </button>
@@ -200,11 +199,7 @@
                   @input="app.updateRotation($event.target.value)"
                 />
               </div>
-              <button
-                class="top_button"
-                id="svg_edit"
-                @click="app.popup.show('svg')"
-              >
+              <button class="top_button disabled" id="svg_edit">
                 EDIT SVG
               </button>
             </div>
@@ -260,11 +255,6 @@
           <h4>LAYOUT</h4>
           <template x-if="view && app.nbSelectedKeys() === 1">
             <div>
-              <label for="behavior">Behavior</label>
-              <select name="behavior">
-                <option value="key">Key</option>
-                <option value="modifier">Modif</option>
-              </select>
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
@@ -296,6 +286,10 @@
                     placeholder="Input key..."
                   />
                 </div>
+                <br />
+                <span
+                  >Tip: you can double click on the key to set the symbol</span
+                >
               </div>
             </div>
           </template>
@@ -361,6 +355,9 @@
             Validate keys
           </button>
         </template>
+      </div>
+      <div class="instructions">
+        <span x-text="app.getInstructionMessage()"></span>
       </div>
     </div>
   </body>

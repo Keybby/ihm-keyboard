@@ -1,0 +1,8 @@
+.instructions {
+  grid-area: foot;
+  padding: 20px;
+}
+
+.instructions span {
+  color: white;
+}
