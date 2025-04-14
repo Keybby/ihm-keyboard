@@ -12,7 +12,7 @@ import Vec2D from "./vec.js";
 const TOOL = {
   Move: 0,
   Create: 1,
-  Picking: 2,
+  Pick: 2,
 };
 
 const MAX_ITERATION_BEFORE_GIVE_UP = 500;
@@ -59,9 +59,6 @@ class App {
   /** @type {KeyId[]} */
   copiedKeys;
 
-  /** @type {KeyId[]} */
-  pickedKeys;
-
   /** @type {Ui} */
   ui;
 
@@ -81,7 +78,6 @@ class App {
     this.lastMoved = Vec2D.zero();
     this.selectedKeys = [];
     this.copiedKeys = [];
-    this.pickedKeys = [];
     // represents the canvas where we'll draw the keyboard
     this.ui = new Ui();
     // basic pop up that will be adapted according to which button
@@ -99,7 +95,7 @@ class App {
   }
 
   isFocusMode() {
-    return this.selectedTool == TOOL.Picking;
+    return this.selectedTool == TOOL.Pick;
   }
 
   setModeMove() {
@@ -120,7 +116,7 @@ class App {
     return this.selectedTool == TOOL.Create;
   }
   isModePick() {
-    return this.selectedTool == TOOL.Picking;
+    return this.selectedTool == TOOL.Pick;
   }
 
   /**
@@ -168,13 +164,16 @@ class App {
   }
 
   selectActivationKeys() {
-    this.selectedTool = TOOL.Picking;
+    this.selectedTool = TOOL.Pick;
+    this.selectedKeys = [];
     console.log(this.selectedTool);
   }
 
+  // TODO: rename in validatePickedKeysForLayer
   validatePickedKeys() {
-    console.log("validate");
     this.selectedTool = TOOL.Move;
+    this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
+    this.selectedKeys = [];
   }
 
   /**
@@ -189,6 +188,10 @@ class App {
 
   isActiveLayerDefault() {
     return this.selectedLayer == -1;
+  }
+
+  activeLayerHasActivation() {
+    return this.keyboard.getLayer(this.selectedLayer).activation.length > 0;
   }
 
   addLayer() {
@@ -369,16 +372,23 @@ class App {
    * @param {KeyId} key_id
    */
   handleMouseDownOnKey(evt, key_id) {
+    evt.stopPropagation();
     // if the user clicks on a precise key, we select it
-    if (!this.isSelected(key_id)) {
-      this.selectedKeys = [key_id];
+    if (this.selectedTool == TOOL.Move) {
+      if (!this.isSelected(key_id)) {
+        this.selectedKeys = [key_id];
+      }
+    }
+    if (this.selectedTool == TOOL.Pick) {
+      if (!this.isSelected(key_id)) {
+        this.selectedKeys.push(key_id);
+      }
     }
     const pos = this.getMouseCoordinates(evt);
     this.hasDrag = true;
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
-    evt.stopPropagation();
   }
 
   /**
@@ -672,6 +682,9 @@ class App {
       height: geo.height,
       rotation: geo.rotation,
       layout: this.getKeyLayout(key_id),
+      is_activation_of_current_layer: this.keyboard
+        .getLayer(this.selectedLayer)
+        .activation.includes(key_id),
     };
   }
 
