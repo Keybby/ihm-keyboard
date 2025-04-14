@@ -304,7 +304,7 @@
       </div>
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
-        <div class="scrollable">
+        <div class="scrollable" style="height:unset; max-height:11em;">
           <div
             @click="app.selectDefaultLayer()"
             @dblclick="app.enterNameLayer()"
@@ -356,10 +356,10 @@
               </div>
             </div>
           </template>
-          <button @click="app.addLayer(); app.popup.show('input', null)">
-            Add Layer
-          </button>
         </div>
+        <button @click="app.addLayer(); app.popup.show('input', null)">
+          Add Layer
+        </button>
       </div>
     </div>
   </body>

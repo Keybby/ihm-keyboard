@@ -47,7 +47,6 @@
 
 #layers button {
   cursor: pointer;
-  position: absolute;
   width: 80%;
   border-radius: 5px;
   background-color: var(--ui-color);
@@ -56,10 +55,6 @@
   box-shadow: none;
   text-align: center;
   align-self: center;
-  margin-top: 1em;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
   padding: 0.3em;
   color: var(--ui-text-color);
 }
