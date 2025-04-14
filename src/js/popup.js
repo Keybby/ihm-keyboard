@@ -67,7 +67,6 @@ class Popup {
     this.pop = getElementById("popup");
     this.body = this.pop.children[1];
     this.moving = false;
-    this.bind = "";
     this.popup = new popupClass();
     // If the user presses escape, the pop up is closed
     window.addEventListener("keyup", (event) => {
@@ -77,14 +76,12 @@ class Popup {
     });
   }
 
-  show(str = "", bind = "") {
+  show(str = "") {
     /*
     This function displays the pop up if bind is not empty and the type of pop up is not empty.
     It also sets the title of the pop up according to the type of pop up and changes the attribute pop accordingly as to display the right type of pop up.
     */
-    if (bind != "") {
-      this.bind = bind;
-    }
+
     // the title that will be given to the pop up
     let title = "";
     if (str != "") {
@@ -229,7 +226,6 @@ class inputPopup extends popupClass {
   */
   constructor() {
     super("popup/inputkey.html");
-    this.display = getElementById("result_popup");
     addEventListener("keydown", this.getkey);
   }
 
@@ -418,7 +414,7 @@ class svgPopup extends popupClass {
       // we create a new svg element
       const path = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "path",
+        "path"
       );
       path.setAttribute("d", this.input.value);
       this.preview.appendChild(path);

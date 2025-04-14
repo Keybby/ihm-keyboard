@@ -250,6 +250,7 @@ class App {
    * @param {string} value
    */
   addKeyLayout(id, value) {
+    console.log(id,value)
     // sets the character of keycode associated with the selected key
     if (id == null) {
       this.addActivation(value);

@@ -51,7 +51,7 @@
           <g
             x-data="{view: app.keyView(key_id)}"
             x-effect="view = app.keyView(key_id)"
-            @dblclick="app.popup.show('input',key_id)"
+            @dblclick="app.popup.show('input')"
             @mousedown="app.handleMouseDownOnKey($event, key_id)"
             x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
             :class="app.isSelected(key_id) ? 'selected_key' : ''"
@@ -64,7 +64,7 @@
             />
 
             <text
-              x-text="view.layout.toString() || '<None>'"
+              x-text="view.layout.toString() || '<Click me>'"
               fill="red"
               font-size="X-large"
               stroke="#000000"

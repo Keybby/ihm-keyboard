@@ -1,5 +1,5 @@
 <div
-  @keyup.window="app.addKeyLayout(app.popup.bind, result_popup.textContent); app.popup.done();"
+  @keyup.window="app.addKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
   class="popup-center"
 >
   <h1 class="full-popup opacity_sway" style="font-size:5em">... INPUT KEY ...</h1>
