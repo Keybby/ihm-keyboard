@@ -85,7 +85,7 @@ body {
   cursor: ew-resize;
   width: 100%;
   overflow: visible;
-  background-color: --var(--bg-color);
+  background-color: var(--ui-highlight-subtle);
 }
 
 .resizeV {
@@ -93,7 +93,7 @@ body {
   cursor: ns-resize;
   width: 100%;
   overflow: visible;
-  background-color: --var(--bg-color);
+  background-color: var(--ui-highlight-subtle);
 }
 
 .collapsable {

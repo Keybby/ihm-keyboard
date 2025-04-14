@@ -250,7 +250,7 @@ class App {
    * @param {string} value
    */
   addKeyLayout(id, value) {
-    console.log(id,value)
+    console.log(id, value);
     // sets the character of keycode associated with the selected key
     if (id == null) {
       this.addActivation(value);
@@ -326,7 +326,7 @@ class App {
         y,
         this.toolWidth,
         this.toolHeight,
-        this.toolRotation,
+        this.toolRotation
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
@@ -388,7 +388,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y,
+      this.lastMoved.y - this.lastClicked.y
     );
   }
 
@@ -408,7 +408,7 @@ class App {
 
   supprKey() {
     // this function deletes a key
-    if (this.selectedKeys.length > 0) {
+    if (this.selectedKeys.length > 0 && this.popup.dom.hidden) {
       this.keyboard.supprKey(this.selectedKeys);
 
       this.selectedKeys = [];
@@ -554,7 +554,7 @@ class App {
    */
   resolveTranslationSnap(original_translation, mouse_position, mode) {
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position,
+      mouse_position
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
@@ -587,21 +587,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved,
+        this.lastMoved
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x",
+        "x"
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y",
+        "y"
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved,
+        this.lastMoved
       );
       return translation;
     }
@@ -879,7 +879,7 @@ class App {
       const geo = this.getKeyGeometry(id);
       const key_id = this.keyboard.addKey(
         geo.center.x + translation.x,
-        geo.center.y + translation.y,
+        geo.center.y + translation.y
       );
       this.selectedKeys.push(key_id);
     }
