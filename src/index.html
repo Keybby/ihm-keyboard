@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
+    <meta charset="utf-8" />
     <script type="module" src="./js/index.mjs" defer></script>
     <script
       defer
@@ -58,7 +59,7 @@
           >
             <path
               x-bind:d="app.keySvgPath(key_id)"
-              fill="#f0f0f0"
+              x-bind:fill="view.is_activation_of_current_layer ? '#f05050' : '#f0f0f0'"
               stroke="#333333"
               stroke-width="3"
             />
@@ -144,6 +145,7 @@
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div
+        x-show="!app.isFocusMode()"
         id="side"
         x-data="{view:app.selectedKeyView()}"
         x-effect="view=app.selectedKeyView()"
@@ -302,64 +304,62 @@
           </template>
         </div>
       </div>
+
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
-        <div class="scrollable" style="height:unset; max-height:11em;">
-          <div
-            @click="app.selectDefaultLayer()"
-            @dblclick="app.enterNameLayer()"
-          >
-            <template x-if="!app.isChangedDefaultLayer()">
-              <span x-text="app.getDefaultLayerName()"> </span>
-            </template>
-            <template x-if="app.isChangedDefaultLayer()">
-              <input
-                x-effect="$el.focus()"
-                type="text"
-                name="newName"
-                x-bind:placeholder="app.getDefaultLayerName()"
-                @keyup.enter="app.changeNameDefaultLayer($event.target.value)"
-                @keyup.escape="app.cancelChangeNameLayer()"
-              />
-            </template>
+        <template x-if="!app.isFocusMode()">
+          <div class="scrollable" style="height: unset; max-height: 11em">
             <div
-              class="collapsable"
-              x-show="app.isActiveLayerDefault()"
-              x-transition
+              @click="app.selectDefaultLayer()"
+              @dblclick="app.enterNameLayer()"
             >
-              <div>Details</div>
-            </div>
-          </div>
-          <template x-for="(el, i) in app.additionalLayers()">
-            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
-              <template x-if="!app.isChangedLayer(i)">
-                <span x-text="app.getLayerName(i)"> </span>
+              <template x-if="!app.isChangedDefaultLayer()">
+                <span x-text="app.getDefaultLayerName()"> </span>
               </template>
-              <template x-if="app.isChangedLayer(i)">
+              <template x-if="app.isChangedDefaultLayer()">
                 <input
                   x-effect="$el.focus()"
                   type="text"
-                  x-bind:placeholder="app.getLayerName(i)"
-                  @keyup.enter="app.changeNameLayer(i, $event.target.value)"
-                  @keyup.escape="app.changeNameLayer(i, $event.target.value)"
+                  name="newName"
+                  x-bind:placeholder="app.getDefaultLayerName()"
+                  @keyup.enter="app.changeNameDefaultLayer($event.target.value)"
+                  @keyup.escape="app.cancelChangeNameLayer()"
                 />
               </template>
-
-              <div
-                class="collapsable"
-                x-show="app.isActiveLayer(i)"
-                x-transition
-              >
-                <div>
-                  <span x-text="app.getLayerActivation(i)"> </span>
-                </div>
-              </div>
             </div>
-          </template>
-        </div>
-        <button @click="app.addLayer(); app.popup.show('input', null)">
-          Add Layer
-        </button>
+            <template x-for="(el, i) in app.additionalLayers()">
+              <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
+                <template x-if="!app.isChangedLayer(i)">
+                  <span x-text="app.getLayerName(i)"> </span>
+                </template>
+                <template x-if="app.isChangedLayer(i)">
+                  <input
+                    x-effect="$el.focus()"
+                    type="text"
+                    x-bind:placeholder="app.getLayerName(i)"
+                    @keyup.enter="app.changeNameLayer(i, $event.target.value)"
+                    @keyup.escape="app.changeNameLayer(i, $event.target.value)"
+                  />
+                </template>
+
+                <button
+                  x-show="app.isActiveLayer(i)"
+                  x-text="app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
+                  @click="app.selectActivationKeys()"
+                ></button>
+              </div>
+            </template>
+            <button @click="app.addLayer()">Add Layer</button>
+          </div>
+        </template>
+        <template x-if="app.isFocusMode()">
+          <button
+            @keydown.enter="app.validatePickedKeys()"
+            @click="app.validatePickedKeys()"
+          >
+            Validate keys
+          </button>
+        </template>
       </div>
     </div>
   </body>

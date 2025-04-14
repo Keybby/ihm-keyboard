@@ -12,6 +12,7 @@ import Vec2D from "./vec.js";
 const TOOL = {
   Move: 0,
   Create: 1,
+  Pick: 2,
 };
 
 const MAX_ITERATION_BEFORE_GIVE_UP = 500;
@@ -93,6 +94,10 @@ class App {
     this.initialGeometries = [];
   }
 
+  isFocusMode() {
+    return this.selectedTool == TOOL.Pick;
+  }
+
   setModeMove() {
     // Selection of the move button
     this.selectedTool = TOOL.Move;
@@ -109,6 +114,9 @@ class App {
   }
   isModeCreate() {
     return this.selectedTool == TOOL.Create;
+  }
+  isModePick() {
+    return this.selectedTool == TOOL.Pick;
   }
 
   /**
@@ -155,6 +163,19 @@ class App {
     this.selectedLayer = i;
   }
 
+  selectActivationKeys() {
+    this.selectedTool = TOOL.Pick;
+    this.selectedKeys = [];
+    console.log(this.selectedTool);
+  }
+
+  // TODO: rename in validatePickedKeysForLayer
+  validatePickedKeys() {
+    this.selectedTool = TOOL.Move;
+    this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
+    this.selectedKeys = [];
+  }
+
   /**
    *
    * @param {number} i
@@ -169,11 +190,16 @@ class App {
     return this.selectedLayer == -1;
   }
 
+  activeLayerHasActivation() {
+    return this.keyboard.getLayer(this.selectedLayer).activation.length > 0;
+  }
+
   addLayer() {
     // when we add a layer, we create an instance of the layer class
     // and we push it to the array of additional layers
-    const n = this.keyboard.additionalLayers.length + 1;
-    this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
+    const n = this.keyboard.additionalLayers.length;
+    this.keyboard.additionalLayers.push(new Layer(`layer ${n + 1}`));
+    this.selectedLayer = n;
   }
 
   enterNameLayer() {
@@ -326,7 +352,7 @@ class App {
         y,
         this.toolWidth,
         this.toolHeight,
-        this.toolRotation
+        this.toolRotation,
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
@@ -346,16 +372,23 @@ class App {
    * @param {KeyId} key_id
    */
   handleMouseDownOnKey(evt, key_id) {
+    evt.stopPropagation();
     // if the user clicks on a precise key, we select it
-    if (!this.isSelected(key_id)) {
-      this.selectedKeys = [key_id];
+    if (this.selectedTool == TOOL.Move) {
+      if (!this.isSelected(key_id)) {
+        this.selectedKeys = [key_id];
+      }
+    }
+    if (this.selectedTool == TOOL.Pick) {
+      if (!this.isSelected(key_id)) {
+        this.selectedKeys.push(key_id);
+      }
     }
     const pos = this.getMouseCoordinates(evt);
     this.hasDrag = true;
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
-    evt.stopPropagation();
   }
 
   /**
@@ -388,7 +421,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y
+      this.lastMoved.y - this.lastClicked.y,
     );
   }
 
@@ -554,7 +587,7 @@ class App {
    */
   resolveTranslationSnap(original_translation, mouse_position, mode) {
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position
+      mouse_position,
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
@@ -587,21 +620,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved
+        this.lastMoved,
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x"
+        "x",
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y"
+        "y",
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved
+        this.lastMoved,
       );
       return translation;
     }
@@ -649,6 +682,9 @@ class App {
       height: geo.height,
       rotation: geo.rotation,
       layout: this.getKeyLayout(key_id),
+      is_activation_of_current_layer: this.keyboard
+        .getLayer(this.selectedLayer)
+        .activation.includes(key_id),
     };
   }
 
@@ -879,7 +915,7 @@ class App {
       const geo = this.getKeyGeometry(id);
       const key_id = this.keyboard.addKey(
         geo.center.x + translation.x,
-        geo.center.y + translation.y
+        geo.center.y + translation.y,
       );
       this.selectedKeys.push(key_id);
     }

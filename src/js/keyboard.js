@@ -57,10 +57,8 @@ class Keyboard {
    * @param {KeyId[]} ids
    */
   supprKey(ids) {
-    //TODO
     /*
-    Supprimer ds keys et ds geometries
-    Voir qd les KeyLayout seront implementés comment suppr les keys correspondantes (doivent aps rester ds keyMap)
+    This function removes the keys from the keyboard.
     */
 
     let idSet = new Set(ids); // to decrease the complexity
