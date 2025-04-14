@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
+    <meta charset="utf-8" />
     <script type="module" src="./js/index.mjs" defer></script>
     <script
       defer
@@ -21,6 +22,7 @@
     @mouseleave="app.ui.clearResize()"
     @mousemove="app.ui.resizeHorizontal(event); app.popup.move(event)"
     @wheel="app.ui.placeSvg($event)"
+    @keydown.enter="if (app.isModePick()){app.validatePickedKeys()}"
     @keydown.delete="app.supprKey()"
     @keydown.ctrl.c="app.handleCopy()"
     @keydown.ctrl.v="app.handlePaste()"
@@ -144,6 +146,7 @@
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div
+        x-show="!app.isFocusMode()"
         id="side"
         x-data="{view:app.selectedKeyView()}"
         x-effect="view=app.selectedKeyView()"
@@ -302,9 +305,9 @@
           </template>
         </div>
       </div>
-      <div id="layers" @wheel.prevent>
+      <div id="layers" x-show="!app.isFocusMode()" @wheel.prevent>
         <h2>Layers</h2>
-        <div class="scrollable" style="height:unset; max-height:11em;">
+        <div class="scrollable" style="height: unset; max-height: 11em">
           <div
             @click="app.selectDefaultLayer()"
             @dblclick="app.enterNameLayer()"
@@ -322,13 +325,6 @@
                 @keyup.escape="app.cancelChangeNameLayer()"
               />
             </template>
-            <div
-              class="collapsable"
-              x-show="app.isActiveLayerDefault()"
-              x-transition
-            >
-              <div>Details</div>
-            </div>
           </div>
           <template x-for="(el, i) in app.additionalLayers()">
             <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
@@ -345,21 +341,13 @@
                 />
               </template>
 
-              <div
-                class="collapsable"
-                x-show="app.isActiveLayer(i)"
-                x-transition
-              >
-                <div>
-                  <span x-text="app.getLayerActivation(i)"> </span>
-                </div>
-              </div>
+              <button @click="app.selectActivationKeys()">
+                ⚠️ This layer has no activation keys
+              </button>
             </div>
           </template>
         </div>
-        <button @click="app.addLayer(); app.popup.show('input', null)">
-          Add Layer
-        </button>
+        <button @click="app.addLayer()">Add Layer</button>
       </div>
     </div>
   </body>

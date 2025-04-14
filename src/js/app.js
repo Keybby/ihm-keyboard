@@ -12,6 +12,7 @@ import Vec2D from "./vec.js";
 const TOOL = {
   Move: 0,
   Create: 1,
+  Picking: 2,
 };
 
 const MAX_ITERATION_BEFORE_GIVE_UP = 500;
@@ -58,6 +59,9 @@ class App {
   /** @type {KeyId[]} */
   copiedKeys;
 
+  /** @type {KeyId[]} */
+  pickedKeys;
+
   /** @type {Ui} */
   ui;
 
@@ -77,6 +81,7 @@ class App {
     this.lastMoved = Vec2D.zero();
     this.selectedKeys = [];
     this.copiedKeys = [];
+    this.pickedKeys = [];
     // represents the canvas where we'll draw the keyboard
     this.ui = new Ui();
     // basic pop up that will be adapted according to which button
@@ -91,6 +96,10 @@ class App {
     this.hasRectangleSelection = false;
     this.hasDrag = true;
     this.initialGeometries = [];
+  }
+
+  isFocusMode() {
+    return this.selectedTool == TOOL.Picking;
   }
 
   setModeMove() {
@@ -109,6 +118,9 @@ class App {
   }
   isModeCreate() {
     return this.selectedTool == TOOL.Create;
+  }
+  isModePick() {
+    return this.selectedTool == TOOL.Picking;
   }
 
   /**
@@ -155,6 +167,16 @@ class App {
     this.selectedLayer = i;
   }
 
+  selectActivationKeys() {
+    this.selectedTool = TOOL.Picking;
+    console.log(this.selectedTool);
+  }
+
+  validatePickedKeys() {
+    console.log("validate");
+    this.selectedTool = TOOL.Move;
+  }
+
   /**
    *
    * @param {number} i
@@ -172,8 +194,9 @@ class App {
   addLayer() {
     // when we add a layer, we create an instance of the layer class
     // and we push it to the array of additional layers
-    const n = this.keyboard.additionalLayers.length + 1;
-    this.keyboard.additionalLayers.push(new Layer(`layer ${n}`));
+    const n = this.keyboard.additionalLayers.length;
+    this.keyboard.additionalLayers.push(new Layer(`layer ${n + 1}`));
+    this.selectedLayer = n;
   }
 
   enterNameLayer() {
@@ -326,7 +349,7 @@ class App {
         y,
         this.toolWidth,
         this.toolHeight,
-        this.toolRotation
+        this.toolRotation,
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
@@ -388,7 +411,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y
+      this.lastMoved.y - this.lastClicked.y,
     );
   }
 
@@ -554,7 +577,7 @@ class App {
    */
   resolveTranslationSnap(original_translation, mouse_position, mode) {
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position
+      mouse_position,
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
@@ -587,21 +610,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved
+        this.lastMoved,
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x"
+        "x",
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y"
+        "y",
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved
+        this.lastMoved,
       );
       return translation;
     }
@@ -879,7 +902,7 @@ class App {
       const geo = this.getKeyGeometry(id);
       const key_id = this.keyboard.addKey(
         geo.center.x + translation.x,
-        geo.center.y + translation.y
+        geo.center.y + translation.y,
       );
       this.selectedKeys.push(key_id);
     }
