@@ -29,6 +29,9 @@ class Ui {
     this.dragging = "";
     //places the svg
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
+    let svg = document.getElementById("main");
+    let rect = svg.getBoundingClientRect();
+    svg.setAttribute("viewBox", `0 0 ${1/this.scale * rect.width} ${1/this.scale * rect.height}`);
   }
 
   /**
@@ -97,7 +100,7 @@ class Ui {
       .split(" ")
       .map((x) => Number(x));
 
-      // Exit if mouse event is off-screen or there's no active drag operation
+    // Exit if mouse event is off-screen or there's no active drag operation
     if (event.clientX <= 0 || this.dragging == "") return;
 
     // Resize from the bottom edge of the SVG
@@ -107,16 +110,16 @@ class Ui {
       // Update grid row heights and SVG viewBox height
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
-    } 
-    
-  // Resize from the right edge of the SVG
+    }
+
+    // Resize from the right edge of the SVG
     else if (this.dragging == "svgright") {
       let x = svg.getBoundingClientRect().x;
       let newWidth = (event.clientX - x) / scale;
       // Update grid column widths and SVG viewBox width
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
-    } 
+    }
     // Resize from the top edge of the SVG
     else if (this.dragging == "svgtop") {
       let bound = svg.getBoundingClientRect();
@@ -129,11 +132,11 @@ class Ui {
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       svg.setAttribute(
         "viewBox",
-        `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`,
+        `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`
       );
       // Adjust internal y position tracker
       this.y -= offset * scale;
-    } 
+    }
     // Resize from the left edge of the SVG
     else if (this.dragging == "svgleft") {
       let bound = svg.getBoundingClientRect();
@@ -144,11 +147,11 @@ class Ui {
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       svg.setAttribute(
         "viewBox",
-        `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`,
+        `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`
       );
       // Adjust internal x position tracker
       this.x -= offset * scale;
-    } 
+    }
     // Special case: resizing a "side" panel outside the SVG area
     else if (this.dragging == "side") {
       let page = document.getElementById("ui");

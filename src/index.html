@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -46,8 +46,9 @@
         @mousedown.prevent="app.handleMouseDown($event)"
         @mousemove.prevent="app.handleMouseMove($event)"
         @mouseup.prevent="app.handleMouseUp()"
-        viewBox="0 0 1000 700"
+        viewBox="0 0 1280 700"
       >
+        <image href="assets/keybby_logo_off.svg" style="opacity:0.5"></image>
         <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
           <g
             x-data="{view: app.keyView(key_id)}"
