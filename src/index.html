@@ -345,7 +345,7 @@
 
                 <button
                   x-show="app.isActiveLayer(i)"
-                  x-text="app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
+                  x-text="!app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
                   @click="app.selectActivationKeys()"
                 ></button>
               </div>
