@@ -19,7 +19,7 @@
         :class="app.popup.popup.isSelected('azerty') ? 'selected_import' : '' "
         @click="app.popup.popup.select('azerty')"
       >
-        Azerty
+        Az
       </div>
       <div
         name="qwerty"
@@ -106,8 +106,7 @@
     </div>
   </div>
   <div id="import_done">
-    <button @click="app.importFromFile()">From file...</button>
-    <input type="file" id="file"/>
+    <input type="file" id="file" accept=".json" @change="app.importFromFile($event.target.files[0]); app.popup.done()"/>
 
     <button
       @click="app.importFromPremade(app.popup.popup.selected); app.popup.done()"

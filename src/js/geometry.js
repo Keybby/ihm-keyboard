@@ -40,6 +40,20 @@ class KeyGeometry {
     this.center = center;
   }
 
+  /**
+   * 
+   * @param {any} obj 
+   * @returns 
+   */
+  static fromJson(obj) {
+    return new KeyGeometry(
+      Vec2D.fromJson(obj.center),
+      obj.width,
+      obj.height,
+      obj.rotation
+    );
+  }
+
   getWidth() {
     // get the width of the key
     return this.width;

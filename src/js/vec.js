@@ -13,6 +13,15 @@ export default class Vec2D {
   }
 
   /**
+   * 
+   * @param {any} obj 
+   * @returns 
+   */
+  static fromJson(obj) {
+    return new Vec2D(obj.x, obj.y);
+  }
+
+  /**
    * Returns a string representation of the vector
    * @returns {string} A string in the format "(x, y)"
    */
