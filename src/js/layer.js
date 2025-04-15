@@ -1,6 +1,8 @@
 import KeyId from "./key.js";
 import KeyLayout from "./key_layout.js";
 
+import {reviver} from "./importFunc.js";
+
 class Layer {
   /**
     @param {String} name
@@ -12,6 +14,19 @@ class Layer {
     this.name = name;
     this.keyMap = keyMap;
     this.activation = activation;
+  }
+
+  /**
+   * 
+   * @param {any} obj 
+   * @returns 
+   */
+  static fromJson(obj){
+    return new Layer(
+      obj.name,
+      reviver(obj.keyMap, KeyId.fromJson, KeyLayout.fromJson) ?? new Map(),
+      obj.activation.map(KeyId.fromJson)
+    );
   }
 
   /**

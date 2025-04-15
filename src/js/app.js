@@ -4,10 +4,11 @@ import Layer from "./layer.js";
 import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
-import { KeyCode } from "./key_layout.js";
-import exportFunction from "./exportFunc.js";
-import { isRotatedRectColliding } from "./collision.js";
 import Vec2D from "./vec.js";
+
+import exportFunction from "./exportFunc.js";
+import {importFunction} from "./importFunc.js";
+import { isRotatedRectColliding } from "./collision.js";
 
 const TOOL = {
   Move: 0,
@@ -68,6 +69,10 @@ class App {
   constructor() {
     // will contain the keyboard layout
     this.keyboard = new Keyboard();
+    this._init();
+  }
+
+  _init(){
     // By default move is selected
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
@@ -134,15 +139,6 @@ class App {
    */
   getLayerName(i) {
     return this.keyboard.getLayer(i).name;
-  }
-
-  /**
-   *
-   * @param {number} i
-   * @returns {String}
-   */
-  getLayerActivation(i) {
-    return this.keyboard.getActivation(i);
   }
 
   additionalLayers() {
@@ -263,10 +259,6 @@ class App {
    * @param {string} value
    */
   setKeyLayout(id, value) {
-    if (id == null) {
-      const keyCode = new KeyCode(value);
-      this.keyboard.additionalActivation.push(keyCode);
-    }
     // sets the character of keycode associated with the selected key
     this.keyboard.setKeyLayout(this.selectedLayer, id, value);
   }
@@ -278,25 +270,12 @@ class App {
   addKeyLayout(id, value) {
     console.log(id, value);
     // sets the character of keycode associated with the selected key
-    if (id == null) {
-      this.addActivation(value);
-      return;
-    }
-
     if (value == "") {
       return;
     }
     // @ts-ignore
     document.getElementById("key_add_code").value = "";
     this.keyboard.addKeyLayout(this.selectedLayer, id, value);
-  }
-
-  /**
-   * @param {string} value
-   */
-  addActivation(value) {
-    const keyCode = new KeyCode(value);
-    this.keyboard.additionalActivation.push(keyCode);
   }
 
   /**
@@ -937,29 +916,23 @@ class App {
    * @param {string} name
    */
   importFromPremade(name) {
-    // this function imports a premade keyboard from the assets folder
-    let file;
-    let req = new XMLHttpRequest();
-    req.open("GET", `assets/keyboard/${name}.json`, false);
-    req.send();
-    file = JSON.parse(req.responseText);
-    this.import(file);
-  }
-
-  importFromFile() {
-    let json;
-    //TODO
-    this.popup.done(); // Si accepté; on ferme la popup
-    this.import(json);
+    // // this function imports a premade keyboard from the assets folder
+    // let file;
+    // let req = new XMLHttpRequest();
+    // req.open("GET", `assets/keyboard/${name}.json`, false);
+    // req.send();
+    // file = JSON.parse(req.responseText);
+    // this.import(file);
   }
 
   /**
-   *
-   * @param {any} json
+   * 
+   * @param {File} file 
    */
-  import(json) {
-    //TODO
+  importFromFile(file) {
+    importFunction(file, this);
   }
+
   exportFile() {
     // function called when the user clicks on the export button in the popup
     exportFunction(this.keyboard);

@@ -4,6 +4,8 @@ import Layer from "./layer.js";
 import KeyLayout, { KeyCode } from "./key_layout.js";
 import Vec2D from "./vec.js";
 
+import {reviver} from "./importFunc.js";
+
 class Keyboard {
   /**
    * Creates a new Keyboard instance
@@ -24,9 +26,36 @@ class Keyboard {
 
     /** @type {Array<Layer>} */
     this.additionalLayers = [];
+  }
 
-    /** @type {Array<KeyCode>} */
-    this.additionalActivation = [];
+  /**
+   * 
+   * @param {any} data 
+   * @returns 
+   */
+  static parseJson(data){
+    const keyboard = new Keyboard();
+
+    keyboard.name = data.name;
+    keyboard.keys = data.keys.map(KeyId.fromJson);
+    keyboard.geometries = reviver(data.geometries, KeyId.fromJson, KeyGeometry.fromJson) ?? new Map();
+
+    const test = keyboard.keys[0];
+    console.log("Test key:", test);  // Log test to see what it is
+
+    // Log all keys in the geometries Map
+    keyboard.geometries.forEach((value, key) => {
+      console.log("Key:", key, "Value:", value);
+    });
+
+    console.log("CC : " + keyboard.geometries.get(test));
+    
+    keyboard.defaultLayer = new Layer(); //Layer.fromJson(data.defaultLayer);
+    keyboard.additionalLayers = []; //data.additionalLayers.map(Layer.fromJson);
+
+    
+    // assign other properties as needed
+    return keyboard;
   }
 
   /**
@@ -87,22 +116,6 @@ class Keyboard {
       throw new Error("layer is not defined");
     }
     return layer;
-  }
-
-  /**
-   *
-   * @param {number} i_layer
-   * @returns {string}
-   */
-  getActivation(i_layer) {
-    if (i_layer === -1) {
-      return "Details";
-    }
-    const activ = this.additionalActivation[i_layer];
-    if (!activ) {
-      return "Details";
-    }
-    return activ.toString();
   }
 
   /**

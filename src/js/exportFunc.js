@@ -1,12 +1,11 @@
 import Keyboard from "./keyboard.js";
-
+ 
 
 /**
-   *
-   * @param {Keyboard} current_keyboard
-   */
-
-// code partly taken from https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+ * code partly taken from https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+ * 
+ * @param {Keyboard} current_keyboard 
+ */
 const exportFunction = (current_keyboard,) => {
   //this function allows us to stringify 
   // the class we use to represent the keyboard
@@ -37,17 +36,6 @@ function replacer(key, value) {
         return value;
     }
 }
-
-function reviver(key, value) {
-  // this function is used to convert the arrays back to Map objects
-    // when we parse the json file (to be used when importing the file)
-    if(typeof value === 'object' && value !== null) {
-      if (value.dataType === 'Map') {
-        return new Map(value.value);
-      }
-    }
-    return value;
-  }
 
 //we export the export function
 export default exportFunction;

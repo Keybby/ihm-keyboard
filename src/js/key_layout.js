@@ -19,6 +19,16 @@ class KeyCode {
   constructor(code) {
     this.code = code;
   }
+
+  /**
+   * 
+   * @param {any} obj 
+   * @returns
+   */
+  static fromJson(obj){
+    return new KeyCode(obj.code);
+  }
+
   toString() {
     // returns the result of the key code from a key
     if (typeof this.code === "number") {
@@ -48,6 +58,18 @@ class KeyLayout {
   constructor(behaviour = BEHAVIOUR.Classic, keycodes = []) {
     this.behaviour = behaviour;
     this.keycodes = keycodes;
+  }
+
+  /**
+   * 
+   * @param {any} obj 
+   * @returns
+   */
+  static fromJson(obj){
+    return new KeyLayout(
+      obj.behaviour,
+      obj.keycodes.map(KeyCode.fromJson)
+    );
   }
 
   toString(){
