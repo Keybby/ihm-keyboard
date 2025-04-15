@@ -29,19 +29,9 @@ export function importFunction(file, app){
   reader.readAsText(file);
 }
 
-// function reviver(key, value) {
-//     // this function is used to convert the arrays back to Map objects
-//     // when we parse the json file (to be used when importing the file)
-//     if(typeof value === 'object' && value !== null) {
-//         if (value.dataType === 'Map') {
-//         return new Map(value.value);
-//         }
-//     }
-//     return value;
-// }
 
 /**
- * Rehydrates a serialized Map from JSON, using custom fromJSON methods
+ * Parses a KeyIdMap from JSON, using custom fromJSON methods
  * for both keys and values.
  *
  * @template K, V

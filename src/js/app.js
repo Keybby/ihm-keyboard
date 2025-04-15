@@ -197,7 +197,9 @@ class App {
   }
 
   activeLayerHasActivation() {
-    return this.keyboard.getLayer(this.selectedLayer).activation.length > 0;
+    const temp = this.keyboard.getLayer(this.selectedLayer).activation.length;
+    console.log(this.keyboard.getLayer(this.selectedLayer).activation.includes(5));
+    return temp > 0;
   }
 
   addLayer() {
@@ -674,7 +676,7 @@ class App {
       layout: this.getKeyLayout(key_id),
       is_activation_of_current_layer: this.keyboard
         .getLayer(this.selectedLayer)
-        .activation.includes(key_id),
+        .isActivation(key_id),
     };
   }
 

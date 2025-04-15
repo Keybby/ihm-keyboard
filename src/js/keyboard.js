@@ -40,19 +40,10 @@ class Keyboard {
     keyboard.name = data.name;
     keyboard.keys = data.keys.map(KeyId.fromJson);
     keyboard.geometries = reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
-
-    const test = keyboard.keys[0];
-    console.log("Test key:", test);  // Log test to see what it is
-
-    // Log all keys in the geometries Map
-    keyboard.geometries.forEach((value, key) => {
-      console.log("Key:", key, "Value:", value);
-    });
-
-    console.log("CC : " + keyboard.geometries.get(test));
     
     keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
     keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
+    console.log(keyboard.additionalLayers[0].activation);
 
     
     // assign other properties as needed
