@@ -121,7 +121,7 @@
     <div id="ui">
       <div id="top">
         <div id="top_buttons">
-          <button class="top_button disabled">Import</button>
+          <button class="top_button" @click="app.popup.show('import')">Import</button>
           <button class="top_button" @click="app.popup.show('export')">
             Export
           </button>

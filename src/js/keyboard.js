@@ -51,8 +51,8 @@ class Keyboard {
 
     console.log("CC : " + keyboard.geometries.get(test));
     
-    keyboard.defaultLayer = new Layer(); //Layer.fromJson(data.defaultLayer);
-    keyboard.additionalLayers = []; //data.additionalLayers.map(Layer.fromJson);
+    keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
+    keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
 
     
     // assign other properties as needed
