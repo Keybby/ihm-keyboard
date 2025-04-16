@@ -26,7 +26,6 @@
     @keydown.delete="app.supprKey()"
     @keydown.ctrl.c="app.handleCopy()"
     @keydown.ctrl.v="app.handlePaste()"
-    x-bind:class="{'body_move_mode' : app.isModeMove(), 'body_create_mode' : app.isModeCreate(), 'body_delete_mode' : app.isModeDelete()}"
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
@@ -56,7 +55,7 @@
           <g
             x-data="{view: app.keyView(key_id)}"
             x-effect="view = app.keyView(key_id)"
-            @dblclick="app.popup.show('input')"
+            @dblclick="app.handleDoubleClickOnKey(key_id)"
             @mousedown="app.handleMouseDownOnKey($event, key_id)"
             x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
             :class="app.isSelected(key_id) ? 'selected_key' : ''"
@@ -123,33 +122,24 @@
     <div id="ui">
       <div id="top">
         <div id="top_buttons">
-          <button class="top_button" @click="app.popup.show('import')">Import</button>
+          <button class="top_button" @click="app.popup.show('import')">
+            Import
+          </button>
           <button class="top_button" @click="app.popup.show('export')">
             Export
           </button>
         </div>
         <div id="tools">
-          <button
-            @click="app.setModeMove()"
-            x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
-            class="top_button"
-          >
-            <img src="assets/move.svg" />
-          </button>
-          <button
-            @click="app.setModeCreate()"
-            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-            class="top_button"
-          >
+          <button class="top_button" @click="app.spawnKey()">
             <img src="assets/add.svg" />
           </button>
           <button
-          @click="app.setModeDelete()"
-          x-bind:class="app.isModeDelete() ? 'top_button selected' : 'top_button'"
-          class="top_button"
-        >
-          <img src="assets/eraser.svg" />
-        </button>
+            @click="app.supprKeys()"
+            x-bind:class="'top_button'"
+            class="top_button"
+          >
+            <img src="assets/eraser.svg" />
+          </button>
         </div>
         <span class="invisible">centering tool, do not touch :(</span>
       </div>
@@ -271,12 +261,12 @@
                   <template x-for="code in view.layout.keycodes">
                     <div class="key_block">
                       <button
-                      style="height: 100%"
-                      class="key_button delete"
-                      @click="app.supprKeyLayout(app.getSelectedKey(), code)"
-                    >
-                      <img src="assets/trash.svg">
-                    </button>
+                        style="height: 100%"
+                        class="key_button delete"
+                        @click="app.supprKeyLayout(app.getSelectedKey(), code)"
+                      >
+                        <img src="assets/trash.svg" />
+                      </button>
                       <button
                         style="height: 100%"
                         class="key_button"

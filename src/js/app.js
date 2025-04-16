@@ -7,14 +7,14 @@ import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 import Vec2D from "./vec.js";
 
 import exportFunction from "./exportFunc.js";
-import {importFunction} from "./importFunc.js";
+import { importFunction } from "./importFunc.js";
 import { isRotatedRectColliding } from "./collision.js";
 
 const TOOL = {
-  Move: 0,
-  Create: 1,
-  Pick: 2,
-  Delete: 3,
+  Default: 0,
+  RectangleSelect: 1,
+  Drag: 2,
+  Pick: 3,
 };
 
 const MAX_ITERATION_BEFORE_GIVE_UP = 500;
@@ -32,15 +32,6 @@ class App {
 
   /** @type {Boolean} */
   changingNameLayer;
-
-  /** @type {Boolean} */
-  // indicates if we are in the process of selecting keyse
-  hasRectangleSelection;
-
-  /**
-  @type {Boolean}
-  indicates if the user is currently dragging keys */
-  hasDrag;
 
   /** @type {*}
    * Contains width, height and rotation for each key selected */
@@ -73,12 +64,8 @@ class App {
   constructor() {
     // will contain the keyboard layout
     this.keyboard = new Keyboard();
-    this._init();
-  }
-
-  _init(){
     // By default move is selected
-    this.selectedTool = TOOL.Move;
+    this.selectedTool = TOOL.Default;
     this.selectedLayer = -1;
     this.changingNameLayer = false;
     // @ts-ignore
@@ -99,8 +86,6 @@ class App {
     this.toolHeight = DEFAULT_HEIGHT;
     this.toolRotation = 0;
 
-    this.hasRectangleSelection = false;
-    this.hasDrag = true;
     this.initialGeometries = [];
   }
 
@@ -112,32 +97,10 @@ class App {
     return this.selectedTool == TOOL.Pick;
   }
 
-  setModeMove() {
-    // Selection of the move button
-    this.selectedTool = TOOL.Move;
-  }
-  setModeCreate() {
-    // Selection of the button to create keys
-    this.selectedTool = TOOL.Create;
-  }
-
-  setModeDelete(){
-    this.selectedTool = TOOL.Delete;
-  }
-
   // the two following functions are used to check which button is selected
 
-  isModeMove() {
-    return this.selectedTool == TOOL.Move;
-  }
-  isModeCreate() {
-    return this.selectedTool == TOOL.Create;
-  }
   isModePick() {
     return this.selectedTool == TOOL.Pick;
-  }
-  isModeDelete(){
-    return this.selectedTool == TOOL.Delete;
   }
 
   /**
@@ -184,7 +147,7 @@ class App {
 
   // TODO: rename in validatePickedKeysForLayer
   validatePickedKeys() {
-    this.selectedTool = TOOL.Move;
+    this.selectedTool = TOOL.Default;
     this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
     this.selectedKeys = [];
     this.instructionMessage = "";
@@ -206,7 +169,6 @@ class App {
 
   activeLayerHasActivation() {
     const temp = this.keyboard.getLayer(this.selectedLayer).activation.length;
-    console.log(this.keyboard.getLayer(this.selectedLayer).activation.includes(5));
     return temp > 0;
   }
 
@@ -288,7 +250,6 @@ class App {
    * @param {string} value
    */
   addKeyLayout(id, value) {
-    console.log(id, value);
     // sets the character of keycode associated with the selected key
     if (value == "") {
       return;
@@ -338,34 +299,50 @@ class App {
    *
    * @param {MouseEvent} evt
    */
+  spawnKey(evt) {
+    const position =
+      this.selectedKeys.length == 0
+        ? new Vec2D(50, 50)
+        : this.getKeyGeometry(this.selectedKeys[0]).center;
+    const newKey = this.keyboard.addKey(
+      position.x,
+      position.y,
+      this.toolWidth,
+      this.toolHeight,
+      this.toolRotation,
+    );
+    this.selectedKeys = [newKey];
+    const translation = this.getBestTranslationForNewKeys([newKey]);
+    this.getKeyGeometry(newKey).translate(translation);
+  }
+  /**
+   *
+   * @param {MouseEvent} evt
+   */
   handleMouseDown(evt) {
     this.instructionMessage = "";
     // we get the coordinates of the mouse when the user clicks on the canvas
-    const { x, y } = this.getMouseCoordinates(evt);
     const pos = this.getMouseCoordinates(evt);
     this.lastClicked = pos;
     this.lastMoved = pos;
-    if (this.selectedTool == TOOL.Create) {
-      // if the tool is create, we create a new key at the position of the mouse
-      const newKey = this.keyboard.addKey(
-        x,
-        y,
-        this.toolWidth,
-        this.toolHeight,
-        this.toolRotation,
-      );
-      this.selectedKeys = [newKey];
-    } else if (this.selectedTool == TOOL.Move) {
+    if (this.selectedTool == TOOL.Default) {
       // if the tool is move and the user holds the mouse dow<n
       // then the user can make a rectangle selction of the keys
       // ie, all the keys in the rectangle will be selected and
       // could be moved by the user
-      this.hasRectangleSelection = true;
+      this.selectedTool = TOOL.RectangleSelect;
       this.selectedKeys = [];
       this.initialGeometries = [];
     }
   }
 
+  /**
+   *
+   * @param {KeyId} key_id
+   */
+  handleDoubleClickOnKey(key_id) {
+    this.popup.show("input");
+  }
   /**
    *
    * @param {MouseEvent} evt
@@ -374,11 +351,11 @@ class App {
   handleMouseDownOnKey(evt, key_id) {
     evt.stopPropagation();
     // if the user clicks on a precise key, we select it
-
-    if (this.isModeMove() || this.isModeDelete()) {
+    if (this.selectedTool == TOOL.Default) {
       if (!this.isSelected(key_id)) {
         this.selectedKeys = [key_id];
       }
+      this.selectedTool = TOOL.Drag;
     }
     if (this.selectedTool == TOOL.Pick) {
       if (!this.isSelected(key_id)) {
@@ -386,26 +363,26 @@ class App {
       }
     }
     const pos = this.getMouseCoordinates(evt);
-    this.hasDrag = true;
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
-    if(this.isModeDelete()){
-      this.supprKey();
-    }
   }
 
   /**
    *
    * @param {KeyId[]} key_ids
    * @param {Vec2D} translation
+   *  @param {Boolean} only_non_selected_keys
    * @returns {KeyId|null} (is in keys_b)
    */
-  detectCollision(key_ids, translation) {
+  detectCollision(key_ids, translation, only_non_selected_keys) {
     // checks if moving the key(s) created a collision
 
     for (const id_a of key_ids) {
-      for (const id_b of this.getNearestNonSelectedKeys(id_a)) {
+      const keys_b = only_non_selected_keys
+        ? this.getNearestNonSelectedKeys(id_a)
+        : this.keyboard.keys;
+      for (const id_b of keys_b) {
         const key_geometry = this.getKeyGeometry(id_a);
         const other_geometry = this.getKeyGeometry(id_b);
         if (isRotatedRectColliding(key_geometry, other_geometry, translation)) {
@@ -430,7 +407,16 @@ class App {
   }
 
   handleMouseUp() {
-    if (this.selectedTool == TOOL.Move) {
+    if (this.selectedTool == TOOL.Drag) {
+      // if we have mouse up when we were moving keys
+      // this means the user has finished to move the keys
+      const translation = this.getTranslation();
+      for (const key_id of this.selectedKeys) {
+        const geometry = this.keyboard.geometries.get(key_id);
+        geometry?.translate(translation);
+      }
+    }
+    if (this.selectedTool == TOOL.RectangleSelect) {
       // if we have mouse up when we were moving keys
       // this means the user has finished their rectangle selection
       const translation = this.getTranslation();
@@ -439,17 +425,15 @@ class App {
         geometry?.translate(translation);
       }
     }
-    this.hasDrag = false;
-    this.hasRectangleSelection = false;
+    this.selectedTool = TOOL.Default;
   }
 
-  supprKey() {
+  supprKeys() {
     // this function deletes a key
     if (this.selectedKeys.length > 0 && this.popup.dom.hidden) {
-      this.keyboard.supprKey(this.selectedKeys);
+      this.keyboard.supprKeys(this.selectedKeys);
 
       this.selectedKeys = [];
-      this.hasRectangleSelection = false;
       this.initialGeometries = [];
     }
   }
@@ -460,7 +444,7 @@ class App {
    */
   handleMouseMove(evt) {
     this.lastMoved = this.getMouseCoordinates(evt);
-    if (this.hasRectangleSelection) {
+    if (this.selectedTool == TOOL.RectangleSelect) {
       const selection = this.getRectangleSelection();
       for (const key_id of this.keyboard.getKeys()) {
         const geo = this.getKeyGeometry(key_id);
@@ -492,7 +476,7 @@ class App {
 
   getRectangleSelection() {
     // returns the coordinates of the rectangle selection
-    if (!this.hasRectangleSelection) {
+    if (this.selectedTool != TOOL.RectangleSelect) {
       return null;
     }
     if (!this.lastClicked || !this.lastMoved) {
@@ -532,7 +516,11 @@ class App {
     // the closest as we can to the position indicated by the user
     let translation = original_translation;
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
-      const key_colide = this.detectCollision(this.selectedKeys, translation);
+      const key_colide = this.detectCollision(
+        this.selectedKeys,
+        translation,
+        true,
+      );
       if (key_colide == null) {
         return translation;
       }
@@ -618,10 +606,11 @@ class App {
   we have to decide where the selected keys must be placed.
   We first resolve the collisions, then check if there is snapping, and check a last time for collisions (the snap may have created new collisions)
    *
+    @this {App}
    * @returns {Vec2D}
    */
   getTranslation() {
-    if (this.hasDrag && !this.hasRectangleSelection) {
+    if (this.selectedTool == TOOL.Drag) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
         this.lastMoved,
@@ -783,7 +772,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -821,7 +809,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -859,7 +846,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -877,31 +863,17 @@ class App {
 
   /**
    *
-   * @param {KeyId[]} copied_keys
+   * @param {KeyId[]} keys
    */
-  getBestTranslationForCopiedKeys(copied_keys) {
-    const maxWidth = copied_keys.reduce((acc, key_id) => {
-      const geo = this.getKeyGeometry(key_id);
-      return Math.max(acc, geo.width);
-    }, 0);
-
-    /** @type {number} */
-    const maxHeight = copied_keys.reduce((acc, key_id) => {
-      const geo = this.getKeyGeometry(key_id);
-      return Math.max(acc, geo.height);
-    }, 0);
-
-    let dx = maxWidth;
-    let dy = maxHeight;
-
+  getBestTranslationForNewKeys(keys) {
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
-      let translation = Vec2D.X(dx + i);
-      let key_colide = this.detectCollision(this.copiedKeys, translation);
+      let translation = Vec2D.X(i);
+      let key_colide = this.detectCollision(keys, translation, true);
       if (key_colide === null) {
         return translation;
       }
-      translation = Vec2D.Y(dy + i);
-      key_colide = this.detectCollision(this.copiedKeys, translation);
+      translation = Vec2D.Y(i);
+      key_colide = this.detectCollision(keys, translation, true);
       if (key_colide === null) {
         return translation;
       }
@@ -914,7 +886,7 @@ class App {
       return;
     }
     this.selectedKeys = [];
-    const translation = this.getBestTranslationForCopiedKeys(this.copiedKeys);
+    const translation = this.getBestTranslationForNewKeys(this.copiedKeys);
     for (const id of this.copiedKeys) {
       const geo = this.getKeyGeometry(id);
       const key_id = this.keyboard.addKey(
@@ -951,8 +923,8 @@ class App {
   }
 
   /**
-   * 
-   * @param {File} file 
+   *
+   * @param {File} file
    */
   importFromFile(file) {
     importFunction(file, this);
