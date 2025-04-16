@@ -6,6 +6,7 @@
     "allowJs": true,
     "checkJs": true,
     // Strict Checks
+    "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
     "useUnknownInCatchVariables": true,
