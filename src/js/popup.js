@@ -109,6 +109,10 @@ class Popup {
           title = "Change svg";
           this.popup = new svgPopup();
           break;
+        case "clear":
+          title = "Clear all keys";
+          this.popup = new clearPopup();
+          break;
         default:
           // if the type of pop up isn't defined
           break;
@@ -421,6 +425,16 @@ class svgPopup extends popupClass {
       path.setAttribute("d", this.input.value);
       this.preview.appendChild(path);
     }
+  }
+}
+
+class clearPopup extends popupClass {
+  /*
+  this class defines a svg pop up that allows to modify the svg display of a key
+  */
+  constructor() {
+    // we use the template
+    super("popup/clear.html");
   }
 }
 export default Popup;

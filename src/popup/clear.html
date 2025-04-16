@@ -1,0 +1,12 @@
+<div
+  @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), result_popup.textContent) : app.setKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
+  class="popup-center"
+>
+  <h1 class="full-popup">
+    Clear all keys ?
+  </h1>
+  <div class="split_choice">
+    <button @click="app.selectedKeys=[]; app.keyboard.supprKey(app.keyboard.getKeys()); app.popup.done()">YES, I'M SURE</button> <button @click="app.popup.done()">NO, GO BACK</button>
+  </div>
+  <span id="result_popup" hidden>a</span>
+</div>

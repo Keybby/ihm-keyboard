@@ -266,3 +266,33 @@
 .full-popup{
   font-size: 5em;
 }
+
+.split_choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.split_choice button{
+  height: 100%;
+  font-size:xx-large;
+}
+
+.split_choice button:hover{
+  opacity: 0.9;
+  box-shadow: var(--ui-text-color) 0px 0px 0px 10px !important;
+}
+
+.split_choice button:nth-child(1) {
+  background-color: var(--ui-ok) !important;
+  color:black !important;
+}
+
+.split_choice button:nth-child(2) {
+  background-color: var(--ui-danger) !important;
+  color:black !important;
+}
