@@ -2,6 +2,8 @@
 const view = document.getElementById("svgdiv");
 const svg = document.getElementById("main");
 
+const MIN_SIZE = 500;
+
 class Ui {
   /*
   This class handles the placement of the svg on the screen. 
@@ -107,6 +109,7 @@ class Ui {
     if (this.dragging == "svgbottom") {
       let y = svg.getBoundingClientRect().y;
       let newHeight = (event.clientY - y) / scale;
+      if(newHeight < MIN_SIZE) return;
       // Update grid row heights and SVG viewBox height
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
@@ -116,6 +119,7 @@ class Ui {
     else if (this.dragging == "svgright") {
       let x = svg.getBoundingClientRect().x;
       let newWidth = (event.clientX - x) / scale;
+      if(newWidth < MIN_SIZE) return;
       // Update grid column widths and SVG viewBox width
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
@@ -128,6 +132,7 @@ class Ui {
       // how much the top edge moved
       let offset = bound.y - event.clientY;
       let newHeight = size / scale;
+      if(newHeight < MIN_SIZE) return;
       // Update grid row heights and shift viewBox upward accordingly
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       svg.setAttribute(
@@ -143,6 +148,7 @@ class Ui {
       let size = bound.x + bound.width - event.clientX;
       let offset = bound.x - event.clientX;
       let newWidth = size / scale;
+      if(newWidth < MIN_SIZE) return;
       // Update grid column widths and shift viewBox left accordingly
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       svg.setAttribute(

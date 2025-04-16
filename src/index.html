@@ -48,7 +48,7 @@
         @mouseup.prevent="app.handleMouseUp()"
         viewBox="0 0 1280 700"
       >
-        <image href="assets/keybby_logo_off.svg" style="opacity:0.5"></image>
+        <image href="assets/keybby_logo_off.svg" style="opacity: 0.5"></image>
         <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
           <g
             x-data="{view: app.keyView(key_id)}"
@@ -60,7 +60,7 @@
           >
             <path
               x-bind:d="app.keySvgPath(key_id)"
-              x-bind:fill="view.is_activation_of_current_layer ? '#f05050' : '#f0f0f0'"
+              x-bind:fill="view.is_activation_of_current_layer ? '#384646' : '#f0f0f0'"
               stroke="#333333"
               stroke-width="3"
             />
@@ -70,12 +70,13 @@
               fill="red"
               font-size="X-large"
               stroke="#000000"
-              stroke-width="0.5"
+              stroke-width="0.3"
               text-anchor="middle"
               dominant-baseline="middle"
               pointer-events="none"
               x-bind:x="view.x + view.width / 2"
               x-bind:y="view.y + view.height / 2"
+              x-bind:font-size="view.layout.keycodes.length > 0 ? 'XX-large' : 'larger'"
             />
           </g>
         </template>
@@ -269,13 +270,20 @@
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
                   <template x-for="code in view.layout.keycodes">
-                    <button
+                    <div class="key_block">
+                      <button
                       style="height: 100%"
-                      class="key_button"
+                      class="key_button delete"
                       @click="app.supprKeyLayout(app.getSelectedKey(), code)"
-                      x-text="code"
-                    ></button>
-                    <p x-text="code"></p>
+                    >
+                      <img src="assets/trash.svg">
+                    </button>
+                      <button
+                        style="height: 100%"
+                        class="key_button"
+                        x-text="code"
+                      ></button>
+                    </div>
                   </template>
                 </div>
                 <div class="add_key">
@@ -308,50 +316,54 @@
 
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
-        <template x-if="!app.isFocusMode()">
-          <div class="scrollable" style="height: unset; max-height: 11em">
-            <div
-              @click="app.selectDefaultLayer()"
-              @dblclick="app.enterNameLayer()"
-            >
-              <template x-if="!app.isChangedDefaultLayer()">
-                <span x-text="app.getDefaultLayerName()"> </span>
+        <div
+          class="scrollable"
+          x-show="!app.isFocusMode()"
+          style="height: unset; max-height: 11em"
+        >
+          <div
+            @click="app.selectDefaultLayer()"
+            @dblclick="app.enterNameLayer()"
+          >
+            <template x-if="!app.isChangedDefaultLayer()">
+              <span x-text="app.getDefaultLayerName()"> </span>
+            </template>
+            <template x-if="app.isChangedDefaultLayer()">
+              <input
+                x-effect="$el.focus()"
+                type="text"
+                name="newName"
+                x-bind:placeholder="app.getDefaultLayerName()"
+                @keyup.enter="app.changeNameDefaultLayer($event.target.value)"
+                @keyup.escape="app.cancelChangeNameLayer()"
+              />
+            </template>
+          </div>
+          <template x-for="(el, i) in app.additionalLayers()">
+            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
+              <template x-if="!app.isChangedLayer(i)">
+                <span x-text="app.getLayerName(i)"> </span>
               </template>
-              <template x-if="app.isChangedDefaultLayer()">
+              <template x-if="app.isChangedLayer(i)">
                 <input
                   x-effect="$el.focus()"
                   type="text"
-                  name="newName"
-                  x-bind:placeholder="app.getDefaultLayerName()"
-                  @keyup.enter="app.changeNameDefaultLayer($event.target.value)"
-                  @keyup.escape="app.cancelChangeNameLayer()"
+                  x-bind:placeholder="app.getLayerName(i)"
+                  @keyup.enter="app.changeNameLayer(i, $event.target.value)"
+                  @keyup.escape="app.changeNameLayer(i, $event.target.value)"
                 />
               </template>
-            </div>
-            <template x-for="(el, i) in app.additionalLayers()">
-              <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
-                <template x-if="!app.isChangedLayer(i)">
-                  <span x-text="app.getLayerName(i)"> </span>
-                </template>
-                <template x-if="app.isChangedLayer(i)">
-                  <input
-                    x-effect="$el.focus()"
-                    type="text"
-                    x-bind:placeholder="app.getLayerName(i)"
-                    @keyup.enter="app.changeNameLayer(i, $event.target.value)"
-                    @keyup.escape="app.changeNameLayer(i, $event.target.value)"
-                  />
-                </template>
 
-                <button
-                  x-show="app.isActiveLayer(i)"
-                  x-text="app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
-                  @click="app.selectActivationKeys()"
-                ></button>
-              </div>
-            </template>
-            <button @click="app.addLayer()">Add Layer</button>
-          </div>
+              <button
+                x-show="app.isActiveLayer(i)"
+                x-text="!app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
+                @click="app.selectActivationKeys()"
+              ></button>
+            </div>
+          </template>
+        </div>
+        <template x-if="!app.isFocusMode()">
+          <button @click="app.addLayer()">Add Layer</button>
         </template>
         <template x-if="app.isFocusMode()">
           <button
