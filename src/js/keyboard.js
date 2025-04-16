@@ -43,7 +43,6 @@ class Keyboard {
     
     keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
     keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
-    console.log(keyboard.additionalLayers[0].activation);
 
     
     // assign other properties as needed
