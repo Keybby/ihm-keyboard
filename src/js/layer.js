@@ -2,15 +2,16 @@ import KeyId from "./key.js";
 import KeyLayout from "./key_layout.js";
 
 import {reviver} from "./importFunc.js";
+import KeyIdMap from "./keymap.js";
 
 class Layer {
   /**
     @param {String} name
     @param {KeyId[]} activation
       the set of keys that must be clicked to activate this layer
-    @param {Map<KeyId, KeyLayout>} keyMap  is a record from KeyId to Key
+    @param {KeyIdMap<KeyLayout>} keyMap  is a record from KeyId to Key
   */
-  constructor(name = "default", keyMap = new Map(), activation = []) {
+  constructor(name = "default", activation = [], keyMap = new KeyIdMap()) {
     this.name = name;
     this.keyMap = keyMap;
     this.activation = activation;
@@ -24,8 +25,8 @@ class Layer {
   static fromJson(obj){
     return new Layer(
       obj.name,
-      reviver(obj.keyMap, KeyId.fromJson, KeyLayout.fromJson) ?? new Map(),
-      obj.activation.map(KeyId.fromJson)
+      obj.activation.map(KeyId.fromJson),
+      reviver(obj.keyMap, KeyLayout.fromJson) ?? new KeyIdMap()
     );
   }
 
@@ -35,6 +36,15 @@ class Layer {
    */
   changeName(name) {
     this.name = name;
+  }
+
+  /**
+   * 
+   * @param {KeyId} key_id 
+   * @returns 
+   */
+  isActivation(key_id){
+    return this.activation.some(k => k.value === key_id.value);
   }
 }
 

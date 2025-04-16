@@ -1,4 +1,5 @@
 import Keyboard from "./keyboard.js";
+import KeyIdMap from "./keymap.js";
  
 
 /**
@@ -27,7 +28,7 @@ const exportFunction = (current_keyboard,) => {
 function replacer(key, value) {
   // this function is used to convert the Map objects to arrays
     // so that we can stringify them
-    if(value instanceof Map) {
+    if(value instanceof KeyIdMap) {
         return {
         dataType: 'Map',
         value: Array.from(value.entries()), // or with spread: value: [...value]

@@ -5,6 +5,7 @@ import KeyLayout, { KeyCode } from "./key_layout.js";
 import Vec2D from "./vec.js";
 
 import {reviver} from "./importFunc.js";
+import KeyIdMap from "./keymap.js";
 
 class Keyboard {
   /**
@@ -18,8 +19,8 @@ class Keyboard {
     /** @type {Array<KeyId>} */
     this.keys = [];
 
-    /** @type {Map<KeyId, KeyGeometry>} */
-    this.geometries = new Map();
+    /** @type {KeyIdMap<KeyGeometry>} */
+    this.geometries = new KeyIdMap();
 
     /** @type {Layer} */
     this.defaultLayer = new Layer();
@@ -38,20 +39,11 @@ class Keyboard {
 
     keyboard.name = data.name;
     keyboard.keys = data.keys.map(KeyId.fromJson);
-    keyboard.geometries = reviver(data.geometries, KeyId.fromJson, KeyGeometry.fromJson) ?? new Map();
-
-    const test = keyboard.keys[0];
-    console.log("Test key:", test);  // Log test to see what it is
-
-    // Log all keys in the geometries Map
-    keyboard.geometries.forEach((value, key) => {
-      console.log("Key:", key, "Value:", value);
-    });
-
-    console.log("CC : " + keyboard.geometries.get(test));
+    keyboard.geometries = reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
     
-    keyboard.defaultLayer = new Layer(); //Layer.fromJson(data.defaultLayer);
-    keyboard.additionalLayers = []; //data.additionalLayers.map(Layer.fromJson);
+    keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
+    keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
+    console.log(keyboard.additionalLayers[0].activation);
 
     
     // assign other properties as needed

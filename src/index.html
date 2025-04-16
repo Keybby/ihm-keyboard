@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/top.css" />
     <link rel="stylesheet" href="css/popup.css" />
     <link rel="stylesheet" href="css/svg.css" />
+    <link rel="stylesheet" href="css/instructions.css" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <title>Keybby v0.1</title>
   </head>
@@ -120,9 +121,7 @@
     <div id="ui">
       <div id="top">
         <div id="top_buttons">
-          <button class="top_button" @click="app.popup.show('import')">
-            Import
-          </button>
+          <button class="top_button" @click="app.popup.show('import')">Import</button>
           <button class="top_button" @click="app.popup.show('export')">
             Export
           </button>
@@ -201,11 +200,7 @@
                   @input="app.updateRotation($event.target.value)"
                 />
               </div>
-              <button
-                class="top_button"
-                id="svg_edit"
-                @click="app.popup.show('svg')"
-              >
+              <button class="top_button disabled" id="svg_edit">
                 EDIT SVG
               </button>
             </div>
@@ -261,11 +256,6 @@
           <h4>LAYOUT</h4>
           <template x-if="view && app.nbSelectedKeys() === 1">
             <div>
-              <label for="behavior">Behavior</label>
-              <select name="behavior">
-                <option value="key">Key</option>
-                <option value="modifier">Modif</option>
-              </select>
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
@@ -304,6 +294,10 @@
                     placeholder="Input key..."
                   />
                 </div>
+                <br />
+                <span
+                  >Tip: you can double click on the key to set the symbol</span
+                >
               </div>
             </div>
           </template>
@@ -356,7 +350,7 @@
 
               <button
                 x-show="app.isActiveLayer(i)"
-                x-text="!app.activeLayerHasActivation() ? 'This layer has no activation keys' : 'click to change activation keys'"
+                x-text="!app.activeLayerHasActivation() ? 'This layer has no activation keys. Click to change' : 'click to change activation keys'"
                 @click="app.selectActivationKeys()"
               ></button>
             </div>
@@ -373,6 +367,9 @@
             Validate keys
           </button>
         </template>
+      </div>
+      <div class="instructions">
+        <span x-text="app.getInstructionMessage()"></span>
       </div>
     </div>
   </body>
