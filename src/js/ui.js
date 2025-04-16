@@ -1,5 +1,20 @@
-const view = document.getElementById("svgdiv");
-const svg = document.getElementById("main");
+
+/**
+ * 
+ * @param {string} id 
+ * @returns 
+ */
+function getElementById(id) {
+  const result = document.getElementById(id);
+  if (!result) {
+    throw new Error(`${id} not found in DOM`);
+  }
+  return result;
+}
+
+const view = getElementById("svgdiv");
+const svg = getElementById("main");
+const page = getElementById("ui")
 
 const MIN_SIZE = 500;
 
@@ -25,12 +40,11 @@ class Ui {
   constructor() {
     this.scale = 0.7;
     //initializes the placement of the svg
-    this.x = window.innerWidth ;
-    this.y = window.innerHeight;
+    this.x = 0;
+    this.y = 0;
     this.dragging = "";
     //places the svg
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
-    let svg = document.getElementById("main");
     let rect = svg.getBoundingClientRect();
     this.viewBox = {
       x0: 0,
@@ -39,6 +53,7 @@ class Ui {
       y1: (1 / this.scale) * rect.height,
     };
     this.updateViewBox(this.viewBox);
+    view.style.transformOrigin = "center center"
   }
 
   /**
@@ -61,14 +76,14 @@ class Ui {
     } else if (event.shiftKey) {
       //pans horizontally by modifying this.x
       if (Math.abs(deltaY) > threshold) {
-        this.x += deltaY * this.scale;
+        this.x += Math.sign(deltaY) * 10;
       }
     } else {
       if (Math.abs(deltaY) > threshold) {
         // pans vertically by modifying this.y or horizontally by modifying this.x
         this.y += deltaY * this.scale;
       } else if (Math.abs(deltaX) > threshold) {
-        this.x += deltaX * this.scale;
+        this.x += Math.sign(deltaX) * 10;
       }
     }
     this.setViewStyle();
@@ -95,7 +110,8 @@ class Ui {
 
   setViewStyle() {
     view.style.transform = `scale(${this.scale},${this.scale})`;
-    view.style.transformOrigin = `${this.x}px ${this.y}px`;
+    // view.style.transformOrigin = `${this.x}px ${this.y}px`;
+    view.style.translate = `${this.x}px ${this.y}px`;
   }
 
   /**
@@ -171,8 +187,7 @@ class Ui {
       this.x -= offset * scale;
     }
     // Special case: resizing a "side" panel outside the SVG area
-    else if (this.dragging == "side") {
-      let page = document.getElementById("ui");
+    else if (this.dragging == "side") {;
 
       // Compute new width for the right column based on mouse position
       let rightColWidth = page.clientWidth - event.clientX;
@@ -191,8 +206,6 @@ class Ui {
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale += 0.1;
     }
-    this.x=0;
-    this.y=0;
     this.setViewStyle();
   }
 
@@ -201,8 +214,6 @@ class Ui {
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale -= 0.1;
     }
-    this.x=0;
-    this.y=0;
     this.setViewStyle();
   }
 }
