@@ -89,7 +89,8 @@ class App {
     // basic pop up that will be adapted according to which button
     // is clicked
     this.popup = new Popup();
-    this.instructionMessage = "";
+    this.instructionMessage =
+      "Click on the 'create key' button to start your design";
 
     // default values for the tools
     this.toolWidth = DEFAULT_WIDTH;
@@ -116,10 +117,12 @@ class App {
   setModeCreate() {
     // Selection of the button to create keys
     this.selectedTool = TOOL.Create;
+    this.instructionMessage = "";
   }
 
   setModeDelete() {
     this.selectedTool = TOOL.Delete;
+    this.instructionMessage = "Now, click on keys to delete them";
   }
 
   // the two following functions are used to check which button is selected
@@ -184,7 +187,8 @@ class App {
     this.selectedTool = TOOL.Move;
     this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
     this.selectedKeys = [];
-    this.instructionMessage = "";
+    this.instructionMessage =
+      "Now, the keys you selected are colored in black. The only role of these keys is to switch to the current layer.";
   }
 
   /**
@@ -335,7 +339,6 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseDown(evt) {
-    this.instructionMessage = "";
     // we get the coordinates of the mouse when the user clicks on the canvas
     const { x, y } = this.getMouseCoordinates(evt);
     const pos = this.getMouseCoordinates(evt);
@@ -372,6 +375,7 @@ class App {
     // if the user clicks on a precise key, we select it
 
     if (this.isModeMove() || this.isModeDelete()) {
+      this.instructionMessage = "";
       if (!this.isSelected(key_id)) {
         this.selectedKeys = [key_id];
       }
