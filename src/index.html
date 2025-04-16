@@ -23,7 +23,7 @@
     @mouseleave="app.ui.clearResize()"
     @mousemove="app.ui.resizeHorizontal(event); app.popup.move(event)"
     @wheel="app.ui.placeSvg($event)"
-    @keydown.delete="app.supprKey()"
+    @keydown.delete="app.supprKeys()"
     @keydown.ctrl.c="app.handleCopy()"
     @keydown.ctrl.v="app.handlePaste()"
   >
