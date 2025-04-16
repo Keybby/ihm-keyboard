@@ -428,6 +428,8 @@ class App {
   }
 
   handleMouseUp() {
+    this.ui.clearResize();
+    this.popup.clearMoving();
     if (this.selectedTool == TOOL.Move) {
       // if we have mouse up when we were moving keys
       // this means the user has finished their rectangle selection
