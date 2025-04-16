@@ -62,10 +62,6 @@
   text-indent: 0.5em;
 }
 
-#keys * {
-  width: 100%;
-}
-
 .add_key {
   padding: 0;
   display: grid;
@@ -308,6 +304,11 @@ input[type="range"]:disabled::-moz-range-thumb {
   padding-bottom: 0.5em;
 }
 
+#keys > * {
+  width:100%;
+  overflow:hidden;
+}
+
 .key_list {
   display: flex;
   flex-direction: column;
@@ -327,6 +328,17 @@ input[type="range"]:disabled::-moz-range-thumb {
   min-height: 0.5em;
 }
 
+.key_block{
+  display:grid;
+  width: 90%;
+  grid-template-columns: 1fr 4fr;
+}
+
+.key_block > button{
+  width:100%;
+  max-width:unset;
+}
+
 .key_list:has(template:nth-child(1):last-child)::before{
   content:"Keys will be listed here";
   font-size: 100%;
@@ -338,10 +350,35 @@ input[type="range"]:disabled::-moz-range-thumb {
   box-shadow: none;
   max-width:70%;
   border-radius:10px;
+  pointer-events: none;
 }
 
-.key_button:hover{
+.key_button:active{
+  opacity:100%;
+}
+
+.delete {
+  background-color: unset;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.delete img{
+  width:80%;
+  height:80%;
+  margin:0 !important;
+}
+
+.delete:hover{
   background-color: var(--ui-danger);
   transition: all ease 100ms;
 }
 
+.delete:hover img{
+  filter:grayscale(100%) brightness(0%);
+  transition: all ease 500ms;
+}

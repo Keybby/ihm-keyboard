@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -270,13 +270,20 @@
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
                   <template x-for="code in view.layout.keycodes">
-                    <button
+                    <div class="key_block">
+                      <button
                       style="height: 100%"
-                      class="key_button"
+                      class="key_button delete"
                       @click="app.supprKeyLayout(app.getSelectedKey(), code)"
-                      x-text="code"
-                    ></button>
-                    <p x-text="code"></p>
+                    >
+                      <img src="assets/trash.svg">
+                    </button>
+                      <button
+                        style="height: 100%"
+                        class="key_button"
+                        x-text="code"
+                      ></button>
+                    </div>
                   </template>
                 </div>
                 <div class="add_key">
