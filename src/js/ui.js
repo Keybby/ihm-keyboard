@@ -1,4 +1,3 @@
-// @ts-nocheck
 const view = document.getElementById("svgdiv");
 const svg = document.getElementById("main");
 
@@ -6,16 +5,16 @@ const MIN_SIZE = 500;
 
 class Ui {
   /*
-  This class handles the placement of the svg on the screen. 
+  This class handles the placement of the svg on the screen.
   It handles the scaling and the position of the svg.
 
-  Methods : 
+  Methods :
   - placeSvg(event) : Handles the placement of the svg on the screen
   - clearResize() : Clears the resize state of the svge
   - setResize(str) : Sets the resize state
-  - setViewStyle() : Sets the style of the view if the scale 
+  - setViewStyle() : Sets the style of the view if the scale
   is modified
-  - resizeHorizontal(event) : Handles the resizing of the svg 
+  - resizeHorizontal(event) : Handles the resizing of the svg
   horizontally by the user
 
   Attributes:
@@ -33,7 +32,13 @@ class Ui {
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
     let svg = document.getElementById("main");
     let rect = svg.getBoundingClientRect();
-    svg.setAttribute("viewBox", `0 0 ${1/this.scale * rect.width} ${1/this.scale * rect.height}`);
+    this.viewBox = {
+      x0: 0,
+      y0: 0,
+      x1: (1 / this.scale) * rect.width,
+      y1: (1 / this.scale) * rect.height,
+    };
+    this.updateViewBox(this.viewBox);
   }
 
   /**
@@ -69,6 +74,12 @@ class Ui {
     this.setViewStyle();
   }
 
+  updateViewBox(view_box) {
+    this.viewBox = view_box;
+    const { x0, y0, x1, y1 } = view_box;
+    svg.setAttribute("viewBox", `${x0} ${y0} ${x1} ${y1}`);
+  }
+
   clearResize() {
     // indicates that the user has stopped resizing the svg
     this.dragging = "";
@@ -96,12 +107,6 @@ class Ui {
     // Extract the scale from the transform style, assuming format like "scale(X)"
     const scale = parseFloat(view.style.transform.substring(6));
 
-    // Get current SVG viewBox as an array of numbers: [x, y, width, height]
-    let box = svg
-      .getAttribute("viewBox")
-      .split(" ")
-      .map((x) => Number(x));
-
     // Exit if mouse event is off-screen or there's no active drag operation
     if (event.clientX <= 0 || this.dragging == "") return;
 
@@ -109,20 +114,25 @@ class Ui {
     if (this.dragging == "svgbottom") {
       let y = svg.getBoundingClientRect().y;
       let newHeight = (event.clientY - y) / scale;
-      if(newHeight < MIN_SIZE) return;
+      if (newHeight < MIN_SIZE) return;
       // Update grid row heights and SVG viewBox height
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
-      svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${box[2]} ${newHeight}`);
+      // copy the value, otherwise we are in trouble
+      let new_viewbox = { ...this.viewBox };
+      new_viewbox.y1 = newHeight;
+      this.updateViewBox(new_viewbox);
     }
 
     // Resize from the right edge of the SVG
     else if (this.dragging == "svgright") {
       let x = svg.getBoundingClientRect().x;
       let newWidth = (event.clientX - x) / scale;
-      if(newWidth < MIN_SIZE) return;
+      if (newWidth < MIN_SIZE) return;
       // Update grid column widths and SVG viewBox width
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
-      svg.setAttribute("viewBox", `${box[0]} ${box[1]} ${newWidth} ${box[3]}`);
+      let new_viewbox = { ...this.viewBox };
+      new_viewbox.x1 = newWidth;
+      this.updateViewBox(new_viewbox);
     }
     // Resize from the top edge of the SVG
     else if (this.dragging == "svgtop") {
@@ -132,13 +142,13 @@ class Ui {
       // how much the top edge moved
       let offset = bound.y - event.clientY;
       let newHeight = size / scale;
-      if(newHeight < MIN_SIZE) return;
+      if (newHeight < MIN_SIZE) return;
       // Update grid row heights and shift viewBox upward accordingly
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
-      svg.setAttribute(
-        "viewBox",
-        `${box[0]} ${box[1] - (1 / scale) * offset} ${box[2]} ${newHeight}`
-      );
+      let new_viewbox = { ...this.viewBox };
+      new_viewbox.y0 -= (1 / scale) * offset;
+      new_viewbox.y1 = newHeight;
+      this.updateViewBox(new_viewbox);
       // Adjust internal y position tracker
       this.y -= offset * scale;
     }
@@ -148,13 +158,15 @@ class Ui {
       let size = bound.x + bound.width - event.clientX;
       let offset = bound.x - event.clientX;
       let newWidth = size / scale;
-      if(newWidth < MIN_SIZE) return;
+      if (newWidth < MIN_SIZE) return;
       // Update grid column widths and shift viewBox left accordingly
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
-      svg.setAttribute(
-        "viewBox",
-        `${box[0] - (1 / scale) * offset} ${box[1]} ${newWidth} ${box[3]}`
-      );
+      let new_viewbox = {
+        ...this.viewBox,
+      };
+      new_viewbox.x0 -= (1 / scale) * offset;
+      new_viewbox.x1 = newWidth;
+      this.updateViewBox(new_viewbox);
       // Adjust internal x position tracker
       this.x -= offset * scale;
     }
