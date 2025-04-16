@@ -26,7 +26,7 @@
     @keydown.delete="app.supprKey()"
     @keydown.ctrl.c="app.handleCopy()"
     @keydown.ctrl.v="app.handlePaste()"
-    x-bind:class="{'body_move_mode' : app.isModeMove(), 'body_create_mode' : app.isModeCreate()}"
+    x-bind:class="{'body_move_mode' : app.isModeMove(), 'body_create_mode' : app.isModeCreate(), 'body_delete_mode' : app.isModeDelete()}"
   >
     <div id="popup_area" hidden="true" class="blocking">
       <div id="popup">
@@ -48,6 +48,8 @@
         @mousemove.prevent="app.handleMouseMove($event)"
         @mouseup.prevent="app.handleMouseUp()"
         viewBox="0 0 1280 700"
+        @contextmenu.prevent=""
+        @auxclick.prevent=""
       >
         <image href="assets/keybby_logo_off.svg" style="opacity: 0.5"></image>
         <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
@@ -141,6 +143,13 @@
           >
             <img src="assets/add.svg" />
           </button>
+          <button
+          @click="app.setModeDelete()"
+          x-bind:class="app.isModeDelete() ? 'top_button selected' : 'top_button'"
+          class="top_button"
+        >
+          <img src="assets/eraser.svg" />
+        </button>
         </div>
         <span class="invisible">centering tool, do not touch :(</span>
       </div>

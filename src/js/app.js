@@ -14,6 +14,7 @@ const TOOL = {
   Move: 0,
   Create: 1,
   Pick: 2,
+  Delete: 3,
 };
 
 const MAX_ITERATION_BEFORE_GIVE_UP = 500;
@@ -120,6 +121,10 @@ class App {
     this.selectedTool = TOOL.Create;
   }
 
+  setModeDelete(){
+    this.selectedTool = TOOL.Delete;
+  }
+
   // the two following functions are used to check which button is selected
 
   isModeMove() {
@@ -130,6 +135,9 @@ class App {
   }
   isModePick() {
     return this.selectedTool == TOOL.Pick;
+  }
+  isModeDelete(){
+    return this.selectedTool == TOOL.Delete;
   }
 
   /**
@@ -366,7 +374,8 @@ class App {
   handleMouseDownOnKey(evt, key_id) {
     evt.stopPropagation();
     // if the user clicks on a precise key, we select it
-    if (this.selectedTool == TOOL.Move) {
+
+    if (this.isModeMove() || this.isModeDelete()) {
       if (!this.isSelected(key_id)) {
         this.selectedKeys = [key_id];
       }
@@ -381,6 +390,9 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
+    if(this.isModeDelete()){
+      this.supprKey();
+    }
   }
 
   /**
