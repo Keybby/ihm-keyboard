@@ -2,9 +2,11 @@
   <div style="display: grid; grid-template-columns: 2fr 1fr; height: 100%; width:100%">
     <div id="export_preview">Loading preview...</div>
     <div id="export_menu" class="popup-center">
-      <h3>Exporting result</h3>
+      <h1>Exporting result</h3>
+      <h4>SVG is a visual of the results</h4>
       <a id="export_svg" download="keyboard.svg" disabled> Export SVG </a>
-      <button @click="app.exportFile()">EXPORT</button>
+      <h4>JSON is to import back into the tool</h4>
+      <button @click="app.exportFile()" style="padding:1em; width:90%">Export JSON</button>
     </div>
   </div>
 </div>
