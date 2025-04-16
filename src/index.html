@@ -128,7 +128,7 @@
             Export
           </button>
           <button class="top_button" @click="app.popup.show('clear')">
-            Clear all
+            Clear
           </button>
         </div>
         <div id="tools">
@@ -152,6 +152,12 @@
           class="top_button"
         >
           <img src="assets/eraser.svg" />
+        </button>
+        <button class="top_button" @click="app.ui.zoomIn()">
+          <img src="assets/zoom+.svg">
+        </button>
+        <button class="top_button" @click="app.ui.zoomOut()">
+          <img src="assets/zoom-.svg" />
         </button>
         </div>
         <span class="invisible">centering tool, do not touch :(</span>

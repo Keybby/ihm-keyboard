@@ -26,8 +26,8 @@ class Ui {
   constructor() {
     this.scale = 0.7;
     //initializes the placement of the svg
-    this.x = (window.innerWidth * 80) / 100;
-    this.y = (window.innerHeight * 60) / 100;
+    this.x = window.innerWidth ;
+    this.y = window.innerHeight;
     this.dragging = "";
     //places the svg
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
@@ -171,6 +171,26 @@ class Ui {
       page.style.gridTemplateColumns = newColDefn;
     }
     // Apply any necessary visual updates after resizing
+    this.setViewStyle();
+  }
+
+  zoomIn(){
+    this.scale += 0.1;
+    if (Math.abs(this.scale - 1) <= 0.001) {
+      this.scale += 0.1;
+    }
+    this.x=0;
+    this.y=0;
+    this.setViewStyle();
+  }
+
+  zoomOut(){
+    this.scale -= 0.1;
+    if (Math.abs(this.scale - 1) <= 0.001) {
+      this.scale -= 0.1;
+    }
+    this.x=0;
+    this.y=0;
     this.setViewStyle();
   }
 }
