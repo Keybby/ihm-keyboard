@@ -4,7 +4,7 @@ import Layer from "./layer.js";
 import KeyLayout, { KeyCode } from "./key_layout.js";
 import Vec2D from "./vec.js";
 
-import { reviver } from "./importFunc.js";
+import {reviver} from "./importFunc.js";
 import KeyIdMap from "./keymap.js";
 
 class Keyboard {
@@ -30,21 +30,21 @@ class Keyboard {
   }
 
   /**
-   *
-   * @param {any} data
-   * @returns
+   * 
+   * @param {any} data 
+   * @returns 
    */
-  static parseJson(data) {
+  static parseJson(data){
     const keyboard = new Keyboard();
 
     keyboard.name = data.name;
     keyboard.keys = data.keys.map(KeyId.fromJson);
-    keyboard.geometries =
-      reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
-
+    keyboard.geometries = reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
+    
     keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
     keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
 
+    
     // assign other properties as needed
     return keyboard;
   }
@@ -76,7 +76,7 @@ class Keyboard {
    *
    * @param {KeyId[]} ids
    */
-  supprKeys(ids) {
+  supprKey(ids) {
     /*
     This function removes the keys from the keyboard.
     */
