@@ -7,7 +7,7 @@ import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 import Vec2D from "./vec.js";
 
 import exportFunction from "./exportFunc.js";
-import {importFunction} from "./importFunc.js";
+import { importFunction } from "./importFunc.js";
 import { isRotatedRectColliding } from "./collision.js";
 
 const TOOL = {
@@ -73,10 +73,7 @@ class App {
   constructor() {
     // will contain the keyboard layout
     this.keyboard = new Keyboard();
-    this._init();
-  }
 
-  _init(){
     // By default move is selected
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
@@ -121,7 +118,7 @@ class App {
     this.selectedTool = TOOL.Create;
   }
 
-  setModeDelete(){
+  setModeDelete() {
     this.selectedTool = TOOL.Delete;
   }
 
@@ -136,7 +133,7 @@ class App {
   isModePick() {
     return this.selectedTool == TOOL.Pick;
   }
-  isModeDelete(){
+  isModeDelete() {
     return this.selectedTool == TOOL.Delete;
   }
 
@@ -206,7 +203,6 @@ class App {
 
   activeLayerHasActivation() {
     const temp = this.keyboard.getLayer(this.selectedLayer).activation.length;
-    console.log(this.keyboard.getLayer(this.selectedLayer).activation.includes(5));
     return temp > 0;
   }
 
@@ -390,7 +386,7 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
-    if(this.isModeDelete()){
+    if (this.isModeDelete()) {
       this.supprKey();
     }
   }
@@ -400,8 +396,10 @@ class App {
    * @param {KeyId[]} key_ids
    * @param {Vec2D} translation
    * @returns {KeyId|null} (is in keys_b)
+   *  @param {Boolean} only_non_selected_keys
+   * @returns {KeyId|null|true} (is in keys_b)
    */
-  detectCollision(key_ids, translation) {
+  detectCollision(key_ids, translation, only_non_selected_keys) {
     // checks if moving the key(s) created a collision
 
     for (const id_a of key_ids) {
@@ -532,7 +530,11 @@ class App {
     // the closest as we can to the position indicated by the user
     let translation = original_translation;
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
-      const key_colide = this.detectCollision(this.selectedKeys, translation);
+      const key_colide = this.detectCollision(
+        this.selectedKeys,
+        translation,
+        true,
+      );
       if (key_colide == null) {
         return translation;
       }
@@ -656,8 +658,10 @@ class App {
     if (!CTM) {
       throw new Error("svg has no CTM");
     }
-    const x = (evt.clientX - CTM.e) / CTM.a;
-    const y = (evt.clientY - CTM.f) / CTM.d;
+    let x = (evt.clientX - CTM.e) / CTM.a;
+    let y = (evt.clientY - CTM.f) / CTM.d;
+    x = Math.min(Math.max(this.ui.viewBox.x0 + 30, x), this.ui.viewBox.x1 - 30);
+    y = Math.min(Math.max(this.ui.viewBox.y0 + 30, y), this.ui.viewBox.y1 - 30);
     return new Vec2D(x, y);
   }
 
@@ -896,12 +900,12 @@ class App {
 
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
       let translation = Vec2D.X(dx + i);
-      let key_colide = this.detectCollision(this.copiedKeys, translation);
+      let key_colide = this.detectCollision(this.copiedKeys, translation, true);
       if (key_colide === null) {
         return translation;
       }
       translation = Vec2D.Y(dy + i);
-      key_colide = this.detectCollision(this.copiedKeys, translation);
+      key_colide = this.detectCollision(this.copiedKeys, translation, true);
       if (key_colide === null) {
         return translation;
       }
@@ -951,8 +955,8 @@ class App {
   }
 
   /**
-   * 
-   * @param {File} file 
+   *
+   * @param {File} file
    */
   importFromFile(file) {
     importFunction(file, this);
