@@ -27,9 +27,39 @@ export const QUESTS = {
     text: "To change the symbol of a key, you can double click on it.",
   },
 
+  CREATE_MULTIPLE_KEYS: {
+    p: 50,
+    text: "Create muliple keys for your keyboard.",
+  },
+
+  RECTANGLE_SELECT: {
+    p: 60,
+    text: "With the `move` tool, you can also use rectangle selection.",
+  },
+
+  COPY_PASTE: {
+    p: 63,
+    text: "Once keys are selected, you can use CTRL-C and CTRL-V to duplicate them",
+  },
+
+  DELETE_KEYS: {
+    p: 65,
+    text: "You can delete keys with the `remove keys` tool, or with the <suppr> key",
+  },
+
+  CREATE_LAYER: {
+    p: 70,
+    text: "Once you have all the keys you need, you can create a new *layer*",
+  },
+
+  ACTIVATE_LAYER: {
+    p: 71,
+    text: "You created a layer that cannot be activated. Change that ! For more information, see https://github.com/Felerius/planck-layout",
+  },
+
   HAVE_FUN: {
     p: 1000,
-    text: "have fun !",
+    text: "have fun ! Once your keyboard is created, you can export it.",
   },
 
   // MULTIPLE_KEYS: {

@@ -185,8 +185,8 @@ class App {
     this.selectedKeys = [];
   }
 
-  // TODO: rename in validatePickedKeysForLayer
-  validatePickedKeys() {
+  validatePickedKeysForLayer() {
+    this.quests.done(QUESTS.ACTIVATE_LAYER);
     this.selectedTool = TOOL.Move;
     this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
     this.selectedKeys = [];
@@ -214,6 +214,7 @@ class App {
   addLayer() {
     // when we add a layer, we create an instance of the layer class
     // and we push it to the array of additional layers
+    this.quests.done(QUESTS.CREATE_LAYER);
     const n = this.keyboard.additionalLayers.length;
     this.keyboard.additionalLayers.push(new Layer(`layer ${n + 1}`));
     this.selectedLayer = n;
@@ -295,7 +296,6 @@ class App {
    */
   handleInputKey(evt) {
     this.quests.done(QUESTS.DOUBLE_CLICK_KEY);
-    console.log("catch key");
     if (this.popup.inputmode) {
       this.addKeyLayout(this.getSelectedKey(), evt.key);
     }
@@ -362,6 +362,21 @@ class App {
 
   /**
    *
+   * @param {number} x
+   * @param {number} y
+   */
+  createKey(x, y) {
+    this.quests.done(QUESTS.CREATE_FIRST_KEY);
+    if (this.keyboard.keys.length > 2) {
+      this.quests.done(QUESTS.CREATE_MULTIPLE_KEYS);
+    }
+    // if the tool is create, we create a new key at the position of the mouse
+    const newKey = this.keyboard.addKey(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0);
+    this.selectedKeys = [newKey];
+  }
+
+  /**
+   *
    * @param {MouseEvent} evt
    */
   handleMouseDown(evt) {
@@ -371,19 +386,7 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
-      this.quests.done(QUESTS.CREATE_FIRST_KEY);
-      // if the tool is create, we create a new key at the position of the mouse
-      const newKey = this.keyboard.addKey(
-        x,
-        y,
-        DEFAULT_WIDTH,
-        DEFAULT_HEIGHT,
-        0,
-        // this.toolWidth,
-        // this.toolHeight,
-        // this.toolRotation,
-      );
-      this.selectedKeys = [newKey];
+      this.createKey(x, y);
     } else if (this.selectedTool == TOOL.Move) {
       // if the tool is move and the user holds the mouse dow<n
       // then the user can make a rectangle selction of the keys
@@ -479,6 +482,7 @@ class App {
   }
 
   supprKey() {
+    this.quests.done(QUESTS.DELETE_KEYS);
     // this function deletes a key
     if (this.selectedKeys.length > 0 && this.popup.dom.hidden) {
       this.keyboard.supprKey(this.selectedKeys);
@@ -499,19 +503,17 @@ class App {
       this.quests.done(QUESTS.MOVE_KEY);
     }
     if (this.hasRectangleSelection) {
-      console.log("rectangle");
+      this.quests.done(QUESTS.RECTANGLE_SELECT);
       const selection = this.getRectangleSelection();
       for (const key_id of this.keyboard.getKeys()) {
         const geo = this.getKeyGeometry(key_id);
         if (selection) {
-          console.log(selection);
           if (
             geo.center.x >= selection.x0 &&
             geo.center.x <= selection.x1 &&
             geo.center.y >= selection.y0 &&
             geo.center.y <= selection.y1
           ) {
-            console.log("key is inside");
             if (!this.isSelected(key_id)) {
               this.selectedKeys.push(key_id);
 
@@ -946,6 +948,8 @@ class App {
   }
 
   handlePaste() {
+    this.quests.done(QUESTS.COPY_PASTE);
+    this.quests.done(QUESTS.CREATE_MULTIPLE_KEYS);
     if (this.copiedKeys.length == 0) {
       return;
     }

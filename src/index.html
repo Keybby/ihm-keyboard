@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -392,8 +392,8 @@
         </template>
         <template x-if="app.isFocusMode()">
           <button
-            @keydown.enter="app.validatePickedKeys()"
-            @click="app.validatePickedKeys()"
+            @keydown.enter="app.validatePickedKeysForLayer()"
+            @click="app.validatePickedKeysForLayer()"
           >
             Validate keys
           </button>
