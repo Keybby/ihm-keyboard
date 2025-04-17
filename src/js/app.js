@@ -101,7 +101,7 @@ class App {
     this.hasDrag = true;
     this.initialGeometries = [];
 
-    this.enableSnap=true;
+    this.enableSnap = true;
   }
 
   getInstructionMessage() {
@@ -290,7 +290,6 @@ class App {
    * @param {string} value
    */
   addKeyLayout(id, value) {
-    console.log(id, value);
     // sets the character of keycode associated with the selected key
     if (value == "") {
       return;
@@ -313,7 +312,6 @@ class App {
     // gets the layout of the key that was selected by the user
     const selectedKey = this.getSelectedKey();
     if (!selectedKey) {
-      console.warn(this.selectedKeys);
       return null;
     }
     return this.keyboard.getKeyLayout(this.selectedLayer, selectedKey);
@@ -400,30 +398,33 @@ class App {
     }
   }
 
+  nonSelectedKeys() {
+    return this.keyboard.keys.filter((x) => !this.selectedKeys.includes(x));
+  }
   /**
    *
    * @param {KeyId[]} key_ids
    * @param {Vec2D} translation
    * @returns {KeyId|null} (is in keys_b)
-   *  @param {Boolean} only_non_selected_keys
-   * @returns {KeyId|null|true} (is in keys_b)
    */
-  detectCollision(key_ids, translation, only_non_selected_keys) {
+  detectCollision(key_ids, translation) {
     // checks if moving the key(s) created a collision
+    const non_selected_keys = this.nonSelectedKeys();
 
     for (const id_a of key_ids) {
-      for (const id_b of this.getNearestNonSelectedKeys(id_a)) {
-        const key_geometry = this.getKeyGeometry(id_a);
-        const other_geometry = this.getKeyGeometry(id_b);
-        if (isRotatedRectColliding(key_geometry, other_geometry, translation)) {
-          return id_b;
-        }
+      const key_geometry = this.getKeyGeometry(id_a);
+      const id_b = this.getNearestdKey(id_a, non_selected_keys, translation);
+      if (id_b === null) {
+        continue;
+      }
+      const other_geometry = this.getKeyGeometry(id_b);
+      if (isRotatedRectColliding(key_geometry, other_geometry, translation)) {
+        return id_b;
       }
     }
 
     return null;
   }
-
   rawTranslation() {
     // this function returns the translation vector
     // that is the difference between the last position of the mouse and the first one
@@ -541,11 +542,7 @@ class App {
     // the closest as we can to the position indicated by the user
     let translation = original_translation;
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
-      const key_colide = this.detectCollision(
-        this.selectedKeys,
-        translation,
-        true,
-      );
+      const key_colide = this.detectCollision(this.selectedKeys, translation);
       if (key_colide == null) {
         return translation;
       }
@@ -559,24 +556,28 @@ class App {
   /**
    *
    * @param {KeyId} key_id
-   * @returns
+   * @param {KeyId[]} keys
+   * @param {Vec2D} translation
+
+   * @returns {KeyId|null} Array containing only the nearest non-selected key, or empty array if none found
    */
-  getNearestNonSelectedKeys(key_id) {
-    const nonSelectedKeys = [];
+  getNearestdKey(key_id, keys, translation) {
     const geo_key = this.getKeyGeometry(key_id);
-    for (const id_b of this.keyboard.keys) {
-      if (id_b != key_id && !this.isSelected(id_b)) {
-        nonSelectedKeys.push(id_b);
+    let nearestKey = null;
+    let minDist = Infinity;
+    const pos = geo_key.center.plus(translation);
+
+    for (const id_b of keys) {
+      const key_b = this.getKeyGeometry(id_b);
+      const distance = pos.minus(key_b.center).norm();
+
+      if (id_b != key_id && distance < minDist) {
+        nearestKey = id_b;
+        minDist = distance;
       }
     }
-    nonSelectedKeys.sort((a, b) => {
-      const geo_a = this.getKeyGeometry(a);
-      const geo_b = this.getKeyGeometry(b);
-      const dist_a = geo_a.center.minus(geo_key.center).norm();
-      const dist_b = geo_b.center.minus(geo_key.center).norm();
-      return dist_a - dist_b;
-    });
-    return nonSelectedKeys;
+
+    return nearestKey;
   }
 
   /**
@@ -603,24 +604,31 @@ class App {
 
    */
   resolveTranslationSnap(original_translation, mouse_position, mode) {
-    if(!this.enableSnap){
-      return original_translation
+    if (!this.enableSnap) {
+      return original_translation;
     }
+    const non_selected_keys = this.nonSelectedKeys();
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
       mouse_position,
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
-      for (const id_b of this.getNearestNonSelectedKeys(id_a)) {
-        const geo_b = this.getKeyGeometry(id_b);
-        const v = geo_b.center.minus(current_pos);
-        const up =
-          mode == "x"
-            ? geo_b.getVectorUp().normalize()
-            : geo_b.getVectorRight().normalize();
-        if (Math.abs(v.dot(up)) < 20) {
-          return original_translation.plus(up.scaled(v.dot(up)));
-        }
+      const id_b = this.getNearestdKey(
+        id_a,
+        non_selected_keys,
+        original_translation,
+      );
+      if (id_b === null) {
+        return original_translation;
+      }
+      const geo_b = this.getKeyGeometry(id_b);
+      const v = geo_b.center.minus(current_pos);
+      const up =
+        mode == "x"
+          ? geo_b.getVectorUp().normalize()
+          : geo_b.getVectorRight().normalize();
+      if (Math.abs(v.dot(up)) < 20) {
+        return original_translation.plus(up.scaled(v.dot(up)));
       }
     }
     return original_translation;
@@ -801,7 +809,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -839,7 +846,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -877,7 +883,6 @@ class App {
       const geometrytoChange = this.getKeyGeometry(key_id);
 
       if (!geometryInit || !geometrytoChange) {
-        console.log(this.initialGeometries.length);
         throw new Error("Key geometry not found");
       }
 
@@ -895,31 +900,17 @@ class App {
 
   /**
    *
-   * @param {KeyId[]} copied_keys
+   * @param {KeyId[]} keys
    */
-  getBestTranslationForCopiedKeys(copied_keys) {
-    const maxWidth = copied_keys.reduce((acc, key_id) => {
-      const geo = this.getKeyGeometry(key_id);
-      return Math.max(acc, geo.width);
-    }, 0);
-
-    /** @type {number} */
-    const maxHeight = copied_keys.reduce((acc, key_id) => {
-      const geo = this.getKeyGeometry(key_id);
-      return Math.max(acc, geo.height);
-    }, 0);
-
-    let dx = maxWidth;
-    let dy = maxHeight;
-
+  getBestTranslationForCopiedKeys(keys) {
     for (let i = 0; i < MAX_ITERATION_BEFORE_GIVE_UP; i++) {
-      let translation = Vec2D.X(dx + i);
-      let key_colide = this.detectCollision(this.copiedKeys, translation, true);
+      let translation = Vec2D.X(i);
+      let key_colide = this.detectCollision(keys, translation);
       if (key_colide === null) {
         return translation;
       }
-      translation = Vec2D.Y(dy + i);
-      key_colide = this.detectCollision(this.copiedKeys, translation, true);
+      translation = Vec2D.Y(i);
+      key_colide = this.detectCollision(keys, translation);
       if (key_colide === null) {
         return translation;
       }
@@ -932,19 +923,24 @@ class App {
       return;
     }
     this.selectedKeys = [];
-    const translation = this.getBestTranslationForCopiedKeys(this.copiedKeys);
+    const new_keys = [];
     for (const id of this.copiedKeys) {
       const geo = this.getKeyGeometry(id);
       const key_id = this.keyboard.addKey(
-        geo.center.x + translation.x,
-        geo.center.y + translation.y,
+        geo.center.x,
+        geo.center.y,
         geo.width,
         geo.height,
         geo.rotation,
       );
-      this.selectedKeys.push(key_id);
+      new_keys.push(key_id);
     }
-    this.copiedKeys = this.selectedKeys.slice();
+    const translation = this.getBestTranslationForCopiedKeys(new_keys);
+    for (const key_id of new_keys) {
+      this.getKeyGeometry(key_id).translate(translation);
+    }
+    this.selectedKeys = new_keys.slice();
+    this.copiedKeys = new_keys.slice();
   }
 
   /**
