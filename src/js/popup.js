@@ -309,6 +309,9 @@ class exportPopup extends popupClass {
     elem.removeAttribute("name");
     elem.removeAttribute("x-text");
     elem.removeAttribute("x-bind:fill");
+    elem.removeAttribute("@contextmenu.prevent");
+    elem.removeAttribute("@auxclick.prevent");
+    elem.removeAttribute("x-bind:font-size");
     // we remove aalpine from all the children of the node
     let change = true;
     while (change) {
