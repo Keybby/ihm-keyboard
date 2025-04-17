@@ -17,12 +17,11 @@ export function importFunction(text, app){
 
     //the keyboard
     app.keyboard = Keyboard.parseJson(data.keyboard);
-    app._init();
 
     //scale of the UI
-    app.ui.width = data.ui_width;
-    app.ui.height = data.ui_height;
-    app.ui.viewBox = data.ui_viewbox;
+    const view = getElementById("svgdiv"); 
+    view.style.gridTemplateRows = data.ui_gridRows;
+    view.style.gridTemplateColumns = data.ui_gridColumns;
   } catch (e) {
     console.error('Error parsing JSON:', e);
   }
