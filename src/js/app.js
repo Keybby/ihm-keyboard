@@ -75,6 +75,10 @@ class App {
     // will contain the keyboard layout
     this.keyboard = new Keyboard();
 
+    this._init();
+  }
+
+  _init(){
     // By default move is selected
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
