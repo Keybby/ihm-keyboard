@@ -1,5 +1,6 @@
 <div
-  @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), result_popup.textContent) : app.setKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
+  @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), app.popup.popup.key ) : app.setKeyLayout(app.getSelectedKey(), app.popup.popup.key ); app.popup.done();"
+  @keydown.window="app.popup.popup.setkey(event)"
   class="popup-center"
 >
   <h1
@@ -25,5 +26,4 @@
     </div>
     <h2>Append mode</h2>
   </div>
-  <span id="result_popup" hidden>a</span>
 </div>

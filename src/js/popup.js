@@ -226,33 +226,27 @@ class inputPopup extends popupClass {
   The class input pop up is used when user have to input a key value or a modifier value.
 
   methods:
-  - getkey : get the key value pressed by the user and display it in the pop up
+  - setkey : get the key value pressed by the user and display it in the pop up
   - done : clear the body of the pop up and close it
   */
   constructor() {
     super("popup/inputkey.html");
-    addEventListener("keydown", this.getkey);
+    this.key="None"
   }
 
   /**
    *
    * @param {KeyboardEvent} event
    */
-  getkey(event) {
-    let display = getElementById("result_popup");
+  setkey(event) {
     // we display the key pressed in the pop up
-    display.textContent = event.key;
-    event.preventDefault();
-    event.stopPropagation();
-    // this.done();
+    this.key = event.key;
   }
 
   /**
    * @override
    */
   done() {
-    // we remove the event listener to stop listening to the key pressed
-    removeEventListener("keydown", this.getkey);
     super.done();
   }
 }

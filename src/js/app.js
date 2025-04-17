@@ -471,7 +471,6 @@ class App {
    */
   handleMouseMove(evt) {
     if (this.hasDrag) {
-      console.log("drag done");
       this.quests.done(QUESTS.MOVE_KEY);
       this.lastMoved = this.getMouseCoordinates(evt);
     }
