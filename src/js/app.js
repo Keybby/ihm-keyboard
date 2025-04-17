@@ -456,9 +456,6 @@ class App {
   rawTranslation() {
     // this function returns the translation vector
     // that is the difference between the last position of the mouse and the first one
-    if (!this.lastMoved || !this.lastClicked) {
-      return Vec2D.zero();
-    }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
       this.lastMoved.y - this.lastClicked.y,
@@ -497,24 +494,24 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseMove(evt) {
+    this.lastMoved = this.getMouseCoordinates(evt);
     if (this.hasDrag) {
       this.quests.done(QUESTS.MOVE_KEY);
-      this.lastMoved = this.getMouseCoordinates(evt);
     }
     if (this.hasRectangleSelection) {
+      console.log("rectangle");
       const selection = this.getRectangleSelection();
       for (const key_id of this.keyboard.getKeys()) {
         const geo = this.getKeyGeometry(key_id);
-        if (!geo) {
-          return;
-        }
         if (selection) {
+          console.log(selection);
           if (
             geo.center.x >= selection.x0 &&
             geo.center.x <= selection.x1 &&
             geo.center.y >= selection.y0 &&
             geo.center.y <= selection.y1
           ) {
+            console.log("key is inside");
             if (!this.isSelected(key_id)) {
               this.selectedKeys.push(key_id);
 
@@ -536,10 +533,6 @@ class App {
     if (!this.hasRectangleSelection) {
       return null;
     }
-    if (!this.lastClicked || !this.lastMoved) {
-      throw new Error("lastClicked and lastMoved should not be null");
-    }
-
     return {
       x0: Math.min(this.lastClicked.x, this.lastMoved.x),
       y0: Math.min(this.lastClicked.y, this.lastMoved.y),
