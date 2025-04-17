@@ -367,7 +367,7 @@ class App {
    */
   createKey(x, y) {
     this.quests.done(QUESTS.CREATE_FIRST_KEY);
-    if (this.keyboard.keys.length > 2) {
+    if (this.keyboard.keys.length > 1) {
       this.quests.done(QUESTS.CREATE_MULTIPLE_KEYS);
     }
     // if the tool is create, we create a new key at the position of the mouse
