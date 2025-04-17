@@ -4,7 +4,7 @@ import Layer from "./layer.js";
 import KeyLayout, { KeyCode } from "./key_layout.js";
 import Vec2D from "./vec.js";
 
-import {reviver} from "./importFunc.js";
+import { reviver } from "./importFunc.js";
 import KeyIdMap from "./keymap.js";
 
 class Keyboard {
@@ -30,21 +30,21 @@ class Keyboard {
   }
 
   /**
-   * 
-   * @param {any} data 
-   * @returns 
+   *
+   * @param {any} data
+   * @returns
    */
-  static parseJson(data){
+  static parseJson(data) {
     const keyboard = new Keyboard();
 
     keyboard.name = data.name;
     keyboard.keys = data.keys.map(KeyId.fromJson);
-    keyboard.geometries = reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
-    
+    keyboard.geometries =
+      reviver(data.geometries, KeyGeometry.fromJson) ?? new KeyIdMap();
+
     keyboard.defaultLayer = Layer.fromJson(data.defaultLayer);
     keyboard.additionalLayers = data.additionalLayers.map(Layer.fromJson);
 
-    
     // assign other properties as needed
     return keyboard;
   }
@@ -60,14 +60,18 @@ class Keyboard {
     posY,
     width = DEFAULT_WIDTH,
     height = DEFAULT_HEIGHT,
-    rotation = 0,
+    rotation = 0
   ) {
     const key = new KeyId();
     this.keys.push(key);
     this.geometries.set(
       key,
-      new KeyGeometry(new Vec2D(posX, posY), width, height, rotation),
+      new KeyGeometry(new Vec2D(posX, posY), width, height, rotation)
     );
+
+    window.onbeforeunload = function () {
+      return "Don't leave";
+    };
 
     return key; //TOCHECK
   }
@@ -158,7 +162,7 @@ class Keyboard {
     let layout = this.getKeyLayout(i_layer, key_id);
 
     const index = layout.keycodes.findIndex(
-      (keyCode) => keyCode.toString() == value,
+      (keyCode) => keyCode.toString() == value
     );
     if (index !== -1) {
       layout.keycodes.splice(index, 1); // Remove the element at the found index
