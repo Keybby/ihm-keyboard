@@ -413,7 +413,9 @@ class App {
       }
     }
     if (this.selectedTool == TOOL.Pick) {
-      if (!this.isSelected(key_id)) {
+      if (this.isSelected(key_id)) {
+        this.selectedKeys = this.selectedKeys.filter((x) => x != key_id);
+      } else {
         this.selectedKeys.push(key_id);
       }
     }
