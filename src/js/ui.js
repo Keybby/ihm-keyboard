@@ -76,14 +76,14 @@ class Ui {
     } else if (event.shiftKey) {
       //pans horizontally by modifying this.x
       if (Math.abs(deltaY) > threshold) {
-        this.x += Math.sign(deltaY) * 10;
+        this.x += Math.sign(deltaY) * 15;
       }
     } else {
       if (Math.abs(deltaY) > threshold) {
         // pans vertically by modifying this.y or horizontally by modifying this.x
-        this.y += deltaY * this.scale;
+        this.y += Math.sign(deltaY) * 15;
       } else if (Math.abs(deltaX) > threshold) {
-        this.x += Math.sign(deltaX) * 10;
+        this.x += Math.sign(deltaX) * 15;
       }
     }
     this.setViewStyle();
