@@ -964,13 +964,12 @@ class App {
    * @param {string} name
    */
   importFromPremade(name) {
-    // // this function imports a premade keyboard from the assets folder
-    // let file;
-    // let req = new XMLHttpRequest();
-    // req.open("GET", `assets/keyboard/${name}.json`, false);
-    // req.send();
-    // file = JSON.parse(req.responseText);
-    // this.import(file);
+    // this function imports a premade keyboard from the assets folder
+    
+    let req = new XMLHttpRequest();
+    req.open("GET", `assets/keyboard/${name}.json`, false);
+    req.send();
+    importFunction(req.responseText, this);
   }
 
   /**
@@ -978,7 +977,19 @@ class App {
    * @param {File} file
    */
   importFromFile(file) {
-    importFunction(file, this);
+    const app = this;
+
+    const reader = new FileReader();
+    reader.onload = function () {
+      const text = reader.result;
+      if (typeof text === 'string') {
+        importFunction(text, app);
+      } 
+      else {
+        console.error('File content is not a valid string');
+      }
+    };
+    reader.readAsText(file);
   }
 
   exportFile() {
