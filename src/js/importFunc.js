@@ -15,7 +15,6 @@ export function importFunction(text, app) {
 
     //the keyboard
     app.keyboard = Keyboard.parseJson(data.keyboard);
-    app._init();
 
     //scale of the UI
     app.ui.width = data.ui_width;

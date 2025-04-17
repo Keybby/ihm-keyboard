@@ -43,7 +43,7 @@ class Popup {
   - body : the body of the pop up
   - moving : boolean indicating if the pop up is being moved
   - bind : string indicating the type of pop up to be displayed
-  - popup : construction of a popup class instance representing the pop up
+  - behaviour : construction of a popup class instance representing the pop up
 
   Methods :
   - show : display the pop up
@@ -67,7 +67,7 @@ class Popup {
     this.pop = getElementById("popup");
     this.body = this.pop.children[1];
     this.moving = false;
-    this.popup = new popupClass();
+    this.behaviour = new PopupBehaviour();
     this.inputmode = false;
     // If the user presses escape, the pop up is closed
     window.addEventListener("keyup", (event) => {
@@ -95,23 +95,23 @@ class Popup {
         */
         case "input":
           title = "Key input";
-          this.popup = new inputPopup();
+          this.behaviour = new inputPopup();
           break;
         case "export":
           title = "Exporting";
-          this.popup = new exportPopup();
+          this.behaviour = new exportPopup();
           break;
         case "import":
           title = "Importing";
-          this.popup = new importPopup();
+          this.behaviour = new importPopup();
           break;
         case "svg":
           title = "Change svg";
-          this.popup = new svgPopup();
+          this.behaviour = new svgPopup();
           break;
         case "clear":
           title = "Clear all keys";
-          this.popup = new clearPopup();
+          this.behaviour = new clearPopup();
           break;
         default:
           // if the type of pop up isn't defined
@@ -182,12 +182,12 @@ class Popup {
     // we have finished using it
     this.body.innerHTML = "";
     this.title.textContent == "Popup";
-    this.popup.done();
+    this.behaviour.done();
     this.close();
   }
 }
 
-class popupClass {
+class PopupBehaviour {
   /*
   This class defines the basic popup class from which we'll derive pop ups with specific attributes.
 
@@ -221,37 +221,22 @@ class popupClass {
   done() {}
 }
 
-class inputPopup extends popupClass {
-  /*
+class inputPopup extends PopupBehaviour {
+  /**
   The class input pop up is used when user have to input a key value or a modifier value.
 
   methods:
   - setkey : get the key value pressed by the user and display it in the pop up
   - done : clear the body of the pop up and close it
+
   */
   constructor() {
     super("popup/inputkey.html");
-    this.key="None"
-  }
-
-  /**
-   *
-   * @param {KeyboardEvent} event
-   */
-  setkey(event) {
-    // we display the key pressed in the pop up
-    this.key = event.key;
-  }
-
-  /**
-   * @override
-   */
-  done() {
-    super.done();
+    this.key = "";
   }
 }
 
-class exportPopup extends popupClass {
+class exportPopup extends PopupBehaviour {
   /*
   This class defines an export pop up.
 
@@ -338,7 +323,7 @@ class exportPopup extends popupClass {
    */
 }
 
-class importPopup extends popupClass {
+class importPopup extends PopupBehaviour {
   /*
   This class defines a basic import pop up that takes the import template
   */
@@ -365,7 +350,7 @@ class importPopup extends popupClass {
   }
 }
 
-class svgPopup extends popupClass {
+class svgPopup extends PopupBehaviour {
   /*
   this class defines a svg pop up that allows to modify the svg display of a key
   */
@@ -417,7 +402,7 @@ class svgPopup extends popupClass {
       // we create a new svg element
       const path = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "path"
+        "path",
       );
       path.setAttribute("d", this.input.value);
       this.preview.appendChild(path);
@@ -425,7 +410,7 @@ class svgPopup extends popupClass {
   }
 }
 
-class clearPopup extends popupClass {
+class clearPopup extends PopupBehaviour {
   /*
   this class defines a svg pop up that allows to modify the svg display of a key
   */

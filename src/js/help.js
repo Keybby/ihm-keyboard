@@ -7,30 +7,30 @@
 export const QUESTS = {
   SELECT_TOOL_CREATE: {
     p: 0,
-    text: "click on the `create key` button to start your design",
+    text: "Click on the `create key` button to start your design",
   },
   CREATE_FIRST_KEY: {
     p: 5,
-    text: "now, click on the canvas !",
+    text: "Now, click on the canvas !",
   },
   MOVE_KEY: {
     p: 10,
-    text: "now, you can select the `move key` button to place your key",
+    text: "You can select the `move key` button to place your key",
   },
   EDIT_KEY_GEOMETRY: {
     p: 30,
-    text: "one a key is selected, you can change it's height, width and rotation",
+    text: "One a key is selected, you can change it's geometry. Try it !",
+  },
+
+  DOUBLE_CLICK_KEY: {
+    p: 40,
+    text: "To change the symbol of a key, you can double click on it.",
   },
 
   HAVE_FUN: {
     p: 1000,
     text: "have fun !",
   },
-
-  // DOUBLE_CLICK_KEY: {
-  //   p: 40,
-  //   text: "To change the symbol of a key, you can double click on it.",
-  // },
 
   // MULTIPLE_KEYS: {
   //   p: 50,
@@ -90,7 +90,6 @@ export default class QuestManager {
       }
     });
 
-    console.log(nextQuest);
     // Return the text of the next quest, or null if no uncompleted quests were found
     // @ts-ignore
     return nextQuest ? nextQuest.text : null;

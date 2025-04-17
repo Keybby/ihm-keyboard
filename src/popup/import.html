@@ -16,36 +16,36 @@
     <div class="import_list">
       <div
         name="azerty"
-        :class="app.popup.popup.isSelected('azerty') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('azerty')"
+        :class="app.popup.behaviour.isSelected('azerty') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('azerty')"
       >
         Azerty
       </div>
       <div
         name="qwerty"
-        :class="app.popup.popup.isSelected('qwerty') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('qwerty')"
+        :class="app.popup.behaviour.isSelected('qwerty') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('qwerty')"
       >
         Qwerty
       </div>
       <div
         name="50%"
-        :class="app.popup.popup.isSelected('50%') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('50%')"
+        :class="app.popup.behaviour.isSelected('50%') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('50%')"
       >
         50%
       </div>
       <div
         name="75%"
-        :class="app.popup.popup.isSelected('75%') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('75%')"
+        :class="app.popup.behaviour.isSelected('75%') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('75%')"
       >
         75%
       </div>
       <div
         name="100%"
-        :class="app.popup.popup.isSelected('100%') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('100%')"
+        :class="app.popup.behaviour.isSelected('100%') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('100%')"
       >
         100%
       </div>
@@ -56,50 +56,50 @@
     <div class="import_list">
       <div
         name="Ergo1"
-        :class="app.popup.popup.isSelected('Ergo1') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo1')"
+        :class="app.popup.behaviour.isSelected('Ergo1') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo1')"
       >
         Ergo1
       </div>
       <div
         name="Ergo2"
-        :class="app.popup.popup.isSelected('Ergo2') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo2')"
+        :class="app.popup.behaviour.isSelected('Ergo2') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo2')"
       >
         Ergo2
       </div>
       <div
         name="Ergo3"
-        :class="app.popup.popup.isSelected('Ergo3') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo3')"
+        :class="app.popup.behaviour.isSelected('Ergo3') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo3')"
       >
         Ergo3
       </div>
       <div
         name="Ergo4"
-        :class="app.popup.popup.isSelected('Ergo4') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo4')"
+        :class="app.popup.behaviour.isSelected('Ergo4') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo4')"
       >
         Ergo4
       </div>
       <div
         name="Ergo5"
-        :class="app.popup.popup.isSelected('Ergo5') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo5')"
+        :class="app.popup.behaviour.isSelected('Ergo5') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo5')"
       >
         Ergo5
       </div>
       <div
         name="Ergo6"
-        :class="app.popup.popup.isSelected('Ergo6') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo6')"
+        :class="app.popup.behaviour.isSelected('Ergo6') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo6')"
       >
         Ergo6
       </div>
       <div
         name="Ergo7"
-        :class="app.popup.popup.isSelected('Ergo7') ? 'selected_import' : '' "
-        @click="app.popup.popup.select('Ergo7')"
+        :class="app.popup.behaviour.isSelected('Ergo7') ? 'selected_import' : '' "
+        @click="app.popup.behaviour.select('Ergo7')"
       >
         Ergo5
       </div>
@@ -114,7 +114,7 @@
     />
 
     <button
-      @click="app.importFromPremade(app.popup.popup.selected); app.popup.done()"
+      @click="app.importFromPremade(app.popup.behaviour.selected); app.popup.done()"
     >
       Done
     </button>

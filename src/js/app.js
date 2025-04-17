@@ -276,16 +276,35 @@ class App {
   }
 
   /**
-   * @param {KeyId} id
+   * @param {KeyId|null} id
    * @param {string} value
    */
   setKeyLayout(id, value) {
+    window.onbeforeunload = function () {
+      return "Don't leave";
+    };
     // sets the character of keycode associated with the selected key
-    this.keyboard.setKeyLayout(this.selectedLayer, id, value);
+    if (id) {
+      this.keyboard.setKeyLayout(this.selectedLayer, id, value);
+    }
   }
 
   /**
-   * @param {KeyId} id
+   *
+   * @param {KeyboardEvent} evt
+   */
+  handleInputKey(evt) {
+    this.quests.done(QUESTS.DOUBLE_CLICK_KEY);
+    console.log("catch key");
+    if (this.popup.inputmode) {
+      this.addKeyLayout(this.getSelectedKey(), evt.key);
+    }
+    this.setKeyLayout(this.getSelectedKey(), evt.key);
+    this.popup.done();
+  }
+
+  /**
+   * @param {KeyId|null} id
    * @param {string} value
    */
   addKeyLayout(id, value) {
@@ -293,9 +312,17 @@ class App {
     if (value == "") {
       return;
     }
+
+    // now, the user has important stuff
+    window.onbeforeunload = function () {
+      return "Don't leave";
+    };
+
     // @ts-ignore
     document.getElementById("key_add_code").value = "";
-    this.keyboard.addKeyLayout(this.selectedLayer, id, value);
+    if (id) {
+      this.keyboard.addKeyLayout(this.selectedLayer, id, value);
+    }
   }
 
   /**
@@ -351,7 +378,7 @@ class App {
         y,
         DEFAULT_WIDTH,
         DEFAULT_HEIGHT,
-        0
+        0,
         // this.toolWidth,
         // this.toolHeight,
         // this.toolRotation,
@@ -434,7 +461,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y
+      this.lastMoved.y - this.lastClicked.y,
     );
   }
 
@@ -613,14 +640,14 @@ class App {
     }
     const non_selected_keys = this.nonSelectedKeys();
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position
+      mouse_position,
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
       const id_b = this.getNearestdKey(
         id_a,
         non_selected_keys,
-        original_translation
+        original_translation,
       );
       if (id_b === null) {
         return original_translation;
@@ -652,21 +679,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved
+        this.lastMoved,
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x"
+        "x",
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y"
+        "y",
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved
+        this.lastMoved,
       );
       return translation;
     }
@@ -938,7 +965,7 @@ class App {
         geo.center.y,
         geo.width,
         geo.height,
-        geo.rotation
+        geo.rotation,
       );
       new_keys.push(key_id);
     }

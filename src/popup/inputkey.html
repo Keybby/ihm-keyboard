@@ -1,6 +1,6 @@
 <div
-  @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), app.popup.popup.key ) : app.setKeyLayout(app.getSelectedKey(), app.popup.popup.key ); app.popup.done();"
-  @keydown.window="app.popup.popup.setkey(event)"
+  @keyup.window="app.handleInputKey($event)"
+  @keydown.window="app.popup.behaviour.key = $event.key"
   class="popup-center"
 >
   <h1

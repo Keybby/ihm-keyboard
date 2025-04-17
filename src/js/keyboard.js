@@ -69,10 +69,6 @@ class Keyboard {
       new KeyGeometry(new Vec2D(posX, posY), width, height, rotation),
     );
 
-    window.onbeforeunload = function () {
-      return "Don't leave";
-    };
-
     return key; //TOCHECK
   }
 
