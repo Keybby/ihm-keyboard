@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -118,50 +118,6 @@
       ></div>
     </div>
     <div id="ui">
-      <div id="top">
-        <div id="top_buttons">
-          <button class="top_button" @click="app.popup.show('import')">Import</button>
-          <button class="top_button" @click="app.popup.show('export')">
-            Export
-          </button>
-          <button class="top_button" @click="app.popup.show('clear')">
-            Clear
-          </button>
-        </div>
-        <div id="tools">
-          <button
-            @click="app.setModeMove()"
-            x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
-            class="top_button"
-          >
-            <img src="assets/move.svg" />
-          </button>
-          <button
-            @click="app.setModeCreate()"
-            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
-            class="top_button"
-          >
-            <img src="assets/add.svg" />
-          </button>
-          <button
-          @click="app.setModeDelete()"
-          x-bind:class="app.isModeDelete() ? 'top_button selected' : 'top_button'"
-          class="top_button"
-        >
-          <img src="assets/eraser.svg" />
-        </button>
-        <button class="top_button" @click="app.ui.zoomIn()">
-          <img src="assets/zoom+.svg">
-        </button>
-        <button class="top_button" @click="app.ui.zoomOut()">
-          <img src="assets/zoom-.svg" />
-        </button>
-        </div>
-        <div class="instructions">
-          <img src="assets/keybby_light.svg">
-          <span class="scrollable" x-text="app.getInstructionMessage()"></span>
-        </div>
-      </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div
         x-show="!app.isFocusMode()"
@@ -179,13 +135,20 @@
               <span>Position Y:</span>
               <span for="Y" x-text="view.y"></span>
 
-              <div x-data="{enterWidth: false, enterHeight: false, enterRotation: false}">
+              <div
+                x-data="{enterWidth: false, enterHeight: false, enterRotation: false}"
+              >
                 <span for="width">Width : </span>
-                <label for="width" x-text="view.width" 
-                  x-show="!enterWidth" @dblclick="enterWidth = true"></label>
-                <input 
+                <label
+                  for="width"
+                  x-text="view.width"
+                  x-show="!enterWidth"
+                  @dblclick="enterWidth = true"
+                ></label>
+                <input
                   type="number"
-                  min="50" max="500"  
+                  min="50"
+                  max="500"
                   x-show="enterWidth"
                   @keyup.enter="enterWidth = false; app.updateWidth(Math.min(500, Math.max(50, $event.target.value)))"
                   @keyup.escape="enterWidth = false;"
@@ -202,12 +165,17 @@
                 />
 
                 <span for="height">Height : </span>
-                <label for="height" x-text="view.height"
-                  x-show="!enterHeight" @dblclick="enterHeight = true"></label>
-                <input 
+                <label
+                  for="height"
+                  x-text="view.height"
+                  x-show="!enterHeight"
+                  @dblclick="enterHeight = true"
+                ></label>
+                <input
                   type="number"
-                  min="30" max="100" 
-                  x-show="enterHeight" 
+                  min="30"
+                  max="100"
+                  x-show="enterHeight"
                   @keyup.enter="enterHeight = false; app.updateHeight(Math.min(100, Math.max(30, $event.target.value)))"
                   @keyup.escape="enterHeight = false;"
                 />
@@ -223,12 +191,17 @@
                 />
 
                 <span for="rotation">Rotation : </span>
-                <label for="rotation" x-text="view.rotation"
-                  x-show="!enterRotation" @dblclick="enterRotation = true"></label>
-                <input 
+                <label
+                  for="rotation"
+                  x-text="view.rotation"
+                  x-show="!enterRotation"
+                  @dblclick="enterRotation = true"
+                ></label>
+                <input
                   type="number"
-                  min="-90" max="90" 
-                  x-show="enterRotation" 
+                  min="-90"
+                  max="90"
+                  x-show="enterRotation"
                   @keyup.enter="enterRotation = false; app.updateRotation(Math.min(90, Math.max(-90, $event.target.value)))"
                   @keyup.escape="enterRotation = false;"
                 />
@@ -304,12 +277,12 @@
                   <template x-for="code in view.layout.keycodes">
                     <div class="key_block">
                       <button
-                      style="height: 100%"
-                      class="key_button delete"
-                      @click="app.supprKeyLayout(app.getSelectedKey(), code)"
-                    >
-                      <img src="assets/trash.svg">
-                    </button>
+                        style="height: 100%"
+                        class="key_button delete"
+                        @click="app.supprKeyLayout(app.getSelectedKey(), code)"
+                      >
+                        <img src="assets/trash.svg" />
+                      </button>
                       <button
                         style="height: 100%"
                         class="key_button"
@@ -349,7 +322,6 @@
           </template>
         </div>
       </div>
-
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
         <div
@@ -409,6 +381,52 @@
             Validate keys
           </button>
         </template>
+      </div>
+      <div id="top">
+        <div id="top_buttons">
+          <button class="top_button" @click="app.popup.show('import')">
+            Import
+          </button>
+          <button class="top_button" @click="app.popup.show('export')">
+            Export
+          </button>
+          <button class="top_button" @click="app.popup.show('clear')">
+            Clear
+          </button>
+        </div>
+        <div id="tools">
+          <button
+            @click="app.setModeMove()"
+            x-bind:class="app.isModeMove() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            <img src="assets/move.svg" />
+          </button>
+          <button
+            @click="app.setModeCreate()"
+            x-bind:class="app.isModeCreate() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            <img src="assets/add.svg" />
+          </button>
+          <button
+            @click="app.setModeDelete()"
+            x-bind:class="app.isModeDelete() ? 'top_button selected' : 'top_button'"
+            class="top_button"
+          >
+            <img src="assets/eraser.svg" />
+          </button>
+          <button class="top_button" @click="app.ui.zoomIn()">
+            <img src="assets/zoom+.svg" />
+          </button>
+          <button class="top_button" @click="app.ui.zoomOut()">
+            <img src="assets/zoom-.svg" />
+          </button>
+        </div>
+        <div class="instructions">
+          <span x-text="app.getInstructionMessage()"></span>
+          <img src="assets/keybby_light.svg" />
+        </div>
       </div>
     </div>
   </body>

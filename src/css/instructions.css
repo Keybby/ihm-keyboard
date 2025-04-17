@@ -1,6 +1,6 @@
 .instructions {
   display: grid;
-  grid-template-columns: 1.9fr 8fr;
+  grid-template-columns: 8fr 1.9fr;
   /* grid-area: foot; */
   max-width: 15em;
   background-color: var(--bg-color);
@@ -14,24 +14,61 @@
   align-items: center;
   justify-content: center;
   align-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 0 0.25em var(--ui-color);
+  animation: blink 1s ease-in-out 3;  
 }
 
-.instructions img{
-  width:100%;
-  /* height:100%; */
+.instructions img {
+  width: 95%;
   margin-bottom: 0.2em;
+  align-self: center;
+  /* filter:drop-shadow(-14px -15px 0.6em #fcd462); */
 }
 
-.instructions:has(span:empty){
+@keyframes blink {
+  0% {
+    background-color: var(--bg-color);
+  }
+  50% {
+    background-color: var(--ui-highlight);
+  }
+  100% {
+    background-color: var(--bg-color);
+  }
+}
+
+.instructions:has(span:empty) {
   background-color: var(--ui-color);
+  animation:unset;
 }
 
-.instructions:has(span:empty) img{
-  display:none;
+.instructions:has(span:empty) img {
+  display: none;
 }
 
 .instructions span {
   color: white;
-  display: inline-flex;
-  align-items: center;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.instructions:hover {
+  height: fit-content;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.instructions:hover span {
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
+}
+
+.instructions:hover img {
+  margin: unset;
+  /* filter:unset; */
 }
