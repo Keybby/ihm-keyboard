@@ -100,6 +100,8 @@ class App {
     this.hasRectangleSelection = false;
     this.hasDrag = true;
     this.initialGeometries = [];
+
+    this.enableSnap=true;
   }
 
   getInstructionMessage() {
@@ -601,6 +603,9 @@ class App {
 
    */
   resolveTranslationSnap(original_translation, mouse_position, mode) {
+    if(!this.enableSnap){
+      return original_translation
+    }
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
       mouse_position,
     )) {

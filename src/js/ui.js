@@ -109,6 +109,9 @@ class Ui {
   }
 
   setViewStyle() {
+    if (this.scale<0.1){
+      this.scale=0.1;
+    }
     view.style.transform = `scale(${this.scale},${this.scale})`;
     // view.style.transformOrigin = `${this.x}px ${this.y}px`;
     view.style.translate = `${this.x}px ${this.y}px`;

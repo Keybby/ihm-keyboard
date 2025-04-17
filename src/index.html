@@ -428,6 +428,18 @@
           <button class="top_button" @click="app.ui.zoomOut()">
             <img src="assets/zoom-.svg" />
           </button>
+          <div
+            class="false_tool top_button"
+            @click="app.enableSnap = !app.enableSnap"
+          >
+            <img src="assets/magnet.svg" />
+            <div class="toggle-border">
+              <input id="one" type="checkbox" x-bind:checked="app.enableSnap" />
+              <label for="one">
+                <div class="handle"></div>
+              </label>
+            </div>
+          </div>
         </div>
         <div class="instructions">
           <span x-text="app.getInstructionMessage()"></span>
