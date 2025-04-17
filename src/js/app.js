@@ -349,9 +349,12 @@ class App {
       const newKey = this.keyboard.addKey(
         x,
         y,
-        this.toolWidth,
-        this.toolHeight,
-        this.toolRotation,
+        DEFAULT_WIDTH,
+        DEFAULT_HEIGHT,
+        0,
+        // this.toolWidth,
+        // this.toolHeight,
+        // this.toolRotation,
       );
       this.selectedKeys = [newKey];
     } else if (this.selectedTool == TOOL.Move) {
@@ -930,6 +933,9 @@ class App {
       const key_id = this.keyboard.addKey(
         geo.center.x + translation.x,
         geo.center.y + translation.y,
+        geo.width,
+        geo.height,
+        geo.rotation,
       );
       this.selectedKeys.push(key_id);
     }
