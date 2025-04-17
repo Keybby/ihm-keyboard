@@ -334,7 +334,10 @@
             @dblclick="app.enterNameLayer()"
           >
             <template x-if="!app.isChangedDefaultLayer()">
-              <span x-text="app.getDefaultLayerName()"> </span>
+              <span>
+                <span x-text="app.getDefaultLayerName()"> </span>
+                <img class="mark_editable" src="assets/pencil.svg" />
+              </span>
             </template>
             <template x-if="app.isChangedDefaultLayer()">
               <input
@@ -350,7 +353,10 @@
           <template x-for="(el, i) in app.additionalLayers()">
             <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
               <template x-if="!app.isChangedLayer(i)">
-                <span x-text="app.getLayerName(i)"> </span>
+                <span>
+                  <span x-text="app.getLayerName(i)"> </span>
+                  <img class="mark_editable" src="assets/pencil.svg" />
+                </span>
               </template>
               <template x-if="app.isChangedLayer(i)">
                 <input
