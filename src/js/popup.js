@@ -287,13 +287,13 @@ class exportPopup extends popupClass {
     elem.removeAttribute("@dblclick");
     elem.removeAttribute("@mousedown");
     elem.removeAttribute("x-bind:transform");
+    elem.removeAttribute("x-bind:view-box.camel");
     elem.removeAttribute(":class");
     elem.removeAttribute("@click");
     elem.removeAttribute("x-if");
     elem.removeAttribute("@mousedown.prevent");
     elem.removeAttribute("@mouseup.prevent");
     elem.removeAttribute("@mousemove.prevent");
-    elem.removeAttribute("x-bind:transform");
     elem.removeAttribute("x-bind:d");
     elem.removeAttribute("x-bind:x");
     elem.removeAttribute("x-bind:y");
