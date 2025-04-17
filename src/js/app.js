@@ -388,8 +388,10 @@ class App {
         this.selectedKeys.push(key_id);
       }
     }
+    if (this.selectedTool == TOOL.Move) {
+      this.hasDrag = true;
+    }
     const pos = this.getMouseCoordinates(evt);
-    this.hasDrag = true;
     this.lastClicked = pos;
     this.lastMoved = pos;
     // needed, otherwise the svg will think we clicked outside
