@@ -57,7 +57,7 @@
 }
 
 #tools * {
-  user-select:none;
+  user-select: none;
 }
 
 #tools .top_button {
@@ -151,21 +151,6 @@
   left: calc(100% - 20px + 1px);
 }
 
-.false_tool > *{
-  width:50%;
-}
-
-#tools .top_button .tooltiptext {
-  visibility: hidden;
-  position:absolute;
-  width: 120px;
-  top: 100%;
-}
-
-#tools .top_button:hover .tooltiptext {
-  visibility: visible;
-  background-color: var(--ui-color);
-  width:fit-content;
-  padding: 0.2em;
-  border-radius: 5px;
+.false_tool > * {
+  width: 50%;
 }

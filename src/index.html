@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/popup.css" />
     <link rel="stylesheet" href="css/svg.css" />
     <link rel="stylesheet" href="css/instructions.css" />
+    <link rel="stylesheet" href="css/tooltip.css" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <title>Keybby v0.1</title>
   </head>
@@ -334,6 +335,7 @@
           <div
             @click="app.selectDefaultLayer()"
             @dblclick="app.enterNameLayer()"
+            :class="!app.isActiveLayerDefault() ? 'unselected_layer' : ''"
           >
             <template x-if="!app.isChangedDefaultLayer()">
               <span>
@@ -353,7 +355,11 @@
             </template>
           </div>
           <template x-for="(el, i) in app.additionalLayers()">
-            <div @click="app.selectLayer(i)" @dblclick="app.enterNameLayer()">
+            <div
+              @click="app.selectLayer(i)"
+              @dblclick="app.enterNameLayer()"
+              :class="!app.isActiveLayer(i) ? 'unselected_layer' : ''"
+            >
               <template x-if="!app.isChangedLayer(i)">
                 <span>
                   <span x-text="app.getLayerName(i)"> </span>
@@ -379,7 +385,12 @@
           </template>
         </div>
         <template x-if="!app.isFocusMode()">
-          <button @click="app.addLayer()">Add Layer</button>
+          <button @click="app.addLayer()">
+            Add Layer
+            <div class="tooltiptext">
+              (Create a new layer with new symbols for each key.)
+            </div>
+          </button>
         </template>
         <template x-if="app.isFocusMode()">
           <button

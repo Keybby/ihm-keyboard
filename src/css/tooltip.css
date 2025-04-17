@@ -1,0 +1,13 @@
+button .tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  top: 100%;
+}
+
+button:hover .tooltiptext {
+  visibility: visible;
+  background-color: var(--ui-color);
+  width: fit-content;
+  padding: 0.2em;
+  border-radius: 5px;
+}
