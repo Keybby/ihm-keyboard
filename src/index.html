@@ -383,19 +383,14 @@
           </template>
         </div>
         <template x-if="!app.isFocusMode()">
-          <button @click="app.addLayer()" class="add_layer">
-            Add Layer
-            <div class="tooltiptext">
-              Create a new layer for when a certain key is pressed
-            </div>
-          </button>
+          <button @click="app.addLayer()" class="add_layer">Add Layer</button>
         </template>
         <template x-if="app.isFocusMode()">
           <button
             @keydown.enter="app.validatePickedKeysForLayer()"
             @click="app.validatePickedKeysForLayer()"
           >
-            Validate keys
+            Validate the keys you selected
           </button>
         </template>
       </div>
