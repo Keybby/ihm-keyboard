@@ -106,7 +106,12 @@
     </div>
   </div>
   <div id="import_done">
-    <input type="file" id="file" accept=".json" @change="app.importFromFile($event.target.files[0]); app.popup.done()"/>
+    <input
+      type="file"
+      id="file"
+      accept=".json"
+      @change="app.importFromFile($event.target.files[0]); app.popup.done()"
+    />
 
     <button
       @click="app.importFromPremade(app.popup.popup.selected); app.popup.done()"

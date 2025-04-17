@@ -78,7 +78,7 @@ class App {
     this._init();
   }
 
-  _init(){
+  _init() {
     // By default move is selected
     this.selectedTool = TOOL.Move;
     this.selectedLayer = -1;
@@ -351,7 +351,7 @@ class App {
         y,
         DEFAULT_WIDTH,
         DEFAULT_HEIGHT,
-        0,
+        0
         // this.toolWidth,
         // this.toolHeight,
         // this.toolRotation,
@@ -434,7 +434,7 @@ class App {
     }
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y,
+      this.lastMoved.y - this.lastClicked.y
     );
   }
 
@@ -614,14 +614,14 @@ class App {
     }
     const non_selected_keys = this.nonSelectedKeys();
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position,
+      mouse_position
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
       const id_b = this.getNearestdKey(
         id_a,
         non_selected_keys,
-        original_translation,
+        original_translation
       );
       if (id_b === null) {
         return original_translation;
@@ -653,21 +653,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved,
+        this.lastMoved
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x",
+        "x"
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y",
+        "y"
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved,
+        this.lastMoved
       );
       return translation;
     }
@@ -939,7 +939,7 @@ class App {
         geo.center.y,
         geo.width,
         geo.height,
-        geo.rotation,
+        geo.rotation
       );
       new_keys.push(key_id);
     }
@@ -967,7 +967,7 @@ class App {
    */
   importFromPremade(name) {
     // this function imports a premade keyboard from the assets folder
-    
+
     let req = new XMLHttpRequest();
     req.open("GET", `assets/keyboard/${name}.json`, false);
     req.send();
@@ -984,11 +984,10 @@ class App {
     const reader = new FileReader();
     reader.onload = function () {
       const text = reader.result;
-      if (typeof text === 'string') {
+      if (typeof text === "string") {
         importFunction(text, app);
-      } 
-      else {
-        console.error('File content is not a valid string');
+      } else {
+        console.error("File content is not a valid string");
       }
     };
     reader.readAsText(file);

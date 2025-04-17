@@ -7,11 +7,11 @@
   --ui-highlight-subtle: rgb(57, 57, 57);
   --ui-text-color: white;
   --ui-danger: #ef233c;
-  --ui-danger-detail : #530d15;
+  --ui-danger-detail: #530d15;
   --ui-ok: rgb(74, 208, 74);
-  --ui-ok-detail : rgb(19, 51, 19);
-  --ui-detail : #40affe;
-  --ui-detail-detail : #112f44;
+  --ui-ok-detail: rgb(19, 51, 19);
+  --ui-detail: #40affe;
+  --ui-detail-detail: #112f44;
 }
 
 svg text {

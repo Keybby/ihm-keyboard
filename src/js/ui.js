@@ -54,7 +54,7 @@ class Ui {
       y1: (1 / this.scale) * rect.height,
     };
     // this.updateViewBox(this.viewBox);
-    
+
     view.style.transformOrigin = "center center";
   }
 
@@ -124,12 +124,12 @@ class Ui {
       let newHeight = diff / scale;
       if (newHeight < MIN_SIZE) return;
       // Update grid row heights and SVG viewBox height
-      this.height=newHeight;
+      this.height = newHeight;
       // copy the value, otherwise we are in trouble
       let new_viewbox = { ...this.viewBox };
       new_viewbox.y1 = newHeight;
       this.viewBox = new_viewbox;
-      this.y += (bound.height - diff)*(1-this.scale);
+      this.y += (bound.height - diff) * (1 - this.scale);
     }
 
     // Resize from the right edge of the SVG
@@ -139,12 +139,12 @@ class Ui {
       let diff = event.clientX - x;
       let newWidth = diff / scale;
       if (newWidth < MIN_SIZE) return;
-      this.width=newWidth;
+      this.width = newWidth;
       // Update grid column widths and SVG viewBox width
       let new_viewbox = { ...this.viewBox };
       new_viewbox.x1 = newWidth;
       this.viewBox = new_viewbox;
-      this.x += (bound.width - diff)*(1-this.scale);
+      this.x += (bound.width - diff) * (1 - this.scale);
     }
     // Resize from the top edge of the SVG
     else if (this.dragging == "svgtop") {
@@ -155,7 +155,7 @@ class Ui {
       let offset = bound.y - event.clientY;
       let newHeight = size / scale;
       if (newHeight < MIN_SIZE) return;
-      this.height=newHeight;
+      this.height = newHeight;
       // Update grid row heights and shift viewBox upward accordingly
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       let new_viewbox = { ...this.viewBox };
@@ -172,7 +172,7 @@ class Ui {
       let offset = bound.x - event.clientX;
       let newWidth = size / scale;
       if (newWidth < MIN_SIZE) return;
-      this.width=newWidth;
+      this.width = newWidth;
       // Update grid column widths and shift viewBox left accordingly
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       let new_viewbox = {

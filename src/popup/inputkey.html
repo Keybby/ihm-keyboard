@@ -2,7 +2,10 @@
   @keyup.window="app.popup.inputmode ? app.addKeyLayout(app.getSelectedKey(), result_popup.textContent) : app.setKeyLayout(app.getSelectedKey(), result_popup.textContent); app.popup.done();"
   class="popup-center"
 >
-  <h1 class="full-popup opacity_sway" x-bind:style="app.popup.inputmode ? 'color: var(--ui-detail)' : 'color: var(--ui-ok)'">
+  <h1
+    class="full-popup opacity_sway"
+    x-bind:style="app.popup.inputmode ? 'color: var(--ui-detail)' : 'color: var(--ui-ok)'"
+  >
     ... INPUT KEY ...
   </h1>
   <div class="bauble_explain">
@@ -13,7 +16,8 @@
         id="input_mode"
         name="bauble"
         type="checkbox"
-        style="display: none";
+        style="display: none"
+        ;
         @change="app.popup.inputmode = !app.popup.inputmode"
         x-bind:checked="app.popup.inputmode"
       />

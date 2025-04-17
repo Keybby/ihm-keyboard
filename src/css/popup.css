@@ -122,6 +122,7 @@
   align-items: center;
   flex-wrap: nowrap;
   flex-direction: column;
+  overflow: hidden;
 }
 
 #export_preview svg {

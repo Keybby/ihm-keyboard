@@ -5,13 +5,11 @@ import KeyIdMap from "./keymap.js";
 import { getElementById } from "./ui.js";
 
 /**
- * 
+ *
  * @param {string} text
- * @param {App} app 
+ * @param {App} app
  */
-export function importFunction(text, app){
-
-
+export function importFunction(text, app) {
   try {
     const data = JSON.parse(text);
 
@@ -24,10 +22,9 @@ export function importFunction(text, app){
     app.ui.height = data.ui_height;
     app.ui.viewBox = data.ui_viewbox;
   } catch (e) {
-    console.error('Error parsing JSON:', e);
+    console.error("Error parsing JSON:", e);
   }
 }
-
 
 /**
  * Parses a KeyIdMap from JSON, using custom fromJSON methods
@@ -39,19 +36,18 @@ export function importFunction(text, app){
  * @returns {KeyIdMap<V> | undefined}
  */
 export function reviver(obj, valueFromJSON) {
-    try {
-      if (obj?.dataType === "Map" && Array.isArray(obj.value)) {
-        const map = new KeyIdMap();
-        for (const [rawKey, rawVal] of obj.value) {
-          const key = KeyId.fromJson(rawKey);
-          const val = valueFromJSON(rawVal);
-          map.set(key, val);
-        }
-        return map;
+  try {
+    if (obj?.dataType === "Map" && Array.isArray(obj.value)) {
+      const map = new KeyIdMap();
+      for (const [rawKey, rawVal] of obj.value) {
+        const key = KeyId.fromJson(rawKey);
+        const val = valueFromJSON(rawVal);
+        map.set(key, val);
       }
-    } catch (e) {
-      console.error("Error parsing Map from JSON:", e);
+      return map;
     }
-    return undefined;
+  } catch (e) {
+    console.error("Error parsing Map from JSON:", e);
   }
-  
+  return undefined;
+}
