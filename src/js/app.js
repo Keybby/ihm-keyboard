@@ -5,6 +5,7 @@ import KeyId from "./key.js";
 import Popup from "./popup.js";
 import KeyGeometry, { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./geometry.js";
 import Vec2D from "./vec.js";
+import QuestManager, { QUESTS } from "./help.js";
 
 import exportFunction from "./exportFunc.js";
 import { importFunction } from "./importFunc.js";
@@ -67,8 +68,8 @@ class App {
   /** @type {Popup} */
   popup;
 
-  /** @type {string} */
-  instructionMessage;
+  /** @type {QuestManager} */
+  quests;
 
   constructor() {
     // will contain the keyboard layout
@@ -93,8 +94,6 @@ class App {
     // basic pop up that will be adapted according to which button
     // is clicked
     this.popup = new Popup();
-    this.instructionMessage =
-      "Click on the 'create key' button to start your design";
 
     // default values for the tools
     this.toolWidth = DEFAULT_WIDTH;
@@ -102,14 +101,15 @@ class App {
     this.toolRotation = 0;
 
     this.hasRectangleSelection = false;
-    this.hasDrag = true;
+    this.hasDrag = false;
     this.initialGeometries = [];
 
     this.enableSnap = true;
+    this.quests = new QuestManager();
   }
 
   getInstructionMessage() {
-    return this.instructionMessage;
+    return this.quests.nextQuestText();
   }
 
   isFocusMode() {
@@ -123,12 +123,11 @@ class App {
   setModeCreate() {
     // Selection of the button to create keys
     this.selectedTool = TOOL.Create;
-    this.instructionMessage = "";
+    this.quests.done(QUESTS.SELECT_TOOL_CREATE);
   }
 
   setModeDelete() {
     this.selectedTool = TOOL.Delete;
-    this.instructionMessage = "Now, click on keys to delete them";
   }
 
   // the two following functions are used to check which button is selected
@@ -184,8 +183,6 @@ class App {
   selectActivationKeys() {
     this.selectedTool = TOOL.Pick;
     this.selectedKeys = [];
-    this.instructionMessage =
-      "Please select keys, then validate. The keys you select will be the 'activation combo' for this layer.";
   }
 
   // TODO: rename in validatePickedKeysForLayer
@@ -193,8 +190,6 @@ class App {
     this.selectedTool = TOOL.Move;
     this.keyboard.getLayer(this.selectedLayer).activation = this.selectedKeys;
     this.selectedKeys = [];
-    this.instructionMessage =
-      "Now, the keys you selected are colored in black. The only role of these keys is to switch to the current layer.";
   }
 
   /**
@@ -349,6 +344,7 @@ class App {
     this.lastClicked = pos;
     this.lastMoved = pos;
     if (this.selectedTool == TOOL.Create) {
+      this.quests.done(QUESTS.CREATE_FIRST_KEY);
       // if the tool is create, we create a new key at the position of the mouse
       const newKey = this.keyboard.addKey(
         x,
@@ -382,7 +378,6 @@ class App {
     // if the user clicks on a precise key, we select it
 
     if (this.isModeMove() || this.isModeDelete()) {
-      this.instructionMessage = "";
       if (!this.isSelected(key_id)) {
         this.selectedKeys = [key_id];
       }
@@ -475,7 +470,11 @@ class App {
    * @param {MouseEvent} evt
    */
   handleMouseMove(evt) {
-    this.lastMoved = this.getMouseCoordinates(evt);
+    if (this.hasDrag) {
+      console.log("drag done");
+      this.quests.done(QUESTS.MOVE_KEY);
+      this.lastMoved = this.getMouseCoordinates(evt);
+    }
     if (this.hasRectangleSelection) {
       const selection = this.getRectangleSelection();
       for (const key_id of this.keyboard.getKeys()) {
@@ -792,6 +791,7 @@ class App {
    */
   updateWidth(width) {
     // updates dynamically the width of the key
+    this.quests.done(QUESTS.EDIT_KEY_GEOMETRY);
     this.toolWidth = width;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
@@ -829,6 +829,7 @@ class App {
    */
   updateHeight(height) {
     // updates dynamically the height of the key
+    this.quests.done(QUESTS.EDIT_KEY_GEOMETRY);
     this.toolHeight = height;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
@@ -866,6 +867,7 @@ class App {
    */
   updateRotation(rotation) {
     // updates the rotation of the key selected currently
+    this.quests.done(QUESTS.EDIT_KEY_GEOMETRY);
     this.toolRotation = rotation;
     for (const key_id of this.selectedKeys) {
       const geometry = this.getKeyGeometry(key_id);
