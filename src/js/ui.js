@@ -141,7 +141,7 @@ class Ui {
       let new_viewbox = { ...this.viewBox };
       new_viewbox.y1 = newHeight;
       this.updateViewBox(new_viewbox);
-      this.y += (bound.height - diff)*0.5;
+      this.y += (bound.height - diff)*(1-this.scale);
     }
 
     // Resize from the right edge of the SVG
@@ -156,7 +156,7 @@ class Ui {
       let new_viewbox = { ...this.viewBox };
       new_viewbox.x1 = newWidth;
       this.updateViewBox(new_viewbox);
-      this.x += (bound.width - diff)*0.5;
+      this.x += (bound.width - diff)*(1-this.scale);
     }
     // Resize from the top edge of the SVG
     else if (this.dragging == "svgtop") {
