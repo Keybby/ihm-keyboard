@@ -629,7 +629,7 @@ class App {
         mode == "x"
           ? geo_b.getVectorUp().normalize()
           : geo_b.getVectorRight().normalize();
-      if (Math.abs(v.dot(up)) < 20) {
+      if (Math.abs(v.dot(up)) < 20 / this.ui.scale) {
         return original_translation.plus(up.scaled(v.dot(up)));
       }
     }
