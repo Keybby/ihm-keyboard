@@ -158,7 +158,10 @@
           <img src="assets/zoom-.svg" />
         </button>
         </div>
-        <span class="invisible">centering tool, do not touch :(</span>
+        <div class="instructions">
+          <img src="assets/keybby_light.svg">
+          <span class="scrollable" x-text="app.getInstructionMessage()"></span>
+        </div>
       </div>
       <div class="resize" @mousedown.prevent="app.ui.setResize('side')"></div>
       <div
@@ -383,9 +386,6 @@
             Validate keys
           </button>
         </template>
-      </div>
-      <div class="instructions">
-        <span x-text="app.getInstructionMessage()"></span>
       </div>
     </div>
   </body>

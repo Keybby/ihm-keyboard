@@ -1,8 +1,37 @@
 .instructions {
-  grid-area: foot;
-  padding: 20px;
+  display: grid;
+  grid-template-columns: 1.9fr 8fr;
+  /* grid-area: foot; */
+  max-width: 15em;
+  background-color: var(--bg-color);
+  margin-bottom: 0.5em;
+  padding-top: 0.1em;
+  border-radius: 0 0 0 10px;
+  width: 100%;
+  padding-right: 0.8em;
+  gap: 0.2em;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.instructions img{
+  width:100%;
+  /* height:100%; */
+  margin-bottom: 0.2em;
+}
+
+.instructions:has(span:empty){
+  background-color: var(--ui-color);
+}
+
+.instructions:has(span:empty) img{
+  display:none;
 }
 
 .instructions span {
   color: white;
+  display: inline-flex;
+  align-items: center;
 }
