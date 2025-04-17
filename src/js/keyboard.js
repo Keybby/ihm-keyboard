@@ -60,13 +60,13 @@ class Keyboard {
     posY,
     width = DEFAULT_WIDTH,
     height = DEFAULT_HEIGHT,
-    rotation = 0
+    rotation = 0,
   ) {
     const key = new KeyId();
     this.keys.push(key);
     this.geometries.set(
       key,
-      new KeyGeometry(new Vec2D(posX, posY), width, height, rotation)
+      new KeyGeometry(new Vec2D(posX, posY), width, height, rotation),
     );
 
     window.onbeforeunload = function () {
@@ -90,6 +90,10 @@ class Keyboard {
 
     for (let key of idSet) {
       this.geometries.delete(key);
+    }
+
+    for (let layer of this.additionalLayers) {
+      layer.activation = layer.activation.filter((x) => !idSet.has(x));
     }
   }
 
@@ -162,7 +166,7 @@ class Keyboard {
     let layout = this.getKeyLayout(i_layer, key_id);
 
     const index = layout.keycodes.findIndex(
-      (keyCode) => keyCode.toString() == value
+      (keyCode) => keyCode.toString() == value,
     );
     if (index !== -1) {
       layout.keycodes.splice(index, 1); // Remove the element at the found index
