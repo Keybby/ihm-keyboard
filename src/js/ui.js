@@ -1,8 +1,7 @@
-
 /**
- * 
- * @param {string} id 
- * @returns 
+ *
+ * @param {string} id
+ * @returns
  */
 function getElementById(id) {
   const result = document.getElementById(id);
@@ -14,7 +13,7 @@ function getElementById(id) {
 
 const view = getElementById("svgdiv");
 const svg = getElementById("main");
-const page = getElementById("ui")
+const page = getElementById("ui");
 
 const MIN_SIZE = 500;
 
@@ -53,7 +52,7 @@ class Ui {
       y1: (1 / this.scale) * rect.height,
     };
     this.updateViewBox(this.viewBox);
-    view.style.transformOrigin = "center center"
+    view.style.transformOrigin = "center center";
   }
 
   /**
@@ -109,8 +108,8 @@ class Ui {
   }
 
   setViewStyle() {
-    if (this.scale<0.1){
-      this.scale=0.1;
+    if (this.scale < 0.1) {
+      this.scale = 0.1;
     }
     view.style.transform = `scale(${this.scale},${this.scale})`;
     // view.style.transformOrigin = `${this.x}px ${this.y}px`;
@@ -127,12 +126,14 @@ class Ui {
     const scale = parseFloat(view.style.transform.substring(6));
 
     // Exit if mouse event is off-screen or there's no active drag operation
-    if (event.clientX <= 0 || this.dragging == "") return;
+    if (event.clientX <= 0 || this.dragging == "" || this.scale <= 0.3) return;
 
     // Resize from the bottom edge of the SVG
     if (this.dragging == "svgbottom") {
-      let y = svg.getBoundingClientRect().y;
-      let newHeight = (event.clientY - y) / scale;
+      let bound = svg.getBoundingClientRect();
+      let y = bound.y;
+      let diff = event.clientY - y;
+      let newHeight = diff / scale;
       if (newHeight < MIN_SIZE) return;
       // Update grid row heights and SVG viewBox height
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
@@ -140,18 +141,22 @@ class Ui {
       let new_viewbox = { ...this.viewBox };
       new_viewbox.y1 = newHeight;
       this.updateViewBox(new_viewbox);
+      this.y += (bound.height - diff)*0.5;
     }
 
     // Resize from the right edge of the SVG
     else if (this.dragging == "svgright") {
-      let x = svg.getBoundingClientRect().x;
-      let newWidth = (event.clientX - x) / scale;
+      let bound = svg.getBoundingClientRect();
+      let x = bound.x;
+      let diff = event.clientX - x;
+      let newWidth = diff / scale;
       if (newWidth < MIN_SIZE) return;
       // Update grid column widths and SVG viewBox width
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       let new_viewbox = { ...this.viewBox };
       new_viewbox.x1 = newWidth;
       this.updateViewBox(new_viewbox);
+      this.x += (bound.width - diff)*0.5;
     }
     // Resize from the top edge of the SVG
     else if (this.dragging == "svgtop") {
@@ -169,7 +174,7 @@ class Ui {
       new_viewbox.y1 = newHeight;
       this.updateViewBox(new_viewbox);
       // Adjust internal y position tracker
-      this.y -= offset * scale;
+      this.y -= offset;
     }
     // Resize from the left edge of the SVG
     else if (this.dragging == "svgleft") {
@@ -187,11 +192,10 @@ class Ui {
       new_viewbox.x1 = newWidth;
       this.updateViewBox(new_viewbox);
       // Adjust internal x position tracker
-      this.x -= offset * scale;
+      this.x -= offset;
     }
     // Special case: resizing a "side" panel outside the SVG area
-    else if (this.dragging == "side") {;
-
+    else if (this.dragging == "side") {
       // Compute new width for the right column based on mouse position
       let rightColWidth = page.clientWidth - event.clientX;
 
@@ -204,7 +208,7 @@ class Ui {
     this.setViewStyle();
   }
 
-  zoomIn(){
+  zoomIn() {
     this.scale += 0.1;
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale += 0.1;
@@ -212,7 +216,7 @@ class Ui {
     this.setViewStyle();
   }
 
-  zoomOut(){
+  zoomOut() {
     this.scale -= 0.1;
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale -= 0.1;
