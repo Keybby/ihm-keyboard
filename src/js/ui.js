@@ -3,7 +3,7 @@
  * @param {string} id
  * @returns
  */
-function getElementById(id) {
+export function getElementById(id) {
   const result = document.getElementById(id);
   if (!result) {
     throw new Error(`${id} not found in DOM`);

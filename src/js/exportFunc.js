@@ -1,19 +1,31 @@
 import Keyboard from "./keyboard.js";
 import KeyIdMap from "./keymap.js";
+import Ui from "./ui.js";
+import { getElementById } from "./ui.js";
  
 
 /**
  * code partly taken from https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
  * 
  * @param {Keyboard} current_keyboard 
+ * @param {Ui} current_ui
  */
-const exportFunction = (current_keyboard,) => {
+const exportFunction = (current_keyboard, current_ui) => {
   //this function allows us to stringify 
   // the class we use to represent the keyboard
   // and to export it as a json file
 
+
+  //to get the scale of the UI
+  const view = getElementById("svgdiv"); 
+
+  const exportData = {
+    ui_gridRows: view.style.gridTemplateRows, 
+    ui_gridColumns: view.style.gridTemplateColumns, 
+    keyboard: current_keyboard, 
+  };
   // we use the replacer function to convert the Map objects to arrays
-    const blob = new Blob([JSON.stringify(current_keyboard, replacer)], {
+    const blob = new Blob([JSON.stringify(exportData, replacer)], {
       type: 'application/json',
     });
     // we create a way to download the json generated

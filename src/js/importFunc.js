@@ -2,6 +2,7 @@ import App from "./app.js";
 import KeyId from "./key.js";
 import Keyboard from "./keyboard.js";
 import KeyIdMap from "./keymap.js";
+import { getElementById } from "./ui.js";
 
 /**
  * 
@@ -16,8 +17,15 @@ export function importFunction(file, app){
     if (typeof text === 'string') {
       try {
         const data = JSON.parse(text);
-        app.keyboard = Keyboard.parseJson(data);
+
+        //the keyboard
+        app.keyboard = Keyboard.parseJson(data.keyboard);
         app._init();
+
+        //scale of the UI
+        const view = getElementById("svgdiv"); 
+        view.style.gridTemplateRows = data.ui_gridRows;
+        view.style.gridTemplateColumns = data.ui_gridColumns;
       } catch (e) {
         console.error('Error parsing JSON:', e);
       }
