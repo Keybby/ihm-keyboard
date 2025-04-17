@@ -547,7 +547,7 @@ class App {
         return translation;
       }
       const geo = this.getKeyGeometry(key_colide);
-      const dir = last_moved.minus(geo.center).normalize().scaled(2);
+      const dir = last_moved.minus(geo.center).normalize();
       translation = translation.plus(dir);
     }
     return Vec2D.zero();
