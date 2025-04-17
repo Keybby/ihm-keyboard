@@ -25,6 +25,7 @@
     @keydown.delete="app.supprKey()"
     @keydown.ctrl.c="app.handleCopy()"
     @keydown.ctrl.v="app.handlePaste()"
+    @keydown.ctrl.s.prevent ="app.exportFile()"
     x-bind:class="{'body_move_mode' : app.isModeMove(), 'body_create_mode' : app.isModeCreate(), 'body_delete_mode' : app.isModeDelete()}"
   >
     <div id="popup_area" hidden="true" class="blocking">
@@ -407,6 +408,7 @@
             class="top_button"
           >
             <img src="assets/move.svg" />
+            <span class="tooltiptext"> Mover tool </span>
           </button>
           <button
             @click="app.setModeCreate()"
@@ -414,6 +416,7 @@
             class="top_button"
           >
             <img src="assets/add.svg" />
+            <span class="tooltiptext"> Adder tool </span>
           </button>
           <button
             @click="app.setModeDelete()"
@@ -421,14 +424,18 @@
             class="top_button"
           >
             <img src="assets/eraser.svg" />
+            <span class="tooltiptext"> Eraser tool </span>
           </button>
           <button class="top_button" @click="app.ui.zoomIn()">
             <img src="assets/zoom+.svg" />
+
+            <span class="tooltiptext"> Zoom in </span>
           </button>
           <button class="top_button" @click="app.ui.zoomOut()">
             <img src="assets/zoom-.svg" />
+            <span class="tooltiptext"> Zoom out </span>
           </button>
-          <div
+          <button
             class="false_tool top_button"
             @click="app.enableSnap = !app.enableSnap"
           >
@@ -439,7 +446,8 @@
                 <div class="handle"></div>
               </label>
             </div>
-          </div>
+            <span class="tooltiptext"> Enable/Disable key snap</span>
+          </button>
         </div>
         <div class="instructions">
           <span x-text="app.getInstructionMessage()"></span>

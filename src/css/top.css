@@ -56,6 +56,10 @@
   height: 70px;
 }
 
+#tools * {
+  user-select:none;
+}
+
 #tools .top_button {
   flex: 0.5em;
   display: flex;
@@ -98,7 +102,6 @@
 .toggle-border {
   border: 2px solid #f0ebeb;
   border-radius: 130px;
-  margin-bottom: 45px;
   padding: 1px 2px;
   background: white;
   box-shadow: 0 0 0 2px #fbfbfb;
@@ -152,5 +155,17 @@
   width:50%;
 }
 
-.false_tool .handle{
+#tools .top_button .tooltiptext {
+  visibility: hidden;
+  position:absolute;
+  width: 120px;
+  top: 100%;
+}
+
+#tools .top_button:hover .tooltiptext {
+  visibility: visible;
+  background-color: var(--ui-color);
+  width:fit-content;
+  padding: 0.2em;
+  border-radius: 5px;
 }
