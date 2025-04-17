@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -41,6 +41,7 @@
     <div
       id="svgdiv"
       style="transform: scale(0.7, 0.7); transform-origin: 700px 300px"
+      x-bind:style="`transform : scale(${app.ui.scale}, ${app.ui.scale}); translate: ${app.ui.x}px ${app.ui.y}px; transform-origin : center center; grid-template-rows : 6px ${app.ui.height}px 6px; grid-template-columns : 6px ${app.ui.width}px 6px;`"
     >
       <svg
         id="main"
@@ -49,6 +50,7 @@
         viewBox="0 0 1280 700"
         @contextmenu.prevent=""
         @auxclick.prevent=""
+        x-bind:view-box.camel="app.ui.viewBox.x0 + ' ' + app.ui.viewBox.y0 + ' ' + app.ui.viewBox.x1 + ' ' + app.ui.viewBox.y1"
       >
         <image href="assets/keybby_logo_off.svg" style="opacity: 0.5"></image>
         <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
@@ -273,7 +275,7 @@
         <div>
           <h4>LAYOUT</h4>
           <template x-if="view && app.nbSelectedKeys() === 1">
-            <div>
+            <div style="margin-left: 0">
               <label for="keys">Keys</label>
               <div id="keys" name="keys">
                 <div class="scrollable key_list">
@@ -327,11 +329,7 @@
       </div>
       <div id="layers" @wheel.prevent>
         <h2>Layers</h2>
-        <div
-          class="scrollable"
-          x-show="!app.isFocusMode()"
-          style="height: unset; max-height: 11em"
-        >
+        <div class="scrollable layer_list" x-show="!app.isFocusMode()">
           <div
             @click="app.selectDefaultLayer()"
             @dblclick="app.enterNameLayer()"
@@ -385,10 +383,10 @@
           </template>
         </div>
         <template x-if="!app.isFocusMode()">
-          <button @click="app.addLayer()">
+          <button @click="app.addLayer()" class="add_layer">
             Add Layer
             <div class="tooltiptext">
-              (Create a new layer with new symbols for each key.)
+              Create a new layer for when a certain key is pressed
             </div>
           </button>
         </template>

@@ -45,13 +45,16 @@ class Ui {
     //places the svg
     view.style.transformOrigin = `${this.x}px ${this.y}px`;
     let rect = svg.getBoundingClientRect();
+    this.width = (1 / this.scale) * rect.width;
+    this.height = (1 / this.scale) * rect.height;
     this.viewBox = {
       x0: 0,
       y0: 0,
       x1: (1 / this.scale) * rect.width,
       y1: (1 / this.scale) * rect.height,
     };
-    this.updateViewBox(this.viewBox);
+    // this.updateViewBox(this.viewBox);
+    
     view.style.transformOrigin = "center center";
   }
 
@@ -85,13 +88,7 @@ class Ui {
         this.x += Math.sign(deltaX) * 15;
       }
     }
-    this.setViewStyle();
-  }
-
-  updateViewBox(view_box) {
-    this.viewBox = view_box;
-    const { x0, y0, x1, y1 } = view_box;
-    svg.setAttribute("viewBox", `${x0} ${y0} ${x1} ${y1}`);
+    // this.setViewStyle();
   }
 
   clearResize() {
@@ -105,15 +102,6 @@ class Ui {
    */
   setResize(str) {
     this.dragging = this.dragging.length == 0 ? str : this.dragging;
-  }
-
-  setViewStyle() {
-    if (this.scale < 0.1) {
-      this.scale = 0.1;
-    }
-    view.style.transform = `scale(${this.scale},${this.scale})`;
-    // view.style.transformOrigin = `${this.x}px ${this.y}px`;
-    view.style.translate = `${this.x}px ${this.y}px`;
   }
 
   /**
@@ -136,11 +124,11 @@ class Ui {
       let newHeight = diff / scale;
       if (newHeight < MIN_SIZE) return;
       // Update grid row heights and SVG viewBox height
-      view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
+      this.height=newHeight;
       // copy the value, otherwise we are in trouble
       let new_viewbox = { ...this.viewBox };
       new_viewbox.y1 = newHeight;
-      this.updateViewBox(new_viewbox);
+      this.viewBox = new_viewbox;
       this.y += (bound.height - diff)*(1-this.scale);
     }
 
@@ -151,11 +139,11 @@ class Ui {
       let diff = event.clientX - x;
       let newWidth = diff / scale;
       if (newWidth < MIN_SIZE) return;
+      this.width=newWidth;
       // Update grid column widths and SVG viewBox width
-      view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       let new_viewbox = { ...this.viewBox };
       new_viewbox.x1 = newWidth;
-      this.updateViewBox(new_viewbox);
+      this.viewBox = new_viewbox;
       this.x += (bound.width - diff)*(1-this.scale);
     }
     // Resize from the top edge of the SVG
@@ -167,13 +155,14 @@ class Ui {
       let offset = bound.y - event.clientY;
       let newHeight = size / scale;
       if (newHeight < MIN_SIZE) return;
+      this.height=newHeight;
       // Update grid row heights and shift viewBox upward accordingly
       view.style.gridTemplateRows = "6px " + newHeight + "px 6px";
       let new_viewbox = { ...this.viewBox };
       new_viewbox.y0 -= (1 / scale) * offset;
       new_viewbox.y1 = newHeight;
-      this.updateViewBox(new_viewbox);
       // Adjust internal y position tracker
+      this.viewBox = new_viewbox;
       this.y -= offset;
     }
     // Resize from the left edge of the SVG
@@ -183,6 +172,7 @@ class Ui {
       let offset = bound.x - event.clientX;
       let newWidth = size / scale;
       if (newWidth < MIN_SIZE) return;
+      this.width=newWidth;
       // Update grid column widths and shift viewBox left accordingly
       view.style.gridTemplateColumns = "6px " + newWidth + "px 6px";
       let new_viewbox = {
@@ -190,8 +180,8 @@ class Ui {
       };
       new_viewbox.x0 -= (1 / scale) * offset;
       new_viewbox.x1 = newWidth;
-      this.updateViewBox(new_viewbox);
       // Adjust internal x position tracker
+      this.viewBox = new_viewbox;
       this.x -= offset;
     }
     // Special case: resizing a "side" panel outside the SVG area
@@ -205,7 +195,6 @@ class Ui {
       page.style.gridTemplateColumns = newColDefn;
     }
     // Apply any necessary visual updates after resizing
-    this.setViewStyle();
   }
 
   zoomIn() {
@@ -213,7 +202,6 @@ class Ui {
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale += 0.1;
     }
-    this.setViewStyle();
   }
 
   zoomOut() {
@@ -221,7 +209,6 @@ class Ui {
     if (Math.abs(this.scale - 1) <= 0.001) {
       this.scale -= 0.1;
     }
-    this.setViewStyle();
   }
 }
 

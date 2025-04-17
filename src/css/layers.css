@@ -67,3 +67,16 @@
 .unselected_layer {
   opacity: 50%;
 }
+
+.add_layer:hover {
+  background-color: var(--ui-highlight) !important;
+}
+
+.add_layer > .tooltiptext {
+  opacity:0.8;
+}
+
+.layer_list {
+  height: unset;
+  max-height: 70%;
+}

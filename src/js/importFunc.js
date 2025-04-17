@@ -20,9 +20,9 @@ export function importFunction(text, app){
     app._init();
 
     //scale of the UI
-    const view = getElementById("svgdiv"); 
-    view.style.gridTemplateRows = data.ui_gridRows;
-    view.style.gridTemplateColumns = data.ui_gridColumns;
+    app.ui.width = data.ui_width;
+    app.ui.height = data.ui_height;
+    app.ui.viewBox = data.ui_viewbox;
   } catch (e) {
     console.error('Error parsing JSON:', e);
   }

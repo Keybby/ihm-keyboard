@@ -17,11 +17,11 @@ const exportFunction = (current_keyboard, current_ui) => {
 
 
   //to get the scale of the UI
-  const view = getElementById("svgdiv"); 
 
   const exportData = {
-    ui_gridRows: view.style.gridTemplateRows, 
-    ui_gridColumns: view.style.gridTemplateColumns, 
+    ui_width: current_ui.width, 
+    ui_height: current_ui.height, 
+    ui_viewbox: current_ui.viewBox,
     keyboard: current_keyboard, 
   };
   // we use the replacer function to convert the Map objects to arrays
