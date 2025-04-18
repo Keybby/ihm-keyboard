@@ -220,6 +220,17 @@ class App {
     this.selectedLayer = n;
   }
 
+  /**
+   *
+   * @param {number} i
+   */
+  removeLayer(i) {
+    // when we add a layer, we create an instance of the layer class
+    // and we push it to the array of additional layers
+    this.selectedLayer -= 1;
+    this.keyboard.removeLayer(i);
+  }
+
   enterNameLayer() {
     this.changingNameLayer = true;
   }

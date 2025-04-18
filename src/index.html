@@ -374,11 +374,18 @@
                 />
               </template>
 
-              <button
-                x-show="app.isActiveLayer(i)"
-                x-text="!app.activeLayerHasActivation() ? 'This layer has no activation keys. Click to change' : 'click to change activation keys'"
-                @click="app.selectActivationKeys()"
-              ></button>
+              <template x-if="app.isActiveLayer(i)">
+                <div style="display: grid; grid-template-columns: 1fr 40pt">
+                  <button
+                    x-text="!app.activeLayerHasActivation() ? 'click to add activation keys' : 'click to change activation keys'"
+                    @click="app.selectActivationKeys()"
+                  ></button>
+
+                  <button class="key_button delete" @click="app.removeLayer(i)">
+                    <img src="assets/trash.svg" />
+                  </button>
+                </div>
+              </template>
             </div>
           </template>
         </div>

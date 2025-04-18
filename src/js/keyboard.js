@@ -9,6 +9,13 @@ import KeyIdMap from "./keymap.js";
 
 class Keyboard {
   /**
+   *
+   * @param {number} i
+   */
+  removeLayer(i) {
+    this.additionalLayers.pop(i);
+  }
+  /**
    * Creates a new Keyboard instance
    * @param {string} [name="New keyboard"] - The name of the keyboard
    */
