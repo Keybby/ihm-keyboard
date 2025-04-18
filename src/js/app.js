@@ -307,10 +307,12 @@ class App {
    */
   handleInputKey(evt) {
     this.quests.done(QUESTS.DOUBLE_CLICK_KEY);
+    console.log(this.popup.inputmode);
     if (this.popup.inputmode) {
       this.addKeyLayout(this.getSelectedKey(), evt.key);
+    } else {
+      this.setKeyLayout(this.getSelectedKey(), evt.key);
     }
-    this.setKeyLayout(this.getSelectedKey(), evt.key);
     this.popup.done();
   }
 
@@ -474,7 +476,7 @@ class App {
     // that is the difference between the last position of the mouse and the first one
     return new Vec2D(
       this.lastMoved.x - this.lastClicked.x,
-      this.lastMoved.y - this.lastClicked.y,
+      this.lastMoved.y - this.lastClicked.y
     );
   }
 
@@ -648,14 +650,14 @@ class App {
     }
     const non_selected_keys = this.nonSelectedKeys();
     for (const id_a of this.getNearestSelectedKeysFromMousePosition(
-      mouse_position,
+      mouse_position
     )) {
       const current_pos =
         this.getKeyGeometry(id_a).center.plus(original_translation);
       const id_b = this.getNearestdKey(
         id_a,
         non_selected_keys,
-        original_translation,
+        original_translation
       );
       if (id_b === null) {
         return original_translation;
@@ -687,21 +689,21 @@ class App {
     if (this.hasDrag && !this.hasRectangleSelection) {
       let translation = this.resolveTranslationCollisions(
         this.rawTranslation(),
-        this.lastMoved,
+        this.lastMoved
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "x",
+        "x"
       );
       translation = this.resolveTranslationSnap(
         translation,
         this.lastMoved,
-        "y",
+        "y"
       );
       translation = this.resolveTranslationCollisions(
         translation,
-        this.lastMoved,
+        this.lastMoved
       );
       return translation;
     }
@@ -975,7 +977,7 @@ class App {
         geo.center.y,
         geo.width,
         geo.height,
-        geo.rotation,
+        geo.rotation
       );
       new_keys.push(key_id);
     }
