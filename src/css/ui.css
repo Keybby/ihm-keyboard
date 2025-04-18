@@ -146,5 +146,5 @@ button:hover {
 }
 
 .body_create_mode svg {
-  cursor: url("/src/assets/add_contour.png") 26 40, copy;
+  cursor: url("/src/assets/add_contour.png") 26 40, url("/assets/add_contour.png") 26 40, copy;
 }
