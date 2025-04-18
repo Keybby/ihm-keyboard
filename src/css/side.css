@@ -374,7 +374,7 @@ input[type="range"]:disabled::-moz-range-thumb {
 }
 
 .delete:hover{
-  background-color: var(--ui-danger);
+  background-color: var(--ui-danger) !important;
   transition: all ease 100ms;
 }
 

@@ -11,3 +11,11 @@ button:hover .tooltiptext {
   padding: 0.2em;
   border-radius: 5px;
 }
+
+.tooltiptop{
+  top: -150% !important;
+}
+
+.tooltiptop{
+  opacity: 100% !important;
+}
