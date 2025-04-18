@@ -13,7 +13,7 @@ class Keyboard {
    * @param {number} i
    */
   removeLayer(i) {
-    this.additionalLayers.pop(i);
+    this.additionalLayers.splice(i,1);
   }
   /**
    * Creates a new Keyboard instance
