@@ -23,6 +23,7 @@
 #show link: underline
 
 #set heading(numbering: "1.")
+
 = Introduction
 
 The goal of our team was to design a user-centered tool to design customized keyboards. There are several reasons why someone might want a customized keyboard : physical impairment, dactylography, optimizing playing video games, ...
@@ -131,20 +132,7 @@ To measure the usability and success criteria, we will proceed in two phases :
 
 = The design
 
-To choose our design, we first discussed what were in our opinion the most important aspects of our software, what would be the essential tools and how to implement them. After discussing these points, we each drew our first sketches to compare our visions of the software after agreeing on these points.
-
-#figure(image("images/3sketch.png", width: 80%),)
-
-After discussing these sketches, we agreed on several points : 
-- We wanted the user to be able to visualize their creation layer by layer, by opposition to current keyboards that allow either visualization of each key by clicking on a key or like real keyboards by putting several characters on a key touch. To select the layer, the user will click on the bottom left. This configuration allows the user to visualize clearly to which keyboard they gain access to by clicking on which modifyer
-- To configure the keycode associated to a key, the user will double click on it
-- The user will be able to modify the sizes of the keys, their rotations etc on a side menu to the right 
-- A menu would be added to the top. In this menu, the user would be able to add a key, move a key(s), import a JSON configuration file, export the current representation of the current design and export the current design as an svg file
-- Create an emulator allowing the user to try out their design
-Create a tutorial that the user can skip but that automatically appears on the screen telling them how to place a key, modify it and move it
-
-Here is the design we submitted after discussing these points : 
-#figure(image("images/sketch_final.jpg", width: 80%),)
+#include("design.typ")
 
 = The prototype
 
