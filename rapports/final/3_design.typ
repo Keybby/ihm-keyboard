@@ -58,3 +58,24 @@ Keybby is composed of a simple square shap reminding of a keycap ass well as let
 #figure(grid(columns:3, column-gutter: -10mm, image("images/keybby_logo_off.svg", width:100%), image("images/add.svg", width:50%), image("images/keybby_light.svg", width:50%), ),caption:[Several assets reusing Keybby's base])
 
 All other assets used not owned by us are within the public domain (e.g the light bulb on the right-most example) and the fonts used are free.
+
+== The implemented design
+Here is a vue of the software as seen in the online version : 
+#figure(image("images/screenshot.png", width:100%),caption:[The design of the software, seen in the online version])
+
+Here is the final design after the first wave of user testing, which lead to additional indicators for some functions (like the garbage cans and pencil icons) as well as the addition of additional tools and functions like enabling the grid magnetism which we will mention later. The layer on the background can move fully independently from the ui sitting on top. It can be zoomed on and translated at will.
+
+
+#figure(image("images/popup.png", width:100%),caption:[The export popup of the online version])
+
+The popups appear above the rest and can be moved freely around, but forbid interaction with the background, signalled by darkening said background when the popup is visible.
+
+#figure(grid(columns:2, column-gutter: 1mm, image("images/button.png", width:50%), image("images/hovered_button.png", width:50%)  ),caption:[Button visual when not selected (left) and hovered/selected(minus the text) (right)])
+
+The interface is meant to be reactive and give the maximum amount of feedback to the user on what it is doing and the current state of the program, which shortcomings the user feedback helped us iron out. This works by changing the style of the elements depending on the user interactions like hovering, giving the user secondary visual cues on the state like custom cursors on the canvas depending on their current selected tool (a square with a plus for add, a grabby hand on a key when moving...) or having more direct cues that don't impact the user's flow if they already know the program, like having _\<Click Me>_ as a default text on a key or with the tips. 
+
+#figure(grid(columns:2, column-gutter: 1mm, image("images/tips.png", width:100%),image("images/tips_hover.png", width:100%)  ),caption:[Tips visual when not selected (left) and hovered (right)])
+
+The resizable elements, like the canvas and the side bar, are signalled by a small Neg-Highlight colored bar for recognition's sake, to catch the user's eye. They also change the user's cursor on hover to signal their use. Clipping and ... for the tips area are implying that the element can be expanded as well.
+
+There remains a learning curve for the program since it is meant to be used by experimented people, but the fourfold increase in speed after the first try by one of our testers allows us to think that the program allows for pretty good learnability after the first couple of key rows.
