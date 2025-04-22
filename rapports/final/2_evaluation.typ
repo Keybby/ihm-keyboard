@@ -1,4 +1,11 @@
-== Evaluation of the usability of the software for each Persona
+
+// FIXME: explain our methodology before diving in the details.
+// - focus on personnas
+// - since
+
+== Focus on each personna
+
+// TODO: make the detail of each personna lighter and put the images in the following section ?
 
 To test the usability, we'll ask several people to implement the same keyboard, the complexity and layout of which will difer according to the persona for which we are testing the usability.
 
@@ -14,7 +21,7 @@ To this end, we'll ask a student to configure a part of the characorder :
 
 #figure(image("images/charachorder.png", width: 80%),)
 
-TODO : make a file that we will actually give people
+// TODO : make a file that we will actually give people
 
 === Gamer hobbyist
 
@@ -31,8 +38,14 @@ People with disabilities might not be using letters and using voice dictation as
 
 #figure(image("images/Tab.png", width: 80%),)
 
-=== Measuring the usability and success criteria
+== Measuring the usability and success criteria
+
+// TODO: move to start of chapter
 
 To measure the usability and success criteria, we will proceed in two phases :
 - The first one will be during the use of the software : we will invite the participant to express all feelings and impressions they have toward the tool, wether for instance something is efficient, intuitive or not, if they have trouble finding a certain tool etc. During this time, we'll also evaluate the success criteria. According to each layout we will ask them to do, there will be different criteria as described before (to do), and we will evaluate them based on if the user successed in doing the task or not.
 - The second part will be a post usage evaluation. We will ask the questions given before according to what layout we asked them to implement (to do according to the layout but basically if the tools were easy to use, if they found them easily etc)
+
+== Settings
+
+// TODO: detail the 2 tasks we chose for the user to complete

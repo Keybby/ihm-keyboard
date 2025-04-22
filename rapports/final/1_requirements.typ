@@ -1,6 +1,15 @@
 == Identifying the user needs
 
+// FIXME: introduce what we used and why:
+// - survey
+// - analysis of existing tools
+// - debates and simulations (kind-of)
+
+// FIXME: Add keywords from the lesson. Talk about affinity diagrams ?
+
 === Reddit : Survey on desired features
+// FIXME: move the reasonning on why we needed the survey in "Identifying the user needs".
+
 To identify the user needs, we decided to directly ask people that fitted the profiles of potential users : people that want to customize their keyboards, wether it is for gaming, as a hobby,  professionnally or because of an impairment. To start a discussion with them, we posted on subreddits focalised on this activity and mechanical keyboards, ie r/MechanicalKeyboards and r/olkb. We chose this subreddits because they were focused on keyboards discussions, and since keyboard customization is quite niche, we couldn't just ask the general population as they would probably not be the main users of our site. Therefore, we went to ask the people that would most likely use it, and posting on public forums can :
 - gather a lot of input since there are a lot of people on these subreddits. r/MechanicalKeyboards has 1.3 Million users and r/olkb has 62k users.
 - The posts stay on for a long time so we could gather more input has time passes if people fall on our post
@@ -35,7 +44,7 @@ The users should be able to :
 
 
 
-== Persona and system requirements
+== Persona
 
 Now, let's focus on the identified personas that we can roughly divide in two types : makers and hobbyists. The needs are different between all the users so the next section will allow us to explain more precisely the specificities and scenarios for each type.
 
