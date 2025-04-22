@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 715 715" width="715" height="715">
+	<title>add</title>
+	<style>
+		.s0 { fill: none;stroke: #c6c6c6;paint-order:stroke fill markers;stroke-linejoin: round;stroke-width: 36 } 
+		.s1 { fill: #c6c6c6 } 
+	</style>
+	<g>
+		<path fill-rule="evenodd" class="s0" d="m64 188h417c25.4 0 46 20.6 46 46v417c0 25.4-20.6 46-46 46h-417c-25.4 0-46-20.6-46-46v-417c0-25.4 20.6-46 46-46z"/>
+	</g>
+	<g>
+		<path id="+" class="s1" aria-label="+"  d="m616.7 237.1h-41.5v-98.1h-97.4v-41h97.4v-97.4h41.5v97.4h97.5v41h-97.5z"/>
+	</g>
+</svg>
