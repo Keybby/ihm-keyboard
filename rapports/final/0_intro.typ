@@ -1,0 +1,3 @@
+The goal of our team was to design a user-centered tool to design customized keyboards. There are several reasons why someone might want a customized keyboard : physical impairment, dactylography, optimizing playing video games, ...
+
+While this community is quite niche as most people are using basic keyboards (QWERTY, AZERTY, etc), our site could have interested potential users as shows the existence of specialized shops and forums on the subject of keyboard customization.
