@@ -1,11 +1,12 @@
 #import "styles.typ": bullet;
+#import "@preview/note-me:0.3.0": admonition
 
-== Paper prototypes 
+== Paper prototypes
 To choose our design, we first discussed what were in our opinion the most important aspects of our software with respect to the opinions we gathered during the requirements gathering, what would be the essential tools and how to implement them. After discussing these points, we each drew our first sketches to compare our visions of the software after agreeing on these points.
 
-#figure(image("images/3sketch.png", width: 80%),caption:[Our individual sketch prototypes])
+#figure(image("images/3sketch.png", width: 80%), caption: [Our individual sketch prototypes])
 
-After discussing the results of the sketches, our sources of inspiration and analysis of the user flow, we agreed on several points : 
+After discussing the results of the sketches, our sources of inspiration and analysis of the user flow, we agreed on several points :
 
 #bullet("Realistic representation")[We wanted the user to be able to visualize their creation layer by layer, by opposition to current keyboards that allow either visualization of each key by clicking on a key or like real keyboards by putting several characters on a key touch. To select the layer, the user will click on the bottom left. This configuration allows the user to visualize clearly to which keyboard they gain access to by clicking on which modifier.]
 
@@ -25,9 +26,9 @@ After discussing the results of the sketches, our sources of inspiration and ana
 
 == Final paper prototype and thoughts on implementation
 
-The final paper design we came up with after the final discussions is the following : 
+The final paper design we came up with after the final discussions is the following :
 
-#figure(image("images/sketch_final.jpg", width: 80%),caption:[The final paper prototype])
+#figure(image("images/sketch_final.jpg", width: 80%), caption: [The final paper prototype])
 
 This design is greatly inspired by the image editing software like Photoshop, #link("https://www.photopea.com/")[Photopea], etc. The goal was to have a main window on which most of the interactions with the software would happen. Some more complicated operations, like importing and exporting, would require popup menus, of which there would never be more than one at a time.
 
@@ -35,7 +36,7 @@ We chose at this time that our app would be a web-based application, which would
 
 The software would incorporate a 3 depth-level system user CSS's z-index values with the main working layer in the background, the ui on top of it and finally the popups blocking the rest.
 
-The user interface would be divided as follows : 
+The user interface would be divided as follows :
 
 #bullet("Top side : Main menu")[It holds the primary functions : Importing, exporting... as well as the main tools and the tips box (which would serve as our non-intrusive tutorial vector) would share the top-menu space.]
 
@@ -45,36 +46,60 @@ The user interface would be divided as follows :
 
 The colors used would be a close match with our inspiration tools for the best readability possible.
 
-#figure(image("images/palette.svg", width:80%),caption:[Our main color palette])
+#figure(image("images/palette.svg", width: 80%), caption: [Our main color palette])
 
 == Our mascot
 
-At the time we were comparing the sketches on #link("https://www.figma.com/fr-fr/")[Figma] to create our final paper prototype, we also came up with a mascot to fit our visual identity and our purpose. We present to you, Keybby the Keycap : 
+At the time we were comparing the sketches on #link("https://www.figma.com/fr-fr/")[Figma] to create our final paper prototype, we also came up with a mascot to fit our visual identity and our purpose. We present to you, Keybby the Keycap :
 
-#figure(image("images/keybby.svg", width:40%),caption:[Keybby, the mascot of our software])
+#figure(image("images/keybby.svg", width: 40%), caption: [Keybby, the mascot of our software])
 
 Keybby is composed of a simple square shap reminding of a keycap ass well as letters to define its features aside from its eyes (O, W and V). Being made from scalable vector graphics, his likeness was able to be reused throughout several graphical items if the tool, as well as reusing its shapes for other items to keep a distinct identity.
 
-#figure(grid(columns:3, column-gutter: -10mm, image("images/keybby_logo_off.svg", width:100%), image("images/add.svg", width:50%), image("images/keybby_light.svg", width:50%), ),caption:[Several assets reusing Keybby's base])
+#figure(
+  grid(
+    columns: 3,
+    column-gutter: -10mm,
+    image("images/keybby_logo_off.svg", width: 100%),
+    image("images/add.svg", width: 50%),
+    image("images/keybby_light.svg", width: 50%),
+  ),
+  caption: [Several assets reusing Keybby's base],
+)
 
-All other assets used not owned by us are within the public domain (e.g the light bulb on the right-most example) and the fonts used are free.
+All assets on the app are composed of assets either owned by us or in the public domain.
+
 
 == The implemented design
-Here is a vue of the software as seen in the online version : 
-#figure(image("images/screenshot.png", width:100%),caption:[The design of the software, seen in the online version])
+Here is a vue of the software as seen in the online version :
+#figure(image("images/screenshot.png", width: 100%), caption: [The design of the software, seen in the online version])
 
 Here is the final design after the first wave of user testing, which lead to additional indicators for some functions (like the garbage cans and pencil icons) as well as the addition of additional tools and functions like enabling the grid magnetism which we will mention later. The layer on the background can move fully independently from the ui sitting on top. It can be zoomed on and translated at will.
 
 
-#figure(image("images/popup.png", width:100%),caption:[The export popup of the online version])
+#figure(image("images/popup.png", width: 100%), caption: [The export popup of the online version])
 
 The popups appear above the rest and can be moved freely around, but forbid interaction with the background, signalled by darkening said background when the popup is visible.
 
-#figure(grid(columns:2, column-gutter: 1mm, image("images/button.png", width:50%), image("images/hovered_button.png", width:50%)  ),caption:[Button visual when not selected (left) and hovered/selected(minus the text) (right)])
+#figure(
+  grid(
+    columns: 2,
+    column-gutter: 1mm,
+    image("images/button.png", width: 50%), image("images/hovered_button.png", width: 50%),
+  ),
+  caption: [Button visual when not selected (left) and hovered/selected(minus the text) (right)],
+)
 
-The interface is meant to be reactive and give the maximum amount of feedback to the user on what it is doing and the current state of the program, which shortcomings the user feedback helped us iron out. This works by changing the style of the elements depending on the user interactions like hovering, giving the user secondary visual cues on the state like custom cursors on the canvas depending on their current selected tool (a square with a plus for add, a grabby hand on a key when moving...) or having more direct cues that don't impact the user's flow if they already know the program, like having _\<Click Me>_ as a default text on a key or with the tips. 
+The interface is meant to be reactive and give the maximum amount of feedback to the user on what it is doing and the current state of the program, which shortcomings the user feedback helped us iron out. This works by changing the style of the elements depending on the user interactions like hovering, giving the user secondary visual cues on the state like custom cursors on the canvas depending on their current selected tool (a square with a plus for add, a grabby hand on a key when moving...) or having more direct cues that don't impact the user's flow if they already know the program, like having _\<Click Me>_ as a default text on a key or with the tips.
 
-#figure(grid(columns:2, column-gutter: 1mm, image("images/tips.png", width:100%),image("images/tips_hover.png", width:100%)  ),caption:[Tips visual when not selected (left) and hovered (right)])
+#figure(
+  grid(
+    columns: 2,
+    column-gutter: 1mm,
+    image("images/tips.png", width: 100%), image("images/tips_hover.png", width: 100%),
+  ),
+  caption: [Tips visual when not selected (left) and hovered (right)],
+)
 
 The resizable elements, like the canvas and the side bar, are signalled by a small Neg-Highlight colored bar for recognition's sake, to catch the user's eye. They also change the user's cursor on hover to signal their use. Clipping and ... for the tips area are implying that the element can be expanded as well.
 
