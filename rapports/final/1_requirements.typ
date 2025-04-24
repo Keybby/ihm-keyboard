@@ -1,21 +1,19 @@
 == Identifying the user needs
 
-// FIXME: introduce what we used and why:
+// FIXME: introduce what we used and why: (done)
 // - survey
 // - analysis of existing tools
 // - debates and simulations (kind-of)
 
-// FIXME: Add keywords from the lesson. Talk about affinity diagrams ?
+// FIXME: Add keywords from the lesson. Talk about affinity diagrams ? (we didn't use them though right?)
 
-
-== Existing tools
 
 === Keyboard Layout Editor (KLE) <kle>
 
-// TODO: explain what was missing in this tool.
+This tool is a preexisting tool that we looked at a lot since it is a reference in the keyboard customization community. This tool wasn't in our experience used easily and the layout wasn't intuitive. For those of us who had never looked at this type of software, we struggled to understand all the options we could use and how to do basic tasks such as : creating a key, inputting the character that should be linked to the key, how to create layers etc. This tools provided though a lot of visual options such as modifying the color of a key.
 
 === Reddit : Survey on desired features
-// FIXME: move the reasonning on why we needed the survey in "Identifying the user needs".
+// FIXME: move the reasonning on why we needed the survey in "Identifying the user needs". done
 
 To identify the user needs, we decided to directly ask people that fitted the profiles of potential users : people that want to customize their keyboards, wether it is for gaming, as a hobby,  professionnally or because of an impairment. To start a discussion with them, we posted on subreddits focalised on this activity and mechanical keyboards, ie r/MechanicalKeyboards and r/olkb. We chose this subreddits because they were focused on keyboards discussions, and since keyboard customization is quite niche, we couldn't just ask the general population as they would probably not be the main users of our site. Therefore, we went to ask the people that would most likely use it, and posting on public forums can :
 - gather a lot of input since there are a lot of people on these subreddits. r/MechanicalKeyboards has 1.3 Million users and r/olkb has 62k users.
@@ -41,60 +39,67 @@ To gather basic requirements, we focused on the tools that the redditors referre
 The users should be able to :
 - Place their keys as they want and change their format/dimensions
 - Change the colors of the keys to make them more distinguishable from one another
-- Label the keys as they wish, including special character such as an arrow, the label for the enter key, etc.
+- Be able to label the keys as they wish, including special character such as an arrow, the label for the enter key, etc.
 - be able to customize different layouts, ie, by clicking on a special key such as shoft, CTRL, etc, the user gains access to other characters than when not pressing it. This is the case on most keyboards, the most basic example is that when pressing simply the "e" key you get a lowercase "e" but when pressing shift then "e" you get an uppercase "e".
-- downloading a custom design that can be reimported into the website
-- The possibility to download a visual representetion of the keyboard
-- A documentation on how to use the tool
-- Presets of keyboards
+- Be able to download a custom design that can be reimported into the website
+- Have the possibility to download a visual representetion of the keyboard
+- Have access to a documentation on how to use the tool
+- Be able to use presets of keyboards
 
 
-
+=== Debates and simulation
+WIth our group, we tried several existing tools and debated avbout what aspects of them were intuitive and user-centered or not. We then looked at what we coul improve and add in our software.
 
 == Persona
 
-// TODO: add the name of the persona
+// TODO: add the name of the persona done
 
 Now, let's focus on the identified personas that we can roughly divide in two types : makers and hobbyists. The needs are different between all the users so the next section will allow us to explain more precisely the specificities and scenarios for each type.
 
 #grid(columns: (1fr, 1fr), align: center, gutter: 30pt,
   [
-    === Maker
+    === Maker (Mark)
 
     #image("images/persona_sophia.png", height: 200pt),
 
-    The makers know the basics of keyboard protocols and have more professional needs. There are high chances that they have already used similar softwares so they also have a good idea about how this type of software works. As the makers are our principal users, this explains why there will not be a full tutorial for our software. However, we need to implement helping features especially since they might be used to previous softwares that will not function exactly like ours.
+    Mark knows the basics of keyboard protocols and has more professional needs. There are high chances that he has already used similar softwares so they also have a good idea about how this type of software works. As the makers are our principal users, this explains why there will not be a full tutorial for our software. However, we need to implement helping features especially since they might be used to previous softwares that will not function exactly like ours.
 
   ],
   [
-    === General Hobbyist
+    === General Hobbyist (Gina)
 
     #image("images/persona_michael.png", height: 200pt),
-
-    These users may custom their keyboards for the first time. As they are new to this task, we propose templates for layout. With these and the tips feature, the hobbyists can understand better the general process of designing a keyboard. A documentation will also be available to help these users  get used to the software by describing the possible actions they can do and the specificities of possible actions (for instance : how to add a specific layout for when a modifier is pressed).
+Gina may custom their keyboards for the first time. As they are new to this task, we propose templates for layout. With these and the tips feature, Gina can understand better the general process of designing a keyboard. A documentation will also be available to help these users  get used to the software by describing the possible actions they can do and the specificities of possible actions (for instance : how to add a specific layout for when a modifier is pressed).
 
   ],
   [
 
-    === Gamer Hobbyist
+    === Gamer Hobbyist (Sarah)
 
     #image("images/persona_stephan.png", height: 200pt),
 
-    Gamers continually use their keyboard and, compared to the previous hobbyists, have a general idea of what type of keyboard they would like to work with. Comfort, speed and easy key combinations are often the properties gamers look for. They will want to try different layouts to evaluate for themselves how much the layouts are usable and efficient for video games. This is why we will implement an emulator of the layouts created by the users, to allow them to realize the disposition they created and make changes according to the results.
+    Sarah continually uses their keyboard and, compared to Gina, has a general idea of what type of keyboard they would like to work with. Comfort, speed and easy key combinations are the properties Sarah looks for. She will want to try different layouts to evaluate for herself how much the layouts are usable and efficient for video games. This is why we want to implement an emulator of the layouts created by the users, to allow them to realize the disposition they created and make changes according to the results.
   ],
   [
-    === Hobbyist with disability (extension)
+    === Hobbyist with disability (Sam)
     #image("images/persona_lina.png", height: 200pt),
 
-    Some disabilities can limit hand movement and dexterity. Therefore, these could be users of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to these users who might not know much about keyboard layouts and customization, the most important part would be to make our website controller compatible and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if  e had enough time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations would also be an extension if the time allows it. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, left-handed adapted keyboard, etc).
+    Some disabilities can limit hand movement and dexterity. Therefore, Sam could be a user of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to Sam, who might not know much about keyboard layouts and customization, the most important part is to make our website controller compatible (an extension of the project) and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if  we had enough time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations would also be an extension if the time allows it. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, left-handed adapted keyboard, etc).
 
     One paper @SpecialNeeds worked on adaptative keyboards for people with cerebral palsy to show that adapted keyboards can facilitate the interactions of people atteigned with this degenerative disorder with computers or phones.
   ],
 )
 
-== Initial Requirements
+== Initial Requirements we focused on
 
+=== Accessability
+Can user with disabilities use the website easily?
 
+While the extension to add the possibility to use the website with a controller would greatly improve the accessibility of our website, we tried our best to make it accessible. We used high contrast of white to black to have an easily readable and understandable interface.
+=== Efficiency
+How quickly can the user perform basic tasks?
+
+To evaluate this, we added a special step in user testing dedicated to this. To maximise the chances that basic tasks could be easily done, we created tools to create a key and move a key with an intuitive design (ie the move key has the aspect of most move key in softwares). We were also inspired by the layout of photoshop for our software
 // Accessibility : Can users with disabilities use the website easily?
 // -> High contrast : white letters and dark grey background, white keys
 
