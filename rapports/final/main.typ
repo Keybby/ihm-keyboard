@@ -1,4 +1,3 @@
-=  Final Report
 
 #place(
   top + center,

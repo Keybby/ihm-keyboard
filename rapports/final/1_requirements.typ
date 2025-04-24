@@ -7,6 +7,13 @@
 
 // FIXME: Add keywords from the lesson. Talk about affinity diagrams ?
 
+
+== Existing tools
+
+=== Keyboard Layout Editor (KLE) <kle>
+
+// TODO: explain what was missing in this tool.
+
 === Reddit : Survey on desired features
 // FIXME: move the reasonning on why we needed the survey in "Identifying the user needs".
 

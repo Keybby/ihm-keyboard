@@ -1,3 +1,4 @@
+#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
 
 #link("https://github.com/Stroumpfgrognon/ihm-keyboard")[Our git repository]
 
