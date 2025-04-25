@@ -52,7 +52,9 @@
 
 #include("4_software.typ")
 
-= The evaluation
+= Conclusion
+
+#include("5_conclusion.typ")
 
 
 #bibliography("bibli.bib")
