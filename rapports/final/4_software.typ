@@ -24,19 +24,15 @@ Here is how the Model Control View diagram of our application looks like :
 
 === Popup system
 
-The popup box we use for Import, Export, Clear and Key input ia always present within the dom but modified and displayed in real time when necessary. In the DOM, it behaves as a grid whose center element is the popup itself. In the backend, the DOM for each popup is stored inside a specific HTML file.
+The popup box we use for Import, Export, Clear and Key input is always present within the dom but modified and displayed in real time when necessary. In the DOM, it behaves as a grid whose center element is the popup itself. When the popup is grabbed, the whole grid is moved around and the position is reset when a new popup is called. In the backend, the DOM for each popup is stored inside a specific HTML file.
 
-When the popup is called, a switch case determines which popup child class needs to be created and stored. This class calls fetches the correct HTML and the super constructor inserts it into the DOM. It also gives the necessary methods for the popup to behave correctly as well as overrides the basic popup methods (like the done method called when the popup is closed) is necessary.
+When the popup is called, a switch case determines which popup child class needs to be created and stored. This element fetches the correct HTML and inserts it into the DOM. It also gives the necessary methods for the popup to behave correctly.
 
-That way, all popups are as independent with each other without having much duplicate code if any. 
+Here are a few quirks for two popups : Export and Key Input :
 
-When the popup is visible, the background is darkened to imply the fact that it is the only object the user can interact with. The popup is also movable when dragging on the top part of the element where the title resides. It is closed when the interaction is done (with the key input for example), when the user presses the X button or Escape on their keyboard.
+- Export displays on the left a copy of the user's canvas. This copy is obtained from the DOM and then cleared of any attribute specific to Alpine so that it can be read by the user on their own computer without any error. 
 
-Here are a few quirks for the two most unique popups : Export and Key Input :
-
-- Export displays on the right a copy of the user's canvas. This copy is obtained from the DOM and then expunged of every attribute used by Alpine so that it can be reread by the user on their own computer without any error. 
-
-- The key input popup registers any last keydown at the key actually pressed by the user and only saves on the last keyup before closing. This allows for key combos like Shift+A to actually register a "A" instead of "a". The operation type between append and replace is also stored in the popup main class directly to keep memory between uses within the same session. 
+- The key input popup registers the key pressed by the user on keydown and only saves on the last keyup before closing. This allows for key combos like Shift+A to actually register a "A" instead of "a". The operation type between append and replace is also stored in the popup main class directly to keep memory between uses within the same session. 
 
 === Snap and Collision detection
 
