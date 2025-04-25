@@ -58,7 +58,7 @@ Now, let's focus on the identified personas that we can roughly divide in two ty
   [
     === Maker (Mark)
 
-    #image("images/persona_sophia.png", height: 200pt),
+    #image("images/persona_sophia.png", height: 150pt),
 
     Mark knows the basics of keyboard protocols and has more professional needs. There are high chances that he has already used similar softwares so they also have a good idea about how this type of software works. As the makers are our principal users, this explains why there will not be a full tutorial for our software. However, we need to implement helping features especially since they might be used to previous softwares that will not function exactly like ours.
 
@@ -66,7 +66,7 @@ Now, let's focus on the identified personas that we can roughly divide in two ty
   [
     === General Hobbyist (Gina)
 
-    #image("images/persona_michael.png", height: 200pt),
+    #image("images/persona_michael.png", height: 150pt),
 Gina may custom their keyboards for the first time. As they are new to this task, we propose templates for layout. With these and the tips feature, Gina can understand better the general process of designing a keyboard. A documentation will also be available (in the future if the project continues) to help these users  get used to the software by describing the possible actions they can do and the specificities of possible actions (for instance : how to add a specific layout for when a modifier is pressed).
 
   ],
@@ -74,13 +74,13 @@ Gina may custom their keyboards for the first time. As they are new to this task
 
     === Gamer Hobbyist (Sarah)
 
-    #image("images/persona_stephan.png", height: 200pt),
+    #image("images/persona_stephan.png", height: 150pt),
 
     Sarah continually uses their keyboard and, compared to Gina, has a general idea of what type of keyboard they would like to work with. Comfort, speed and easy key combinations are the properties Sarah looks for. She will want to try different layouts to evaluate for herself how much the layouts are usable and efficient for video games. This is why we want to implement an emulator of the layouts created by the users , to allow them to realize the disposition they created and make changes according to the results. this emulator is a goal for the future of our project as we didn't have time to implement it.
   ],
   [
     === Hobbyist with disability (Sam)
-    #image("images/persona_lina.png", height: 200pt),
+    #image("images/persona_lina.png", height: 150pt),
 
     Some disabilities can limit hand movement and dexterity. Therefore, Sam could be a user of our tool to design a keyboard that would be adapted to their specific needs. To adapt our design to Sam, who might not know much about keyboard layouts and customization, the most important part is to make our website controller compatible (an extension of the project) and offer predesigned configurations to start from a certain basis. A lot of controllers have been created to be adapted to different handicaps, such as the x-box adaptive controller which allows users to create their own controller and therefore adapt it to their impairments. This compatibility would be an extension we add to our website if  we had enough time, but in any case, our tool would allow the creation of more practical keyboards for people with a handicap, whether the keyboard is created by the handicapped person or someone else. The predesigned configurations woere implemented. We are planning on predesigning basic configurations for a predefined number of keys (such as azerty, qwerty, etc).
 
