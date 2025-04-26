@@ -31,7 +31,7 @@ With these principles in mind, we chose the following languages and tools:
 
 The Alpine.js framework allows us to structure our app with the _Model View Controller_ (MVC) architecture.
 
-#diagram(
+#align(center, diagram(
   node-stroke: 1pt,
   spacing: (3em, 5em),
   node((1, 0), [Model (Js data)], name: <model>),
@@ -42,27 +42,30 @@ The Alpine.js framework allows us to structure our app with the _Model View Cont
   edge(<controler>, <view>, "-|>", [updates]),
   edge(<controler>, "d", "<-", [User acts]),
   edge(<view>, "d", "->", [User sees]),
-)
+))
 
 For reference, here are the main variables of our app:
-#block(breakable: false)[
-  ```js
-  class App {
-    // tool selected
-    selectedTool;
-    // layer selected
-    selectedLayer;
-    // selected keys
-    selectedKeys;
-    // the last inputs of the user, to handle drag and rectangle selection
-    lastClicked; lastMoved;
-    // keyboard information
-    keyboard;
-    // the tasks the user has done (for the tutorial)
-    quests;
-  }
-  ```
-]
+#align(
+  center,
+  block(breakable: false)[
+    ```js
+    class App {
+      // tool selected
+      selectedTool;
+      // layer selected
+      selectedLayer;
+      // selected keys
+      selectedKeys;
+      // the last inputs of the user, to handle drag and rectangle selection
+      lastClicked; lastMoved;
+      // keyboard information
+      keyboard;
+      // the tasks the user has done (for the tutorial)
+      quests;
+    }
+    ```
+  ],
+)
 
 == SVG
 
@@ -71,27 +74,30 @@ The currently created keyboard is displayed directly as SVG.
 This choice has 2 main benefits: we can add event listeners directly on the keys, and we can export the SVG easily, by copying the content of the DOM #footnote[There is a bit of cleaning going on though: we must remove the alpine attributes from the keys]
 
 Here is a simplified version of how we did it:
-#block(breakable: false)[
-  ```html
-  <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
-    <g
-      x-data="{view: app.keyView(key_id)}"
-      @dblclick="..." @mousedown="..."
-      x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
-      :class="..."
-    >
-      <path
-        x-bind:d="app.keySvgPath(key_id)"
-        x-bind:fill="..."
-        stroke="#333333" stroke-width="3"
-      />
-      <text
-        x-text="view.layout.toString() || '<Click me>'"
-      />
-    </g>
-  </template>
-  ```
-]
+#align(
+  center,
+  block(breakable: false)[
+    ```html
+    <template x-for="key_id in app.keyboard.getKeys()" :key="key_id.value">
+      <g
+        x-data="{view: app.keyView(key_id)}"
+        @dblclick="..." @mousedown="..."
+        x-bind:transform="`rotate(${view.rotation}, ${view.centerX}, ${view.centerY})`"
+        :class="..."
+      >
+        <path
+          x-bind:d="app.keySvgPath(key_id)"
+          x-bind:fill="..."
+          stroke="#333333" stroke-width="3"
+        />
+        <text
+          x-text="view.layout.toString() || '<Click me>'"
+        />
+      </g>
+    </template>
+    ```
+  ],
+)
 == Snap and Collision detection
 
 We took a lot of time implementing the right kind of dragging behavior.
@@ -150,30 +156,33 @@ This is done by two mechanisms: *collision resolution* and *snap behavior*.
 
 Collisions are known to be quite hard to compute in general, so we designed an algorithm that works well in most cases.
 
-#block(breakable: false)[
-  ```js
-  resolve_snap_x(translation, k0):
-    for each selected key k0:
-      k0.pos <- ko.pos + translation
-      k1 <- nearest key from k0
-      if k1 almost aligns with k0:
-        p <- projection from k0 to k1 along axis x
-        return translation + p
-
-  resolve_snap_y():
-    same as x
-
-  resolve_collision(translation):
-    while there is a collision:
+#align(
+  center,
+  block(breakable: false)[
+    ```js
+    resolve_snap_x(translation, k0):
       for each selected key k0:
         k0.pos <- ko.pos + translation
         k1 <- nearest key from k0
-        if k1 collides with k0:
-          dir <- direction from the mouse to the center of k1
-          translation <- translation + k*dir
-    return translation
-  ```
-]
+        if k1 almost aligns with k0:
+          p <- projection from k0 to k1 along axis x
+          return translation + p
+
+    resolve_snap_y():
+      same as x
+
+    resolve_collision(translation):
+      while there is a collision:
+        for each selected key k0:
+          k0.pos <- ko.pos + translation
+          k1 <- nearest key from k0
+          if k1 collides with k0:
+            dir <- direction from the mouse to the center of k1
+            translation <- translation + k*dir
+      return translation
+    ```
+  ],
+)
 We then resolve snap and collision each time the user moves the mouse.
 
 Additionally, our collision and snap logics work with rotated keys, since on some keyboards entire rows or columns can be rotated.
@@ -206,13 +215,17 @@ We ended up with a tradeoff between the 2. The user receives some hint of what t
 
 The corresponding algorithm is quite simple. The app has a list of milestones that the user must to do master the app.
 
-```js
-export const QUESTS = {
-  SELECT_TOOL_CREATE: { ... },
-  CREATE_FIRST_KEY: { ... },
-  MOVE_KEY: { ... },
-}
-```
+#align(
+  center,
+  block(breakable: false)[
+    ```js
+    export const QUESTS = {
+      SELECT_TOOL_CREATE: { ... },
+      CREATE_FIRST_KEY: { ... },
+      MOVE_KEY: { ... },
+    }
+    ```],
+)
 
 Each quest has a priority.
 At each moment in time, the interface displays the hint corresponding to the milestone with the highest priority.
