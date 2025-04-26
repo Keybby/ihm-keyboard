@@ -1,5 +1,4 @@
 #import "styles.typ": bullet;
-#import "@preview/note-me:0.3.0": admonition
 
 == Paper prototypes
 To choose our design, we first discussed what were in our opinion the most important aspects of our software with respect to the opinions we gathered during the requirements gathering, what would be the essential tools and how to implement them. After discussing these points, we each drew our first sketches to compare our visions of the software after agreeing on these points.
