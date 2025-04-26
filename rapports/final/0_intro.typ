@@ -8,7 +8,7 @@
 #admonition(title: "Disclaimer", icon-path: "icons/report.svg", color: color.orange)[
   Our tool has been created for a niche community: Keyboard hobbyists.
 
-  Before we dive into the user requirements and the design, let's take a trip in the world of custom keyboards.
+  Before we dive into the user requirements and the design, let's take a trip to the world of custom keyboards.
 ]
 
 == Custom keyboards
@@ -20,17 +20,17 @@ For some of these people, changing the layout (The mapping from keys to symbols)
 
 
 Buying, doing the setup and using such a keyboard is a time-consuming investment. We will refer to such people as _Keyboard hobbyists_.
-_Keyboard hobbyists_ form a supportive community, and they are mainly active on discord, github #footnote[https://github.com/help-14/mechanical-keyboard?tab=readme-ov-file#tutorials] and Reddit #footnote[https://www.reddit.com/r/MechanicalKeyboards/wiki/index/].
+_Keyboard hobbyists_ form a supportive community, and they are mainly active on Discord, GitHub #footnote[https://github.com/help-14/mechanical-keyboard?tab=readme-ov-file#tutorials] and Reddit #footnote[https://www.reddit.com/r/MechanicalKeyboards/wiki/index/].
 
 #pagebreak()
 
 Very common activities for keyboard hobbyists include:
-- chosing a kit to buy
-- soldering the components of the keyboard
-- thinking about the ideal layout for the keyboard #footnote[There is a lot of theory in this domain: https://workmanlayout.org/#back-to-the-drawing-board]
-- configuring the keyboard using special firmware #footnote[https://docs.qmk.fm/]
+- Choosing a kit to buy
+- Soldering the components of the keyboard
+- Thinking about the ideal layout for the keyboard #footnote[There is a lot of theory in this domain: https://workmanlayout.org/#back-to-the-drawing-board]
+- Configuring the keyboard using special firmware #footnote[https://docs.qmk.fm/]
 
-It is also quite common for keyboard hobbyist to try to make their own custom mechanical keyboard. It is of course a lot more time consuming, but they are resources online to get started.
+It is also quite common for keyboard hobbyist to try to make their own custom mechanical keyboard. It is of course a lot more time-consuming, but they are resources online to get started.
 
 For some of these activities, specialized tools exist (see @kle).
 
