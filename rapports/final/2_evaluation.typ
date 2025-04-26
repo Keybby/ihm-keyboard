@@ -5,39 +5,39 @@
 
 == Preface on evaluations
 
-At the beginning of the project, we wanted to make different interpretive evaluations for each personna. 
-We sent a form, using Google Forms, on Reddit (for the maker and with disability personnas) and to some friends (for the hobbyist and gamer personnas) to know their availability but only five persons answered. 
-There were not enough participants to make evaluations for each personna. This is why we created an evalutation in three steps, the same for every participant.
+At the beginning of the project, we wanted to make different interpretive evaluations for each persona. 
+We sent a form, using Google Forms, on Reddit (for the maker and with disability personas) and to some friends (for the hobbyist and gamer personas) to know their availability but only five persons answered. 
+There were not enough participants to make evaluations for each persona. This is why we created an evaluation in three steps, the same for every participant.
 
-However, we did take into account that the interface was designed for four different personnas.
+However, we did take into account that the interface was designed for four different personas.
 
-== Focus on each personna
+== Focus on each persona
 
-Our interface is mainly designed for the maker personna so we based our evaluation on that. It does not mean that we did not evaluate aspects more related to other personnas.
+Our interface is mainly designed for the maker persona so we based our evaluation on that. It does not mean that we did not evaluate aspects more related to other personas.
 
 === Maker
 
-As said in the previous part, the redditors that gave us examples of tools (they represent the makers) higlighted the interface's ease of use, the varied customization of the keys and a good visual. We decided that the first step of the evaluation would be the timed copy of a keyboard presented later. This allows us to see how much time is needed to make a simple keyboard with two layers, and which part of the process is the less efficient in terms of choice of interaction. 
+As said in the previous part, the redditors that gave us examples of tools (they represent the makers) highlighted the interface's ease of use, the varied customization of the keys and a good visual. We decided that the first step of the evaluation would be the timed copy of a keyboard presented later. This allows us to see how much time is needed to make a simple keyboard with two layers, and which part of the process is the less efficient in terms of choice of interaction. 
 
-We had one participant for this personna.
+We had one participant for this persona.
 
 === General hobbyist
 
-For this personna, it is often the first time they use an interface to customize a keyboard. Timing the creation of a specific keyboard allows us to know where the interface is not understandable enough. The difficulty to know which action is doable is linked as much to the visual clues as to the type of interaction chosen in the design. This is why for the second step of the evaluation, we made a think-aloud with a predefined list of tasks. It allows us to know more specifically which interaction exactly is lacking in intuitivity.
+For this persona, it is often the first time they use an interface to customize a keyboard. Timing the creation of a specific keyboard allows us to know where the interface is not understandable enough. The difficulty to know which action is doable is linked as much to the visual clues as to the type of interaction chosen in the design. This is why for the second step of the evaluation, we made a think-aloud with a predefined list of tasks. It allows us to know more specifically which interaction exactly is lacking in intuitiveness.
 
-We had one participant for this personna.
+We had one participant for this persona.
 
 === Gamer hobbyist
 
-There are high chances that gamer hobbyists know which type of keyboard they want. So it is also important for them to have an interface that is easy and fast to use. It is often that gamers are used to keyboard shortcuts so we needed to know if the result of our shortcuts was intuitive for them. This was moslty tested during the second step.
+There are high chances that gamer hobbyists know which type of keyboard they want. So it is also important for them to have an interface that is easy and fast to use. It is often that gamers are used to keyboard shortcuts so we needed to know if the result of our shortcuts was intuitive for them. This was mostly tested during the second step.
 
-We had two participants for this personna.
+We had two participants for this persona.
 
 === Hobbyist with a disability
 
-As said before, this personna was an extension so we did not test if our interface is compatible with controllers. However, we designed the interface so that the colors are distinct. The choice of colors will be presented later, but we made sure to have contrast between the background and the text. We made sure of this choice with the third step of the evaluation, which was a questionnaire, using Google Forms.
+As said before, this persona was an extension so we did not test if our interface is compatible with controllers. However, we designed the interface so that the colors are distinct. The choice of colors will be presented later, but we made sure to have contrast between the background and the text. We made sure of this choice with the third step of the evaluation, which was a questionnaire, using Google Forms.
 
-We had one participant for this personna.
+We had one participant for this persona.
 
 == Methodology and setting
 
@@ -46,28 +46,28 @@ We had one participant for this personna.
 // Think-aloud during a determined list of tasks
 // Questionnaire
 
-We had five participants in total for this evaluation. For each participant, we gave them the same document (TODO link here) that explains the whole evaluation and gives the link to the interface and the questionnaire. As one participant said to us that they did not have much time, we estimated the time for each step. This allowed the participant to know which step they want to do.
+We had five participants in total for this evaluation. For each participant, we gave them the #link("https://docs.google.com/document/d/1tN3UhRrjwT9Go2CvrcuCL-NBCmuhyRNB6_Q7i7V5dVA/edit?usp=sharing")[same document] that explains the whole evaluation and gives the link to the interface and the questionnaire. As one participant said to us that they did not have much time, we estimated the time for each step. This allowed the participant to know which step they want to do.
 The evaluation was in French because our participants were, and the order of the steps was as follows:
 
 - Timing the creation of a specific keyboard
 - Think-aloud during a determined list of tasks
 - Questionnaire after testing the interface
 
-For the two first steps, we asked the participants if they wanted to share their screen and they all agreed.
+For the two first steps, we asked the participants if they wanted to share their screen, and they all agreed.
 
 === Timing a keyboard's creation
 
-This step was mandatory and we estimated that it would take at most ten minutes. The mean time for creating this keyboard (TODO include image here) was 3min 57s. The minimum time, 1min 37s, was made by the redditor who already used this type of tool. This means that our interface is not so far away from existing tools, in terms of interactions. These latters are recognizable by the users.
+This step was mandatory. We estimated that it would take at most ten minutes. The mean time for creating this keyboard was 3min 57s. The minimum time, 1min 37s, was made by the redditor who had already used this type of tool. This means that our interface is not so far away from existing tools, in terms of interactions. These letters are recognizable by the users.
 The creation of the keyboard includes the most used commands : create keys, move them, add them a value, create a layer linked to a modifier.
 
-The goal of this step was to see which actions were more intuitive and how much participants understand the process of customizing a keyboard without help.
+The goal of this step was to see which actions were more intuitive and how much do participants understand the process of customizing a keyboard without help.
 This is how for example we realized that the concept of layers and activation keys was not clear enough in the interface.
 
 === Think-aloud
 
 We estimated that it would take at most twenty minutes. In reality, some of the participants had a lot to say so it took for them thirty to forty minutes.
-The predefined list of tasks englobed all the possible actions of the interface, as some of them can be skipped during th creation of some keyboards.
-The list was divided as follow:
+The predefined list of tasks englobed all the possible actions of the interface, as some of them can be skipped during the creation of some keyboards.
+The list was divided as follows:
 
 - Concept of a (physical) key: create a key, modify its geometry, give it the value "Ctrl + Alt"
 - Visual of the keyboard: create another key at the right, select the group, copy and past the copy below
@@ -75,13 +75,13 @@ The list was divided as follow:
 - Multiple values, replacing value for a key: replace the value of the key "Ctrl + Alt" with "A"
 - Finishing the work: export the JSON, select all, delete all
 
-The goal was to hear the participants' reactions face to our interface's design. This steps helped us to know better why some interactions are not perceived as they are.
-Unlike the previous step, participants were encouraged to talk during the process. They gave us new ideas, showed us some bugs we did not see before, and emphasised on what should be improved. For some problems, all the particpants agreed, like the lack of visual clues about the current state of the interface.
+The goal was to hear the participants' reactions face to our interface's design. These steps helped us to know better why some interactions are not perceived as they are.
+Unlike the previous step, participants were encouraged to talk during the process. They gave us new ideas, showed us some bugs we did not see before, and emphasized on what should be improved. For some problems, all the participants agreed, like the lack of visual clues about the current state of the interface.
 
 === Questionnaire
 
-We estimated that it would take at most ten minutes. After the participants tested the interface, we gave us this questionnaire (TODO link here) to have their opinion about points we did not agree on in the team.
-Our two main problems when we did the evaluations were about the tutorials/tips and the wanted intercation to add or replace a key's value.
+We estimated that it would take at most ten minutes. After the participants tested the interface, we gave us #link("https://forms.gle/DgFDDc2QjFQxN39R9")[this questionnaire] to have their opinion about points we did not agree on in the team.
+Our two main problems when we did the evaluations were about the tutorials/tips and the wanted interaction to add or replace a key's value.
 
 This questionnaire was more for us to be sure of some interactions before implementing them rather than confirming our design.
 
@@ -89,7 +89,7 @@ This questionnaire was more for us to be sure of some interactions before implem
 
 === Observations
 
-First of all, the evaluation showed us several bugs we had this time. The right-click behaved unexpectedly and interfered with their tasks, resizing the frame and zooming it had an unexpected behaviour and the snap function did not function the same all the time. We fixed these bugs as soon as possible.
+Firstly, the evaluation showed us several bugs we had this time. The right-click behaved unexpectedly and interfered with their tasks, resizing the frame and zooming it had an unexpected behavior and the snap function did not function the same all the time. We fixed these bugs as soon as possible.
 
 Then, the participants pointed out some problems: 
 
@@ -106,7 +106,7 @@ Finally, some of the ideas of the participants were implemented, like:
 
 === Answers of the questionnaire
 
-Four participants answered the questionnaire. Unfortunately, questions about multiple values for a key divided the participants in two. So we decided to keep our current design
+Four participants answered the questionnaire. Unfortunately, questions about multiple values for a key divided the participants in two so we decided to keep our current design.
 Participants wanted tips, but once again half of them wanted them only once, and the other half wanted the tips to be shown multiple times. However, the comments and their oral reactions highlighted the need to know the current state of the system.
 Also, the participants were not aware of the zoom function, result that we were expecting.
 
@@ -115,13 +115,13 @@ Also, the participants were not aware of the zoom function, result that we were 
 Following these results, we made some changes in our design.
 
 The first thing was to add tips and more feedbacks. Tips are given according to the advancement of the user in the interface. For example, if the frame is empty, the tip will guide the user to create a new key.
-The user can know the action of a tool when they hovers it. Indeed, a text appears below the tool.
+The user can know the action of a tool when they hover it. Indeed, a text appears below the tool.
 
 We changed the text "Export" to "Export JSON" and added a description of each format to make sure even a new hobbyist can understand our interface.
 
-Thanks to the idea of on the participants, we put a icon of pencil next to a layer's name to indicate to users that it can be edited (TODO include layername.jpg here)
+Thanks to the idea of on the participants, we put an icon of pencil next to a layer's name to indicate to users that it can be edited (TODO include layername.jpg here)
 
-Finally, we implemented the ideas listed above. We have now more tools than just Create and Move. This allows to have more intercations for a same action and so to have a more flexible interface.
+Finally, we implemented the ideas listed above. We have now more tools than just Create and Move. This allows to have more interactions for a same action and so to have a more flexible interface.
 The user can now change a key's geometry by writing it, instead of using the slider. This allows more compatibility for a future version, if we want our interface to be compatible with 3D printers or other tools.
 
 == New requirements

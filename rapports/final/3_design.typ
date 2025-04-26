@@ -10,13 +10,13 @@ After discussing the results of the sketches, our sources of inspiration and ana
 
 #bullet("Realistic representation")[We wanted the user to be able to visualize their creation layer by layer, by opposition to current keyboards that allow either visualization of each key by clicking on a key or like real keyboards by putting several characters on a key touch. To select the layer, the user will click on the bottom left. This configuration allows the user to visualize clearly to which keyboard they gain access to by clicking on which modifier.]
 
-#bullet("Recognition over recall")[To configure the keycode associated to a key, the user will double click on it, which is standard practice for interacting with an object in computer software.]
+#bullet("Recognition over recall")[To configure the keycode associated to a key, the user will double-click on it, which is standard practice for interacting with an object in computer software.]
 
 //  However, this functionality should be hinted at too to avoid confusion.
 
-#bullet("Emphasis on personalization")[The user will be able to modify the sizes of the keys, their rotations etc on a side menu to the right and as an extension might also be able to import keys with a custom shape.]
+#bullet("Emphasis on personalization")[The user will be able to modify the sizes of the keys, their rotations etc. on a side menu to the right and as an extension might also be able to import keys with a custom shape.]
 
-#bullet("Important actions on the top")[A menu would be added to the top. In this menu, the user would be able to add a key, move a key(s), import a JSON configuration file, export the current representation of the current design and export the current design as an svg file.]
+#bullet("Important actions on the top")[A menu would be added to the top. In this menu, the user would be able to add a key, move a key(s), import a JSON configuration file, export the current representation of the current design and export the current design as a svg file.]
 
 #bullet("Feedback and Affordance through a set of comprehensive tools")[The different actions available at one time on the main view of the software should be represented by a set of tools visible at any time. These tools should visibly imply the actions available to the user as well as the one they currently have selected.]
 
@@ -34,7 +34,7 @@ This design is greatly inspired by the image editing software like Photoshop, #l
 
 We chose at this time that our app would be a web-based application, which would allow the greatest amount of people to experience the software, would it be for testing or actual use. The design would thus be realized using HTML and CSS.
 
-The software would incorporate a 3 depth-level system user CSS's z-index values with the main working layer in the background, the ui on top of it and finally the popups blocking the rest.
+The software would incorporate a 3 depth-level system user CSS's z-index values with the main working layer in the background, the user interface on top of it and finally the popups blocking the rest.
 
 The user interface would be divided as follows :
 
@@ -54,7 +54,7 @@ At the time we were comparing the sketches on #link("https://www.figma.com/fr-fr
 
 #figure(image("images/keybby.svg", width: 40%), caption: [Keybby, the mascot of our software])
 
-Keybby is composed of a simple square shap reminding of a keycap ass well as letters to define its features aside from its eyes (O, W and V). Being made from scalable vector graphics, his likeness was able to be reused throughout several graphical items if the tool, as well as reusing its shapes for other items to keep a distinct identity.
+Keybby is composed of a simple square shape reminding of a keycap as well as letters to define its features aside from its eyes (O, W and V). Being made from scalable vector graphics, his likeness was reused throughout several graphical items if the tool, as well as reusing its shapes for other items to keep a distinct identity.
 
 #figure(
   grid(
@@ -71,10 +71,10 @@ All assets on the app are composed of assets either owned by us or in the public
 
 
 == The implemented design
-Here is a vue of the software as seen in the online version :
+Here is a screenshot of the software as seen in the online version :
 #figure(image("images/screenshot.png", width: 100%), caption: [The design of the software, seen in the online version])
 
-Here is the final design after the first wave of user testing, which lead to additional indicators for some functions (like the garbage cans and pencil icons) as well as the addition of additional tools and functions like enabling the grid magnetism which we will mention later. The layer on the background can move fully independently from the ui sitting on top. It can be zoomed on and translated at will.
+Here is the final design after the first wave of user testing, which lead to additional indicators for some functions (like the garbage cans and pencil icons) as well as the addition of additional tools and functions like enabling the grid magnetism which we will mention later. The layer on the background can move fully independently of the user interface sitting on top. It can be zoomed on and translated at will.
 
 
 #figure(image("images/popup.png", width: 100%), caption: [The export popup of the online version])
@@ -90,7 +90,7 @@ The popups appear above the rest and can be moved freely around, but forbid inte
   caption: [Button visual when not selected (left) and hovered/selected(minus the text) (right)],
 )
 
-The interface is meant to be reactive and give the maximum amount of feedback to the user on what it is doing and the current state of the program, which shortcomings the user feedback helped us iron out. This works by changing the style of the elements depending on the user interactions like hovering, giving the user secondary visual cues on the state like custom cursors on the canvas depending on their current selected tool (a square with a plus for add, a grabby hand on a key when moving...) or having more direct cues that don't impact the user's flow if they already know the program, like having _\<Click Me>_ as a default text on a key or with the tips.
+The interface is meant to be reactive and give the maximum amount of feedback to the user on what it is doing and the current state of the program, which shortcomings the user feedback helped us iron out. This works by changing the style of the elements depending on the user interactions like hovering, giving the user secondary visual cues on the state like custom cursors on the canvas depending on their current selected tool (a square with a plus for add, a grabbing hand on a key when moving...) or having more direct cues that don't impact the user's flow if they already know the program, like having _\<Click Me>_ as a default text on a key or with the tips.
 
 #figure(
   grid(
@@ -101,6 +101,6 @@ The interface is meant to be reactive and give the maximum amount of feedback to
   caption: [Tips visual when not selected (left) and hovered (right)],
 )
 
-The resizable elements, like the canvas and the side bar, are signalled by a small Neg-Highlight colored bar for recognition's sake, to catch the user's eye. They also change the user's cursor on hover to signal their use. Clipping and ... for the tips area are implying that the element can be expanded as well.
+The resizable elements, like the canvas and the sidebar, are signalled by a small Neg-Highlight colored bar for recognition's sake, to catch the user's eye. They also change the user's cursor on hover to signal their use. Clipping and ... for the tips area are implying that the element can be expanded as well.
 
 There remains a learning curve for the program since it is meant to be used by experimented people, but the fourfold increase in speed after the first try by one of our testers allows us to think that the program allows for pretty good learnability after the first couple of key rows.
