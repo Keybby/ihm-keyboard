@@ -1,5 +1,8 @@
 # ihm-keyboard
 
+<img width="1918" height="954" alt="image" src="https://github.com/user-attachments/assets/69f86c3f-c8a9-4776-baa4-4b52724ae8ea" />
+
+
 ## The project
 
 This is a group project for a course of software dessign.
